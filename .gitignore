@@ -1,0 +1,7 @@
+# ----- idea files -----
+.idea
+*.iml
+# ----- maven files -----
+target
+# ----- other files -----
+*.rar
