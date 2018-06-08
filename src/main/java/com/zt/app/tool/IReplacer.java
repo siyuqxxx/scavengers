@@ -1,6 +1,6 @@
 package com.zt.app.tool;
 
-interface IPathReplacer {
+interface IReplacer {
     String getName();
 
     void doReplace();
