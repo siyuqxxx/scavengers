@@ -13,12 +13,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class DefaultFileParser implements IFileParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileParser.class);
     private String dir = "";
     private List<Dir> dirs = new LinkedList<>();
+    private IDirChecker checker = new DefaultDirChecker();
 
     @Override
     public List<Dir> getDirs() {
@@ -31,18 +31,8 @@ public class DefaultFileParser implements IFileParser {
     }
 
     @Override
-    public void check() throws NullPointerException, IllegalArgumentException, IOException {
-        LOGGER.debug("input dir: " + this.dir);
-        if (Objects.isNull(this.dir) || this.dir.trim().isEmpty()) {
-            throw new NullPointerException("file is not null or empty.");
-        }
-
-        File file = new File(this.dir);
-        if (!file.exists()) {
-            throw new IllegalArgumentException("file scheme is not exist");
-        } else if (!file.isFile()) {
-            throw new IllegalArgumentException("file scheme is not a file");
-        }
+    public ERROR_CODES check() {
+        return checker.setDir(this.dir).execute();
     }
 
     @Override
@@ -51,20 +41,13 @@ public class DefaultFileParser implements IFileParser {
     }
 
     @Override
-    public boolean isMatch(String pattern) {
-        return pattern.toUpperCase().startsWith(this.getName());
-    }
-
-    @Override
     public ERROR_CODES execute() {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
 
-        try {
-            this.check();
-        } catch (NullPointerException | IllegalArgumentException | IOException e) {
-            LOGGER.error(e.getMessage());
+        if (this.check() != ERROR_CODES.SUCCESS) {
             return ERROR_CODES.INPUT_DIR_INVALID;
         }
+
 
         LOGGER.info("read from file: " + this.dir);
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(this.dir)))) {

@@ -4,7 +4,6 @@ public class Dir {
     String srcDir = "";
     String targetDir = "";
     ERROR_CODES error_code = ERROR_CODES.UNCHECK;
-    Exception e = null;
 
     public String getSrcDir() {
         return srcDir;
@@ -33,12 +32,12 @@ public class Dir {
         return this;
     }
 
-    public Exception getE() {
-        return e;
-    }
-
-    public Dir setE(Exception e) {
-        this.e = e;
-        return this;
+    @Override
+    public String toString() {
+        return "Dir{" +
+                "srcDir='" + srcDir + '\'' +
+                ", targetDir='" + targetDir + '\'' +
+                ", error_code=" + error_code +
+                '}';
     }
 }

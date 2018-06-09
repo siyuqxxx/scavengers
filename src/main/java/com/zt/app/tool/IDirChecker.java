@@ -1,9 +1,11 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.common.Dir;
+public interface IDirChecker extends IPlugin {
+    enum DIR_TYPE {
+        FILE, FOLDER;
+    }
 
-import java.util.List;
+    IDirChecker setDir(String dir);
 
-public interface IDirChecker extends ILifeCycle {
-    void setDirs(List<Dir> dirs);
+    IDirChecker setType(DIR_TYPE type);
 }
