@@ -1,5 +1,8 @@
 package com.zt.app.tool;
 
+import com.zt.app.tool.common.Dir;
+import com.zt.app.tool.common.ERROR_CODES;
+
 import java.util.List;
 
 public abstract class AReplaceTemplate {

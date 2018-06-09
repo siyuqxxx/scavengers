@@ -1,4 +1,4 @@
-package com.zt.app.tool;
+package com.zt.app.tool.common;
 
 public class Dir {
     String srcDir = "";
