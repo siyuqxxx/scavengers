@@ -16,14 +16,12 @@ public class DefaultReplaceUtil implements IReplaceUnit {
 
     @Override
     public boolean isMatch() {
-        LOGGER.debug(String.format("dir: %s", dir.getSrcDir()));
         for(String regex : pattern.getPatterns().keySet()) {
             if (! Pattern.compile(regex).matcher(dir.getSrcDir()).find()) {
-                LOGGER.debug(String.format("not match regex: %s ", regex));
                 return false;
             }
         }
-        LOGGER.debug(String.format("match pattern: %s ", pattern.getName()));
+        LOGGER.debug(String.format("file match pattern: %s, %s", pattern.getName(), dir.getSrcDir()));
         return true;
     }
 

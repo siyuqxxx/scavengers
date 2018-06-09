@@ -20,6 +20,7 @@ public class DefaultReplacerTest {
         dirs.add(new Dir().setSrcDir(path + "src/main/java/com/reading/controller/admin/AdminRobotController.java"));
         dirs.add(new Dir().setSrcDir(path + "src/main/java/com/reading/data/mapping/RobotConsultRecordMapper.xml"));
         dirs.add(new Dir().setSrcDir(path + "src/main/webapp/WEB-INF/html/admin/robotConfig_add.html"));
+        dirs.add(new Dir().setSrcDir(path + "/src/main/java/com/reading/data/dao/LibraryMapper.java"));
 
         ReplacePattern javaPattern = new ReplacePattern();
         javaPattern.setName("java-pattern");

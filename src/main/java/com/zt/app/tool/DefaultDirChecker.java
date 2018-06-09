@@ -40,18 +40,18 @@ public class DefaultDirChecker implements IDirChecker {
             File file = new File(this.dir);
 
             if (!file.exists()) {
-                throw new IllegalArgumentException("file scheme is not exist");
+                throw new IllegalArgumentException("file scheme is not exist.");
             } else if (type == DIR_TYPE.FILE) {
                 if (!file.isFile()) {
-                    throw new IllegalArgumentException("file scheme is not a file");
+                    throw new IllegalArgumentException("file scheme is not a file.");
                 }
             } else if (type == DIR_TYPE.FOLDER) {
                 if (!file.isDirectory()) {
-                    throw new IllegalArgumentException("file scheme is not a folder");
+                    throw new IllegalArgumentException("file scheme is not a folder.");
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(e.getMessage() + " " + this.dir);
             return ERROR_CODES.INPUT_DIR_INVALID;
         }
 

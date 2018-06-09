@@ -4,13 +4,17 @@ import com.zt.app.tool.DefaultDirChecker;
 import com.zt.app.tool.IDirChecker;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.LogMsgFormat;
 import com.zt.app.tool.common.ReplacePattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class DefaultReplacer implements IReplacer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReplacer.class);
     private List<Dir> dirs = new LinkedList<>();
     private IDirChecker checker = new DefaultDirChecker();
     private IReplaceUnit replaceUnit = new DefaultReplaceUtil();
@@ -38,6 +42,7 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public ERROR_CODES execute() {
+        LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
         check();
         for (Dir dir : dirs) {
             if (dir.getError_code() == ERROR_CODES.SUCCESS) {
@@ -48,11 +53,17 @@ public class DefaultReplacer implements IReplacer {
     }
 
     private void doReplace(Dir dir) {
+        boolean isMatch = false;
         for (ReplacePattern pattern : this.patterns) {
             if (replaceUnit.setDir(dir).setPattern(pattern).isMatch()) {
                 replaceUnit.execute();
+                isMatch = true;
                 break;
             }
+        }
+        if (!isMatch) {
+            dir.setError_code(ERROR_CODES.NO_MATCHING_PATTERN);
+            LOGGER.error("file not match any patterns: " + dir.getSrcDir());
         }
     }
 
