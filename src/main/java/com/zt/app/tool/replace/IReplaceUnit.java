@@ -11,5 +11,5 @@ public interface IReplaceUnit extends IPlugin {
 
     IReplaceUnit setDir(Dir dir);
 
-    IReplaceUnit setReplacePattern(ReplacePattern pattern);
+    IReplaceUnit setPattern(ReplacePattern pattern);
 }

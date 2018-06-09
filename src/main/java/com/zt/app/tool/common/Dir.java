@@ -3,7 +3,7 @@ package com.zt.app.tool.common;
 public class Dir {
     String srcDir = "";
     String targetDir = "";
-    ERROR_CODES error_code = ERROR_CODES.UNCHECK;
+    ERROR_CODES error_code = ERROR_CODES.SUCCESS;
 
     public String getSrcDir() {
         return srcDir;

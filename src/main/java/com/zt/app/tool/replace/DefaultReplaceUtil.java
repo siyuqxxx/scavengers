@@ -7,14 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DefaultReplaceUtil implements IReplaceUnit {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReplaceUtil.class);
     private Dir dir = new Dir();
     private ReplacePattern pattern = new ReplacePattern();
-    
+
     @Override
     public boolean isMatch() {
         LOGGER.debug(String.format("dir: %s", dir.getSrcDir()));
@@ -41,7 +40,7 @@ public class DefaultReplaceUtil implements IReplaceUnit {
     }
 
     @Override
-    public IReplaceUnit setReplacePattern(ReplacePattern pattern) {
+    public IReplaceUnit setPattern(ReplacePattern pattern) {
         this.pattern = pattern;
         return this;
     }

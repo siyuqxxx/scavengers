@@ -3,21 +3,31 @@ package com.zt.app.tool.replace;
 import com.zt.app.tool.DefaultDirChecker;
 import com.zt.app.tool.IDirChecker;
 import com.zt.app.tool.common.Dir;
-import com.zt.app.tool.common.DirHelper;
 import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.ReplacePattern;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class DefaultReplacer implements IReplacer {
     private List<Dir> dirs = new LinkedList<>();
     private IDirChecker checker = new DefaultDirChecker();
-    private List<IReplaceUnit> replaceUnits = new LinkedList<>();
+    private IReplaceUnit replaceUnit = new DefaultReplaceUtil();
+    private List<ReplacePattern> patterns = new LinkedList<>();
 
     @Override
-    public DefaultReplacer setReplaceUnits(List<IReplaceUnit> replaceUnits) {
-        this.replaceUnits.clear();
-        this.replaceUnits.addAll(replaceUnits);
+    public DefaultReplacer setPatterns(List<ReplacePattern> patterns) {
+        this.patterns.clear();
+        this.patterns.addAll(patterns);
+        return this;
+    }
+
+    @Override
+    public DefaultReplacer setReplaceUnit(IReplaceUnit replaceUnit) {
+        if (Objects.nonNull(replaceUnit)) {
+            this.replaceUnit = replaceUnit;
+        }
         return this;
     }
 
@@ -28,16 +38,18 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public ERROR_CODES execute() {
-        for (Dir dir : dirs) {
-            doReplace(dir);
-        }
         check();
+        for (Dir dir : dirs) {
+            if (dir.getError_code() == ERROR_CODES.SUCCESS) {
+                doReplace(dir);
+            }
+        }
         return ERROR_CODES.SUCCESS;
     }
 
     private void doReplace(Dir dir) {
-        for (IReplaceUnit replaceUnit : this.replaceUnits){
-            if (replaceUnit.setDir(dir).isMatch()) {
+        for (ReplacePattern pattern : this.patterns) {
+            if (replaceUnit.setDir(dir).setPattern(pattern).isMatch()) {
                 replaceUnit.execute();
                 break;
             }
@@ -59,7 +71,13 @@ public class DefaultReplacer implements IReplacer {
     @Override
     public ERROR_CODES check() {
         for (Dir dir : this.dirs) {
-            DirHelper.check(dir, this.checker);
+            String srcDir = dir.getSrcDir();
+            if (Objects.nonNull(srcDir) && !srcDir.trim().isEmpty()) {
+                ERROR_CODES errorCode = checker.setDir(srcDir).execute();
+                if (errorCode != ERROR_CODES.SUCCESS) {
+                    dir.setError_code(ERROR_CODES.SRC_DIR_INVALID);
+                }
+            }
         }
         return ERROR_CODES.SUCCESS;
     }

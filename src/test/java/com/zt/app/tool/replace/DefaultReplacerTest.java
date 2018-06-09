@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class DefaultReplacerTest {
     @Test
@@ -26,42 +26,23 @@ public class DefaultReplacerTest {
         javaPattern.setPattern("(?<=.*)/src/main/java/", "/target/reading/WEB-INF/classes/");
         javaPattern.setPattern("\\.java", "\\.class");
 
-        DefaultReplaceUtil javaReplaceUtil = new DefaultReplaceUtil();
-        javaReplaceUtil.setReplacePattern(javaPattern);
-
         ReplacePattern mapperPattern = new ReplacePattern();
         mapperPattern.setName("mapper-pattern");
         mapperPattern.setPattern("(?<=.*)/src/main/java/", "/target/reading/WEB-INF/classes/");
         mapperPattern.setPattern("\\.xml", "\\.xml");
 
-        DefaultReplaceUtil mapperReplaceUtil = new DefaultReplaceUtil();
-        mapperReplaceUtil.setReplacePattern(mapperPattern);
-
-        List<IReplaceUnit> replaceUnits = new LinkedList<>();
-        replaceUnits.add(javaReplaceUtil);
-        replaceUnits.add(mapperReplaceUtil);
+        List<ReplacePattern> patterns = new LinkedList<>();
+        patterns.add(javaPattern);
+        patterns.add(mapperPattern);
 
         DefaultReplacer replacer = new DefaultReplacer();
-        replacer.setDirs(dirs).setReplaceUnits(replaceUnits).execute();
+        replacer.setDirs(dirs).setPatterns(patterns).execute();
 
         System.out.println(dirs);
     }
 
     @Test
     public void RegexTest() {
-        String path = this.getClass().getClassLoader().getResource("").getPath();
-
-        String s = path + "src/main/java/com/reading/controller/admin/AdminRobotController.java";
-        String regex = "/src/main/java/";
-        boolean isMatch = s.matches(regex);
-
-        String replace = s.replaceFirst(regex, "/target/");
-        System.out.println(String.format("String: %s\nregex: %s\nis match: %s\nreplace: %s", s, regex, isMatch, replace));
-        assertTrue(isMatch);
-    }
-
-    @Test
-    public void RegexTest2() {
         String s = "Windows2000";
         String regex = "(?<=Wind)[a-zA-z]+(?=\\d+)";
 //        boolean isMatch = Pattern.matches(regex, s);
