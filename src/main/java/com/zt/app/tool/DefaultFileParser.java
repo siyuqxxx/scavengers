@@ -1,6 +1,9 @@
 package com.zt.app.tool;
 
 
+import com.zt.app.tool.common.Dir;
+import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.LogMsgFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +32,7 @@ public class DefaultFileParser implements IFileParser {
 
     @Override
     public void check() throws NullPointerException, IllegalArgumentException, IOException {
+        LOGGER.debug("input dir: " + this.dir);
         if (Objects.isNull(this.dir) || this.dir.trim().isEmpty()) {
             throw new NullPointerException("file is not null or empty.");
         }
@@ -54,6 +58,7 @@ public class DefaultFileParser implements IFileParser {
     @Override
     public ERROR_CODES execute() {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
+
         try {
             this.check();
         } catch (NullPointerException | IllegalArgumentException | IOException e) {
@@ -67,6 +72,7 @@ public class DefaultFileParser implements IFileParser {
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) {
                     dirs.add(new Dir().setSrcDir(line));
+                    LOGGER.debug("get dir: " + line);
                 }
             }
 

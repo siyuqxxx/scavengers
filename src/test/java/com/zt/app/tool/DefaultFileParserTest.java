@@ -1,5 +1,6 @@
 package com.zt.app.tool;
 
+import com.zt.app.tool.common.ERROR_CODES;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
