@@ -2,12 +2,6 @@ package com.zt.app.tool;
 
 import java.util.List;
 
-public interface IDirChecker {
-    String getName();
-
-    boolean isNameMatch(String name);
-
+public interface IDirChecker extends ILifeCycle {
     void setDirs(List<Dir> dirs);
-
-    ERROR_CODES execute();
 }

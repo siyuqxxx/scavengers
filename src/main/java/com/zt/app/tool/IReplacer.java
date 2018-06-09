@@ -1,7 +1,5 @@
 package com.zt.app.tool;
 
-interface IReplacer {
-    String getName();
-
+interface IReplacer extends IPlugin {
     void doReplace();
 }

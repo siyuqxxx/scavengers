@@ -1,13 +1,9 @@
 package com.zt.app.tool;
 
-import java.io.File;
+import java.util.List;
 
-public interface IFileParser {
-    String getName();
+public interface IFileParser extends ILifeCycle {
+    void setFile(String dir);
 
-    boolean isNameMatch(String name);
-
-    void setFile(File file);
-
-    ERROR_CODES execute();
+    List<Dir> getDirs();
 }

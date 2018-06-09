@@ -1,11 +1,5 @@
 package com.zt.app.tool;
 
-public interface ILogPrinter {
-    String getName();
-
-    boolean isNameMatch(String name);
-
+public interface ILogPrinter extends IPlugin {
     void resultFolder(String folder);
-
-    ERROR_CODES execute();
 }
