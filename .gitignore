@@ -1,7 +1,9 @@
-# ----- idea files -----
+# ----- ignore idea files -----
 .idea
 *.iml
-# ----- maven files -----
+# ----- ignore maven files -----
 target
+# ----- ignore runtime files -----
+logs
 # ----- other files -----
 *.rar
