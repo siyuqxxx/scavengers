@@ -103,7 +103,7 @@ public class DefaultReplacer implements IReplacer {
         report.append(String.format("\nsrc dir invalid count:               %4d\n", srcDirInvalidCount));
         report.append(String.format("src dir not match any pattern count: %4d\n", srcDirNotMatchAnyPatternCount));
         report.append(String.format("success count:                       %4d\n", successCount));
-        report.append("----------\n");
+        report.append("-----------------------------------------\n");
         report.append(String.format("total:                               %4d", dirs.size()));
         return report.toString();
     }
