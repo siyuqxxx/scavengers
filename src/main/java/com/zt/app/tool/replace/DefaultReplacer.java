@@ -22,8 +22,18 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public DefaultReplacer setPatterns(List<ReplacePattern> patterns) {
-        this.patterns.clear();
-        this.patterns.addAll(patterns);
+        if (Objects.nonNull(patterns) && !patterns.isEmpty()) {
+            this.patterns.clear();
+            this.patterns.addAll(patterns);
+        }
+        return this;
+    }
+
+    @Override
+    public DefaultReplacer setChecker(IDirChecker checker) {
+        if (Objects.nonNull(checker)) {
+            this.checker = checker;
+        }
         return this;
     }
 
@@ -70,8 +80,10 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public IReplacer setDirs(List<Dir> dirs) {
-        this.dirs.clear();
-        this.dirs.addAll(dirs);
+        if (Objects.nonNull(dirs) && !dirs.isEmpty()) {
+            this.dirs.clear();
+            this.dirs.addAll(dirs);
+        }
         return this;
     }
 
