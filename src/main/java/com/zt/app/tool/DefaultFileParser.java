@@ -64,7 +64,14 @@ public class DefaultFileParser implements IFileParser {
             return ERROR_CODES.FILE_READ_ERROR;
         }
 
-        LOGGER.info(String.format("get %d dir(s) from file", dirs.size()));
+        LOGGER.info(toReport());
         return ERROR_CODES.SUCCESS;
+    }
+
+    @Override
+    public String toReport() {
+        StringBuilder report = new StringBuilder();
+        report.append(String.format("get %d dir(s) from file", dirs.size()));
+        return report.toString();
     }
 }

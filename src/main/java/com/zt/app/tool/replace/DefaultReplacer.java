@@ -49,6 +49,7 @@ public class DefaultReplacer implements IReplacer {
                 doReplace(dir);
             }
         }
+        LOGGER.info(toReport());
         return ERROR_CODES.SUCCESS;
     }
 
@@ -91,5 +92,19 @@ public class DefaultReplacer implements IReplacer {
             }
         }
         return ERROR_CODES.SUCCESS;
+    }
+
+    @Override
+    public String toReport() {
+        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SRC_DIR_INVALID).count();
+        Long successCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).count();
+        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.NO_MATCHING_PATTERN).count();
+        StringBuilder report = new StringBuilder();
+        report.append(String.format("\nsrc dir invalid count:               %4d\n", srcDirInvalidCount));
+        report.append(String.format("src dir not match any pattern count: %4d\n", srcDirNotMatchAnyPatternCount));
+        report.append(String.format("success count:                       %4d\n", successCount));
+        report.append("----------\n");
+        report.append(String.format("total:                               %4d", dirs.size()));
+        return report.toString();
     }
 }
