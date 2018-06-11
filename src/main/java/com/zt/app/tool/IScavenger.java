@@ -8,4 +8,6 @@ public interface IScavenger extends ILifeCycle {
     void setDirs(List<Dir> dirs);
 
     void setResultFolder(String folder);
+
+    void setPrefixPath(String prefixFolder);
 }
