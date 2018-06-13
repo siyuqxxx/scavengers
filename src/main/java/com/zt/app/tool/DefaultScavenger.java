@@ -2,10 +2,14 @@ package com.zt.app.tool;
 
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.LogMsgFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -15,11 +19,16 @@ public class DefaultScavenger implements IScavenger {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultScavenger.class);
     private List<Dir> dirs = new LinkedList<>();
 
-    private String resultFolder = "";
-
-    private String prefixPath = "";
+    private InputParams params = null;
 
     private IDirChecker checker = new DefaultDirChecker();
+
+    @Override
+    public void setParams(InputParams params) {
+        if (Objects.nonNull(params)) {
+            this.params = params;
+        }
+    }
 
     @Override
     public void setDirs(List<Dir> dirs) {
@@ -30,40 +39,37 @@ public class DefaultScavenger implements IScavenger {
     }
 
     @Override
-    public void setResultFolder(String folder) {
-        this.resultFolder = folder;
-    }
-
-    @Override
-    public void setPrefixPath(String path) {
-        this.prefixPath = path;
-    }
-
-    @Override
     public ERROR_CODES check() {
-        ERROR_CODES errorCodes = checker.setDir(this.resultFolder).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
-
-        if (errorCodes != ERROR_CODES.SUCCESS) {
-            return errorCodes;
-        }
-
         List<Dir> validDirs = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
+
+        String projectTargetDir = this.params.getProjectDir() + "/target/";
 
         for (Dir dir : validDirs) {
             String targetDir = dir.getTargetDir();
             if (Objects.nonNull(targetDir) && !targetDir.trim().isEmpty()) {
-                ERROR_CODES errorCode = checker.setDir(targetDir).execute();
+                ERROR_CODES errorCode = checker.setDir(projectTargetDir + targetDir).execute();
                 if (errorCode != ERROR_CODES.SUCCESS) {
-                    dir.setError_code(ERROR_CODES.SRC_DIR_INVALID);
+                    dir.setError_code(ERROR_CODES.TARGET_DIR_INVALID);
                 }
             }
         }
+
         return ERROR_CODES.SUCCESS;
     }
 
     @Override
     public String toReport() {
-        return null;
+        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.TARGET_DIR_INVALID).count();
+        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.FILE_COPY_FAILED).count();
+        Long successCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).count();
+        Long total = srcDirInvalidCount + srcDirNotMatchAnyPatternCount + successCount;
+        StringBuilder report = new StringBuilder();
+        report.append(String.format("\ntarget dir invalid count:               %4d\n", srcDirInvalidCount));
+        report.append(String.format("file copy failed count: %4d\n", srcDirNotMatchAnyPatternCount));
+        report.append(String.format("success count:                       %4d\n", successCount));
+        report.append("-----------------------------------------\n");
+        report.append(String.format("total:                               %4d", total));
+        return report.toString();
     }
 
     @Override
@@ -79,12 +85,26 @@ public class DefaultScavenger implements IScavenger {
             return errorCodes;
         }
 
+        String projectTargetDir = this.params.getProjectDir() + "/target/";
+        String serverProjectDir = this.params.getExportDir() + File.pathSeparator + this.params.getServerProjectDir();
+
+        File file = new File(serverProjectDir);
+        if (!file.mkdirs()) {
+            return ERROR_CODES.CREATE_SERVER_PROJECT_DIR_FAILED;
+        }
 
         List<Dir> validDirs = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
         for (Dir dir : validDirs) {
-
+            try {
+                Files.copy(new File(projectTargetDir + dir).toPath(), new File(serverProjectDir).toPath());
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage());
+                dir.setError_code(ERROR_CODES.FILE_COPY_FAILED);
+            }
         }
+
+        LOGGER.info(this.toReport());
         return null;
     }
 }
