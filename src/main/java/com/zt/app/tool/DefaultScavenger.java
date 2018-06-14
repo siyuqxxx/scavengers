@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -40,16 +42,16 @@ public class DefaultScavenger implements IScavenger {
 
     @Override
     public ERROR_CODES check() {
-        List<Dir> validDirs = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
+        List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
-        String projectTargetDir = this.params.getProjectDir() + "/target/";
+        String projectTargetDir = this.params.getProjectDir() + "/target/" + this.params.getProjectName() + File.separator;
 
         for (Dir dir : validDirs) {
             String targetDir = dir.getTargetDir();
             if (Objects.nonNull(targetDir) && !targetDir.trim().isEmpty()) {
                 ERROR_CODES errorCode = checker.setDir(projectTargetDir + targetDir).execute();
                 if (errorCode != ERROR_CODES.SUCCESS) {
-                    dir.setError_code(ERROR_CODES.TARGET_DIR_INVALID);
+                    dir.setErrorCode(ERROR_CODES.TARGET_DIR_INVALID);
                 }
             }
         }
@@ -59,13 +61,13 @@ public class DefaultScavenger implements IScavenger {
 
     @Override
     public String toReport() {
-        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.TARGET_DIR_INVALID).count();
-        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.FILE_COPY_FAILED).count();
-        Long successCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).count();
+        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.TARGET_DIR_INVALID).count();
+        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.FILE_COPY_FAILED).count();
+        Long successCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).count();
         Long total = srcDirInvalidCount + srcDirNotMatchAnyPatternCount + successCount;
         StringBuilder report = new StringBuilder();
-        report.append(String.format("\ntarget dir invalid count:               %4d\n", srcDirInvalidCount));
-        report.append(String.format("file copy failed count: %4d\n", srcDirNotMatchAnyPatternCount));
+        report.append(String.format("\ntarget dir invalid count:            %4d\n", srcDirInvalidCount));
+        report.append(String.format("file copy failed count:              %4d\n", srcDirNotMatchAnyPatternCount));
         report.append(String.format("success count:                       %4d\n", successCount));
         report.append("-----------------------------------------\n");
         report.append(String.format("total:                               %4d", total));
@@ -85,26 +87,38 @@ public class DefaultScavenger implements IScavenger {
             return errorCodes;
         }
 
-        String projectTargetDir = this.params.getProjectDir() + "/target/";
-        String serverProjectDir = this.params.getExportDir() + File.pathSeparator + this.params.getServerProjectDir();
+        String projectTargetDir = this.params.getProjectDir() + File.separator + "target" + File.separator + this.params.getProjectName();
+        String serverProjectDir = this.params.getExportDir() + File.separator + this.params.getServerProjectDir();
 
         File file = new File(serverProjectDir);
-        if (!file.mkdirs()) {
+        if (!file.exists() && !file.mkdirs()) {
             return ERROR_CODES.CREATE_SERVER_PROJECT_DIR_FAILED;
         }
 
-        List<Dir> validDirs = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
+        List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
         for (Dir dir : validDirs) {
             try {
-                Files.copy(new File(projectTargetDir + dir).toPath(), new File(serverProjectDir).toPath());
+                File exportFile = new File(serverProjectDir + File.separator + dir.getTargetDir());
+                File exportParentPath = exportFile.getParentFile();
+                LOGGER.debug("parent path: " + exportParentPath.toString());
+                if (!exportParentPath.exists() && !exportParentPath.mkdirs()) {
+                    LOGGER.error("create parent path failed. " + exportParentPath.toString());
+                    dir.setErrorCode(ERROR_CODES.CREATE_PARENT_PATH_FAILED);
+                }
+                Files.copy(new File(projectTargetDir + File.separator + dir.getTargetDir()).toPath(), exportFile.toPath());
+            } catch (NoSuchFileException e) {
+                LOGGER.error("no such file: " + e.getMessage());
+            } catch (FileAlreadyExistsException e) {
+                LOGGER.error("file already exists exception: " + e.getMessage());
             } catch (IOException e) {
+                e.printStackTrace();
                 LOGGER.error(e.getMessage());
-                dir.setError_code(ERROR_CODES.FILE_COPY_FAILED);
+                dir.setErrorCode(ERROR_CODES.FILE_COPY_FAILED);
             }
         }
 
         LOGGER.info(this.toReport());
-        return null;
+        return ERROR_CODES.SUCCESS;
     }
 }

@@ -55,7 +55,7 @@ public class DefaultReplacer implements IReplacer {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
         check();
         for (Dir dir : dirs) {
-            if (dir.getError_code() == ERROR_CODES.SUCCESS) {
+            if (dir.getErrorCode() == ERROR_CODES.SUCCESS) {
                 doReplace(dir);
             }
         }
@@ -73,7 +73,7 @@ public class DefaultReplacer implements IReplacer {
             }
         }
         if (!isMatch) {
-            dir.setError_code(ERROR_CODES.NO_MATCHING_PATTERN);
+            dir.setErrorCode(ERROR_CODES.NO_MATCHING_PATTERN);
             LOGGER.error("file not match any patterns: " + dir.getSrcDir());
         }
     }
@@ -99,7 +99,7 @@ public class DefaultReplacer implements IReplacer {
             if (Objects.nonNull(srcDir) && !srcDir.trim().isEmpty()) {
                 ERROR_CODES errorCode = checker.setDir(srcDir).execute();
                 if (errorCode != ERROR_CODES.SUCCESS) {
-                    dir.setError_code(ERROR_CODES.SRC_DIR_INVALID);
+                    dir.setErrorCode(ERROR_CODES.SRC_DIR_INVALID);
                 }
             }
         }
@@ -108,9 +108,9 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public String toReport() {
-        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SRC_DIR_INVALID).count();
-        Long successCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.SUCCESS).count();
-        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getError_code() == ERROR_CODES.NO_MATCHING_PATTERN).count();
+        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SRC_DIR_INVALID).count();
+        Long successCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).count();
+        Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.NO_MATCHING_PATTERN).count();
         StringBuilder report = new StringBuilder();
         report.append(String.format("\nsrc dir invalid count:               %4d\n", srcDirInvalidCount));
         report.append(String.format("src dir not match any pattern count: %4d\n", srcDirNotMatchAnyPatternCount));

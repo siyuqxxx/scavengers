@@ -3,7 +3,7 @@ package com.zt.app.tool.common;
 public class Dir {
     String srcDir = "";
     String targetDir = "";
-    ERROR_CODES error_code = ERROR_CODES.SUCCESS;
+    ERROR_CODES errorCode = ERROR_CODES.SUCCESS;
 
     public String getSrcDir() {
         return srcDir;
@@ -23,12 +23,12 @@ public class Dir {
         return this;
     }
 
-    public ERROR_CODES getError_code() {
-        return error_code;
+    public ERROR_CODES getErrorCode() {
+        return errorCode;
     }
 
-    public Dir setError_code(ERROR_CODES error_code) {
-        this.error_code = error_code;
+    public Dir setErrorCode(ERROR_CODES error_code) {
+        this.errorCode = error_code;
         return this;
     }
 
@@ -37,7 +37,7 @@ public class Dir {
         return "Dir{" +
                 "srcDir='" + srcDir + '\'' +
                 ", targetDir='" + targetDir + '\'' +
-                ", error_code=" + error_code +
+                ", errorCode=" + errorCode +
                 '}';
     }
 }
