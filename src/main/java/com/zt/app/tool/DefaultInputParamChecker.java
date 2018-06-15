@@ -83,7 +83,7 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
 
     @Override
     public String getName() {
-        return null;
+        return "default-input-param-checker";
     }
 
     @Override
