@@ -2,6 +2,7 @@ package com.zt.app.tool;
 
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
+import com.zt.app.tool.common.LogMsgFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,8 +34,9 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
         String srcFileList = this.params.getSrcFileList();
         ERROR_CODES errorCode = this.checker.setDir(srcFileList).execute();
         if (errorCode == ERROR_CODES.SUCCESS) {
-            this.params.setExport(new File(srcFileList));
+            this.params.setSrc(new File(srcFileList));
         } else {
+            LOGGER.debug("the src file list: " + srcFileList);
             LOGGER.error("src file list in invalid.");
             return errorCode;
         }
@@ -44,24 +46,28 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
         if (errorCode == ERROR_CODES.SUCCESS) {
             this.params.setExportDir(new File(srcFileList).toString());
         } else {
-            LOGGER.error("project dir is invalid.");
-            LOGGER.error("try to check if the project dir is the dir where the src file list is located.");
+            LOGGER.warn("project dir is invalid.");
+            LOGGER.warn("try to check if the project dir is the dir where the src file list is located.");
 
-            File parentFile = new File(srcFileList).getParentFile();
+            File parentFile = this.params.getSrc().getParentFile();
             boolean isProjectDir = isProjectDir(parentFile);
             if (isProjectDir) {
-                LOGGER.debug("the project dir is the dir where the src file list is located.");
+                LOGGER.error("the project dir will be the dir where the src file list is located.");
                 this.params.setProjectDir(parentFile.toString());
+                this.params.setProject(parentFile);
             } else {
-                LOGGER.error("the project dir is not the dir where the src file list is located.");
+                LOGGER.debug("the target dir: " + parentFile);
+                LOGGER.warn("the project dir is not the dir where the src file list is located.");
 
-                LOGGER.error("try to check if the project dir is the currently dir.");
+                LOGGER.warn("try to check if the project dir is the currently dir.");
                 isProjectDir = false;
-                parentFile = new File("").getParentFile();
+                parentFile = new File("").getAbsoluteFile();
+                LOGGER.debug("the currently dir: " + parentFile.toString());
                 isProjectDir = isProjectDir(parentFile);
                 if (isProjectDir) {
-                    LOGGER.debug("the project dir is the current dir.");
+                    LOGGER.error("the project dir will be the current dir.");
                     this.params.setProjectDir(parentFile.toString());
+                    this.params.setProject(parentFile);
                 } else {
                     LOGGER.error("the project dir not found.");
                     return ERROR_CODES.INVALID_PROJECT_DIR;
@@ -69,13 +75,13 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
             }
         }
 
-        File projectDirFile = new File(projectDir);
-        String projectName = projectDirFile.getName();
+        String projectName = this.params.getProject().getName();
 
-        File target = new File(projectDirFile, "target" + File.separator + projectName);
+        File target = new File(this.params.getProject(), "target" + File.separator + projectName);
         if (target.exists() && target.isDirectory() && Objects.nonNull(target.listFiles())) {
             this.params.setTarget(target);
         } else {
+            LOGGER.debug("the target dir: " + target);
             LOGGER.error("the target dir not found.");
             return ERROR_CODES.INVALID_PROJECT_TARGET_FOLDER;
         }
@@ -85,13 +91,14 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
         if (errorCode == ERROR_CODES.SUCCESS) {
             this.params.setExport(new File(exportDir));
         } else {
-            LOGGER.error("the export dir not found.");
-            return ERROR_CODES.INVALID_EXPORT_FOLDER;
+            LOGGER.warn("the export dir not found.");
+            LOGGER.error("the export dir will be under the project dir.");
+            this.params.setExport(new File(this.params.getProject(), "export"));
         }
 
         String serverProjectDir = this.params.getServerProjectDir();
         if (Objects.isNull(serverProjectDir) || serverProjectDir.trim().isEmpty()) {
-            LOGGER.error("input param server project dir is null or empty.");
+            LOGGER.warn("input param server project dir is null or empty.");
         }
 
         return ERROR_CODES.SUCCESS;
@@ -114,10 +121,10 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
 
     @Override
     public String toReport() {
-        String src = this.params.getSrc().toString();
-        String project = this.params.getProject().toString();
-        String target = this.params.getTarget().toString();
-        String export = this.params.getExport().toString();
+        File src = this.params.getSrc();
+        File project = this.params.getProject();
+        File target = this.params.getTarget();
+        File export = this.params.getExport();
         StringBuilder report = new StringBuilder();
         report.append(String.format("\nsrc dir: %s\n", src));
         report.append(String.format("project dir: %s\n", project));
@@ -134,6 +141,7 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
 
     @Override
     public ERROR_CODES execute() {
+        LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
         ERROR_CODES check = this.check();
         LOGGER.info(this.toReport());
         return check;

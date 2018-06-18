@@ -37,7 +37,11 @@ public class DefaultDirChecker implements IDirChecker {
                 throw new NullPointerException("file is not null or empty.");
             }
 
-            File file = new File(this.dir);
+            File file = new File(this.dir).getAbsoluteFile();
+
+            if (!file.toString().equals(this.dir)) {
+                LOGGER.debug("absolute input dir: " + file.toString());
+            }
 
             if (!file.exists()) {
                 throw new IllegalArgumentException("file scheme is not exist.");

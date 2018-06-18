@@ -1,6 +1,7 @@
 package com.zt.app.tool.common;
 
 import java.io.File;
+import java.util.Objects;
 
 public class InputParams {
     private String projectDir = "";
@@ -17,7 +18,9 @@ public class InputParams {
     }
 
     public void setSrc(File src) {
-        this.src = src;
+        if (Objects.nonNull(src)) {
+            this.src = src.getAbsoluteFile();
+        }
     }
 
     public File getProject() {
@@ -25,7 +28,9 @@ public class InputParams {
     }
 
     public void setProject(File project) {
-        this.project = project;
+        if (Objects.nonNull(project)) {
+            this.project = project.getAbsoluteFile();
+        }
     }
 
     public File getTarget() {
@@ -33,7 +38,9 @@ public class InputParams {
     }
 
     public void setTarget(File target) {
-        this.target = target;
+        if (Objects.nonNull(target)) {
+            this.target = target.getAbsoluteFile();
+        }
     }
 
     public File getExport() {
@@ -41,7 +48,9 @@ public class InputParams {
     }
 
     public void setExport(File export) {
-        this.export = export;
+        if (Objects.nonNull(export)) {
+            this.export = export.getAbsoluteFile();
+        }
     }
 
     public String getProjectDir() {
