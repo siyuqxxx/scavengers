@@ -22,8 +22,8 @@ public class DefaultScavengerTest {
 
         InputParams inputParams = new InputParams();
         inputParams.setExportDir(testBaseDir + "\\export\\");
-        inputParams.setProjectDir(testBaseDir);
-        inputParams.setProjectName("reading");
+        inputParams.setProject(new File(testBaseDir + File.separator + "reading"));
+        inputParams.setTarget(new File(testBaseDir + File.separator + "reading" + File.separator + "target" + File.separator + "reading"));
         inputParams.setServerProjectDir("/opt/reading/");
         inputParams.setSrcFileList(testBaseDir + "src.txt");
 

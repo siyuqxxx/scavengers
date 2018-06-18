@@ -1,0 +1,73 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+  <#include "/admin/common_header.html"/>
+  <title></title>
+</head>
+<body>
+<div class="page-container" style="height: 100%;">
+  <form class="form form-horizontal" style="position: relative" action="/admin/robotConfig/addDo.html" method="post"
+        enctype="multipart/form-data" id="f1">
+    <div class="row cl">
+      <label class="form-label col-xs-3 col-md-3 text-r" style="text-align: right" for="library">图书馆</label>
+      <div class="formControls col-xs-7 col-md-7">
+        <input style="display: none" type="text" name="libraryName" id="name">
+        <input style="display: none" type="text" name="status" value="1">
+        <select name="libraryId" id="library" class="input-text" datatype="*">
+          <option value="">请选择</option>
+          <#list libraryList as item>
+            <option value="${item.id}">${item.title}</option>
+          </#list>
+        </select>
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-3 col-md-3 text-r" style="text-align: right" for="apikey">apiKey</label>
+      <div class="formControls col-xs-7 col-md-7">
+        <input placeholder="请输入申请的apiKey" type="text" datatype="*" name="apikey" class="input-text" id="apikey">
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-3 col-md-3 text-r" style="text-align: right" for="library">等级</label>
+      <div class="formControls col-xs-7 col-md-7">
+        <select name="versions" id="level" class="input-text" datatype="*">
+          <option value="">请选择</option>
+          <option value="1">免费版</option>
+          <option value="2">标准版</option>
+          <option value="3">专业版</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+<button class="btn btn-primary" id="save" style="position: absolute;bottom: 20px;right: 150px">保存</button>
+<button class="btn btn-danger" style="position: absolute;bottom: 20px;right: 80px" onClick="removeIframe();">取消</button>
+<#include "/admin/common_footer.html"/>
+</body>
+<script>
+    $("#level").change(function () {
+        $("#Token").val("");
+        $("#TokenBox").remove();
+        if ($(this).val() == 1 || $(this).val() == '') {
+            $("#TokenBox").remove();
+
+        } else {
+            var html = "<div class=\"row cl\" id=\"TokenBox\" >\n" +
+                "\t\t\t<label class=\"form-label col-xs-3 col-md-3 text-r\" style=\"text-align: right\" for=\"Token\">Token</label>\n" +
+                "\t\t\t<div class=\"formControls col-xs-7 col-md-7\">\n" +
+                "\t\t\t\t<input  placeholder=\"请输入申请的Token\" type=\"text\" datatype=\"*\" name=\"token\" class=\"input-text\" id=\"Token\">\n" +
+                "\t\t\t</div>\n" +
+                "\t\t</div>";
+            $("#f1").append(html);
+        }
+    });
+    $("#library").change(function () {
+
+        $("#name").val($("#library").find("option:selected").text())
+    })
+
+    $("#save").click(function () {
+        $("#f1").submit()
+    })
+</script>
+</html>

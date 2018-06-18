@@ -44,7 +44,7 @@ public class DefaultScavenger implements IScavenger {
     public ERROR_CODES check() {
         List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
-        String projectTargetDir = this.params.getProjectDir() + "/target/" + this.params.getProjectName() + File.separator;
+        String projectTargetDir = this.params.getTarget().toString() + File.separator;
 
         for (Dir dir : validDirs) {
             String targetDir = dir.getTargetDir();
@@ -87,7 +87,7 @@ public class DefaultScavenger implements IScavenger {
             return errorCodes;
         }
 
-        String projectTargetDir = this.params.getProjectDir() + File.separator + "target" + File.separator + this.params.getProjectName();
+        String projectTargetDir = this.params.getProject().toString();
         String serverProjectDir = this.params.getExportDir() + File.separator + this.params.getServerProjectDir();
 
         File file = new File(serverProjectDir);

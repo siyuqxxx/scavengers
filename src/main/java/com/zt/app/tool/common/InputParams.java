@@ -1,18 +1,47 @@
 package com.zt.app.tool.common;
 
+import java.io.File;
+
 public class InputParams {
-    private String projectName = "";
     private String projectDir = "";
     private String srcFileList = "";
     private String exportDir = "";
     private String serverProjectDir = "";
+    private File src = null;
+    private File project = null;
+    private File target = null;
+    private File export = null;
 
-    public String getProjectName() {
-        return projectName;
+    public File getSrc() {
+        return src;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setSrc(File src) {
+        this.src = src;
+    }
+
+    public File getProject() {
+        return project;
+    }
+
+    public void setProject(File project) {
+        this.project = project;
+    }
+
+    public File getTarget() {
+        return target;
+    }
+
+    public void setTarget(File target) {
+        this.target = target;
+    }
+
+    public File getExport() {
+        return export;
+    }
+
+    public void setExport(File export) {
+        this.export = export;
     }
 
     public String getProjectDir() {
@@ -50,11 +79,14 @@ public class InputParams {
     @Override
     public String toString() {
         return "InputParams{" +
-                "projectName='" + projectName + '\'' +
-                ", projectDir='" + projectDir + '\'' +
+                "projectDir='" + projectDir + '\'' +
                 ", srcFileList='" + srcFileList + '\'' +
                 ", exportDir='" + exportDir + '\'' +
                 ", serverProjectDir='" + serverProjectDir + '\'' +
+                ", src=" + src +
+                ", project=" + project +
+                ", target=" + target +
+                ", export=" + export +
                 '}';
     }
 }

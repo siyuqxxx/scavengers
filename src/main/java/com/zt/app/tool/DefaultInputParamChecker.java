@@ -30,55 +30,101 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
 
     @Override
     public ERROR_CODES check() {
-        String projectName = this.params.getProjectName();
-        if (isStrEmpty(projectName, "input param project name is null or empty.")) {
-            return ERROR_CODES.INPUT_PARAM_EMPTY;
-        }
-
-        String exportDir = this.params.getExportDir();
-        ERROR_CODES errorCode = this.checker.setDir(exportDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
-        if (errorCode != ERROR_CODES.SUCCESS) {
-            return errorCode;
+        String srcFileList = this.params.getSrcFileList();
+        ERROR_CODES errorCode = this.checker.setDir(srcFileList).execute();
+        if (errorCode == ERROR_CODES.SUCCESS) {
+            this.params.setExport(new File(srcFileList));
         } else {
-            this.params.setExportDir(new File(exportDir).toString());
+            LOGGER.error("src file list in invalid.");
+            return errorCode;
         }
 
         String projectDir = this.params.getProjectDir();
         errorCode = this.checker.setDir(projectDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
-        if (errorCode != ERROR_CODES.SUCCESS) {
-            return errorCode;
+        if (errorCode == ERROR_CODES.SUCCESS) {
+            this.params.setExportDir(new File(srcFileList).toString());
         } else {
-            this.params.setExportDir(new File(projectDir).toString());
+            LOGGER.error("project dir is invalid.");
+            LOGGER.error("try to check if the project dir is the dir where the src file list is located.");
+
+            File parentFile = new File(srcFileList).getParentFile();
+            boolean isProjectDir = isProjectDir(parentFile);
+            if (isProjectDir) {
+                LOGGER.debug("the project dir is the dir where the src file list is located.");
+                this.params.setProjectDir(parentFile.toString());
+            } else {
+                LOGGER.error("the project dir is not the dir where the src file list is located.");
+
+                LOGGER.error("try to check if the project dir is the currently dir.");
+                isProjectDir = false;
+                parentFile = new File("").getParentFile();
+                isProjectDir = isProjectDir(parentFile);
+                if (isProjectDir) {
+                    LOGGER.debug("the project dir is the current dir.");
+                    this.params.setProjectDir(parentFile.toString());
+                } else {
+                    LOGGER.error("the project dir not found.");
+                    return ERROR_CODES.INVALID_PROJECT_DIR;
+                }
+            }
+        }
+
+        File projectDirFile = new File(projectDir);
+        String projectName = projectDirFile.getName();
+
+        File target = new File(projectDirFile, "target" + File.separator + projectName);
+        if (target.exists() && target.isDirectory() && Objects.nonNull(target.listFiles())) {
+            this.params.setTarget(target);
+        } else {
+            LOGGER.error("the target dir not found.");
+            return ERROR_CODES.INVALID_PROJECT_TARGET_FOLDER;
+        }
+
+        String exportDir = this.params.getExportDir();
+        errorCode = this.checker.setDir(exportDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
+        if (errorCode == ERROR_CODES.SUCCESS) {
+            this.params.setExport(new File(exportDir));
+        } else {
+            LOGGER.error("the export dir not found.");
+            return ERROR_CODES.INVALID_EXPORT_FOLDER;
         }
 
         String serverProjectDir = this.params.getServerProjectDir();
-        if (isStrEmpty(serverProjectDir, "input param server project dir is null or empty.")) {
-            return ERROR_CODES.INPUT_PARAM_EMPTY;
-        }
-
-        String srcFileList = this.params.getSrcFileList();
-        errorCode = this.checker.setDir(srcFileList).execute();
-        if (errorCode != ERROR_CODES.SUCCESS) {
-            LOGGER.error("");
-        } else {
-            this.params.setExportDir(new File(srcFileList).toString());
+        if (Objects.isNull(serverProjectDir) || serverProjectDir.trim().isEmpty()) {
+            LOGGER.error("input param server project dir is null or empty.");
         }
 
         return ERROR_CODES.SUCCESS;
     }
 
-    private boolean isStrEmpty(String projectName, String errorMsg) {
-        if (Objects.isNull(projectName) || projectName.trim().isEmpty()) {
-            LOGGER.error(errorMsg);
-            return true;
-        } else {
-            return false;
+    private boolean isProjectDir(File parentFile) {
+        File[] files = parentFile.listFiles();
+        if (Objects.nonNull(files)) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    String name = f.getName();
+                    if ("target".equals(name)) {
+                        return true;
+                    }
+                }
+            }
         }
+        return false;
     }
 
     @Override
     public String toReport() {
-        return null;
+        String src = this.params.getSrc().toString();
+        String project = this.params.getProject().toString();
+        String target = this.params.getTarget().toString();
+        String export = this.params.getExport().toString();
+        StringBuilder report = new StringBuilder();
+        report.append(String.format("\nsrc dir: %s\n", src));
+        report.append(String.format("project dir: %s\n", project));
+        report.append(String.format("target dir: %s\n", target));
+        report.append(String.format("export dir: %s\n", export));
+
+        return report.toString();
     }
 
     @Override
@@ -88,20 +134,8 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
 
     @Override
     public ERROR_CODES execute() {
-        // 做一些必要的转换，使得这些路径便于后续使用
-        String projectName = this.params.getProjectName();
-
-        String exportDir = this.params.getExportDir();
-        this.params.setExportDir(new File(exportDir).toString());
-
-        String projectDir = this.params.getProjectDir();
-        this.params.setExportDir(new File(projectDir).toString());
-
-        String serverProjectDir = this.params.getServerProjectDir();
-
-        String srcFileList = this.params.getSrcFileList();
-        this.params.setExportDir(new File(srcFileList).toString());
-
-        return ERROR_CODES.SUCCESS;
+        ERROR_CODES check = this.check();
+        LOGGER.info(this.toReport());
+        return check;
     }
 }
