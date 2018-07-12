@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Objects;
 
-public class DefaultInputParamChecker implements IInputParamsCheck {
+public class DefaultInputParamChecker implements IInputParamsChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultInputParamChecker.class);
 
     private InputParams params = null;
@@ -17,7 +17,7 @@ public class DefaultInputParamChecker implements IInputParamsCheck {
     private IDirChecker checker = new DefaultDirChecker();
 
     @Override
-    public IInputParamsCheck setParams(InputParams params) {
+    public IInputParamsChecker setParams(InputParams params) {
         if (Objects.nonNull(params)) {
             this.params = params;
         }

@@ -2,25 +2,52 @@ package com.zt.app.tool;
 
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.replace.IReplacer;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AReplaceTemplate {
-    public abstract void from(String file);
+    private InputParams params;
+    private IInputParamsChecker inputParamsChecker;
+    private IFileParser reader;
+    private IReplacer replacer;
+    private IScavenger scavenger;
 
-    public abstract void inProject(String name);
+    public void setParams(InputParams params) {
+        if (Objects.nonNull(params)) {
+            this.params = params;
+        }
+    }
 
-    public abstract void to(String folder);
+    public void setInputParamsChecker(IInputParamsChecker inputParamsChecker) {
+        if (Objects.nonNull(inputParamsChecker)) {
+            this.inputParamsChecker = inputParamsChecker;
+        }
+    }
 
-    public abstract void setReplacer(List<IReplacer> replacers);
+    public void setReader(IFileParser reader) {
+        if (Objects.nonNull(reader)) {
+            this.reader = reader;
+        }
+    }
 
-    public abstract void setFileParser(IFileParser reader);
+    public void setReplacer(IReplacer replacer) {
+        if (Objects.nonNull(replacer)) {
+            this.replacer = replacer;
+        }
+    }
 
-    public abstract void setScavenger(IScavenger scavenger);
+    public void setScavenger(IScavenger scavenger) {
+        if (Objects.nonNull(scavenger)) {
+            this.scavenger = scavenger;
+        }
+    }
 
-    public ERROR_CODES pickTargetFromSrc(List<Dir> path) {
+    public ERROR_CODES pickTargetFromSrc() {
         try {
+
             List<Dir> srcFiles = getScrFilesFrom(path);
             List<Dir> targetFiles = matchAndReplace(srcFiles);
             pickFrom(targetFiles);

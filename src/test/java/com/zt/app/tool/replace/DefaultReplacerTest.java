@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertTrue;
@@ -46,9 +45,9 @@ public class DefaultReplacerTest {
     public void RegexTest() {
         String s = "Windows2000";
         String regex = "(?<=Wind)[a-zA-z]+(?=\\d+)";
+//        boolean isMatch = s.matches(regex);
 //        boolean isMatch = Pattern.matches(regex, s);
-        Matcher matcher = Pattern.compile(regex).matcher(s);
-        boolean isMatch = matcher.find();
+        boolean isMatch = Pattern.compile(regex).matcher(s).find();
         String replace = s.replaceFirst(regex, "-----");
         System.out.println(String.format("String: %s\nregex: %s\nis match: %s\nreplace: %s", s, regex, isMatch, replace));
         assertTrue(isMatch);
