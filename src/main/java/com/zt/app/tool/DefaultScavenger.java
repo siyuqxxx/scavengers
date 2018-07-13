@@ -26,18 +26,20 @@ public class DefaultScavenger implements IScavenger {
     private IDirChecker checker = new DefaultDirChecker();
 
     @Override
-    public void setParams(InputParams params) {
+    public IScavenger setParams(InputParams params) {
         if (Objects.nonNull(params)) {
             this.params = params;
         }
+        return this;
     }
 
     @Override
-    public void setDirs(List<Dir> dirs) {
+    public IScavenger setDirs(List<Dir> dirs) {
         if (Objects.nonNull(dirs) && !dirs.isEmpty()) {
             this.dirs.clear();
             this.dirs.addAll(dirs);
         }
+        return this;
     }
 
     @Override
@@ -49,6 +51,10 @@ public class DefaultScavenger implements IScavenger {
         for (Dir dir : validDirs) {
             String targetDir = dir.getTargetDir();
             if (Objects.nonNull(targetDir) && !targetDir.trim().isEmpty()) {
+                if (targetDir.startsWith(File.separator) || targetDir.startsWith("/") || targetDir.startsWith("\\")) {
+                    targetDir = targetDir.substring(1);
+                }
+
                 ERROR_CODES errorCode = checker.setDir(projectTargetDir + targetDir).execute();
                 if (errorCode != ERROR_CODES.SUCCESS) {
                     dir.setErrorCode(ERROR_CODES.TARGET_DIR_INVALID);
@@ -87,7 +93,7 @@ public class DefaultScavenger implements IScavenger {
             return errorCodes;
         }
 
-        String projectTargetDir = this.params.getProject().toString();
+        String projectTargetDir = this.params.getTarget().toString();
         String serverProjectDir = this.params.getExportDir() + File.separator + this.params.getServerProjectDir();
 
         File file = new File(serverProjectDir);

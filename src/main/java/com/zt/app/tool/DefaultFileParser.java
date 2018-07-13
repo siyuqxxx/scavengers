@@ -26,8 +26,9 @@ public class DefaultFileParser implements IFileParser {
     }
 
     @Override
-    public void setFile(String dir) {
+    public IFileParser setFile(String dir) {
         this.dir = dir;
+        return this;
     }
 
     @Override

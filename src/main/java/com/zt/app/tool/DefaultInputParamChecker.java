@@ -31,6 +31,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
 
     @Override
     public ERROR_CODES check() {
+        LOGGER.debug("checking src file list dir");
         String srcFileList = this.params.getSrcFileList();
         ERROR_CODES errorCode = this.checker.setDir(srcFileList).execute();
         if (errorCode == ERROR_CODES.SUCCESS) {
@@ -41,10 +42,13 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
             return errorCode;
         }
 
+        LOGGER.debug("checking project dir");
         String projectDir = this.params.getProjectDir();
         errorCode = this.checker.setDir(projectDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
         if (errorCode == ERROR_CODES.SUCCESS) {
-            this.params.setExportDir(new File(srcFileList).toString());
+            File project = new File(projectDir);
+            this.params.setProjectDir(project.toString());
+            this.params.setProject(project);
         } else {
             LOGGER.warn("project dir is invalid.");
             LOGGER.warn("try to check if the project dir is the dir where the src file list is located.");
@@ -94,6 +98,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
             LOGGER.warn("the export dir not found.");
             LOGGER.error("the export dir will be under the project dir.");
             this.params.setExport(new File(this.params.getProject(), "export"));
+            this.params.setExportDir(this.params.getExport().toString());
         }
 
         String serverProjectDir = this.params.getServerProjectDir();
@@ -142,8 +147,8 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
     @Override
     public ERROR_CODES execute() {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
-        ERROR_CODES check = this.check();
+        ERROR_CODES errorCodes = this.check();
         LOGGER.info(this.toReport());
-        return check;
+        return errorCodes;
     }
 }

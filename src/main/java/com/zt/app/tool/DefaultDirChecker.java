@@ -37,21 +37,20 @@ public class DefaultDirChecker implements IDirChecker {
                 throw new NullPointerException("file is not null or empty.");
             }
 
-            File file = new File(this.dir).getAbsoluteFile();
-
-            if (!file.toString().equals(this.dir)) {
-                LOGGER.debug("absolute input dir: " + file.toString());
+            boolean isFileValid = true;
+            try {
+                isFileValid(this.dir);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage() + " " + this.dir);
+                isFileValid = false;
             }
-
-            if (!file.exists()) {
-                throw new IllegalArgumentException("file scheme is not exist.");
-            } else if (type == DIR_TYPE.FILE) {
-                if (!file.isFile()) {
-                    throw new IllegalArgumentException("file scheme is not a file.");
-                }
-            } else if (type == DIR_TYPE.FOLDER) {
-                if (!file.isDirectory()) {
-                    throw new IllegalArgumentException("file scheme is not a folder.");
+            String path = transToAbsoluteDir(this.dir);
+            if (!isFileValid && this.dir.equals(path)) {
+                try {
+                    isFileValid(path);
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage() + " " + path);
+                    throw e;
                 }
             }
         } catch (Exception e) {
@@ -60,5 +59,32 @@ public class DefaultDirChecker implements IDirChecker {
         }
 
         return ERROR_CODES.SUCCESS;
+    }
+
+    private String transToAbsoluteDir(String path) {
+        if (this.dir.startsWith(File.separator) || this.dir.startsWith("/") || this.dir.startsWith("\\")) {
+            path = this.dir.substring(1);
+        }
+        return path;
+    }
+
+    private void isFileValid(String path) {
+        File file = new File(path).getAbsoluteFile();
+
+        if (!file.toString().equals(path)) {
+            LOGGER.debug("absolute input dir: " + file.toString());
+        }
+
+        if (!file.exists()) {
+            throw new IllegalArgumentException("file scheme is not exist.");
+        } else if (type == DIR_TYPE.FILE) {
+            if (!file.isFile()) {
+                throw new IllegalArgumentException("file scheme is not a file.");
+            }
+        } else if (type == DIR_TYPE.FOLDER) {
+            if (!file.isDirectory()) {
+                throw new IllegalArgumentException("file scheme is not a folder.");
+            }
+        }
     }
 }

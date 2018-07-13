@@ -1,19 +1,17 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.replace.IReplacer;
 
-import java.util.List;
 import java.util.Objects;
 
-public abstract class AReplaceTemplate {
-    private InputParams params;
-    private IInputParamsChecker inputParamsChecker;
-    private IFileParser reader;
-    private IReplacer replacer;
-    private IScavenger scavenger;
+public class AReplaceTemplate {
+    private InputParams params = null;
+    private IInputParamsChecker checker = null;
+    private IFileParser reader = null;
+    private IReplacer replacer = null;
+    private IScavenger scavenger = null;
 
     public void setParams(InputParams params) {
         if (Objects.nonNull(params)) {
@@ -21,9 +19,9 @@ public abstract class AReplaceTemplate {
         }
     }
 
-    public void setInputParamsChecker(IInputParamsChecker inputParamsChecker) {
-        if (Objects.nonNull(inputParamsChecker)) {
-            this.inputParamsChecker = inputParamsChecker;
+    public void setChecker(IInputParamsChecker checker) {
+        if (Objects.nonNull(checker)) {
+            this.checker = checker;
         }
     }
 
@@ -47,19 +45,28 @@ public abstract class AReplaceTemplate {
 
     public ERROR_CODES pickTargetFromSrc() {
         try {
+            ERROR_CODES errorCodes = this.checker.setParams(this.params).execute();
+            if (errorCodes != ERROR_CODES.SUCCESS) {
+                return errorCodes;
+            }
 
-            List<Dir> srcFiles = getScrFilesFrom(path);
-            List<Dir> targetFiles = matchAndReplace(srcFiles);
-            pickFrom(targetFiles);
+            errorCodes = this.reader.setFile(this.params.getSrc().toString()).execute();
+            if (errorCodes != ERROR_CODES.SUCCESS) {
+                return errorCodes;
+            }
+
+            errorCodes = this.replacer.setDirs(this.reader.getDirs()).execute();
+            if (errorCodes != ERROR_CODES.SUCCESS) {
+                return errorCodes;
+            }
+
+            errorCodes = this.scavenger.setDirs(this.replacer.getDirs()).setParams(this.params).execute();
+            if (errorCodes != ERROR_CODES.SUCCESS) {
+                return errorCodes;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ERROR_CODES.SUCCESS;
     }
-
-    protected abstract void pickFrom(List<Dir> targetFiles);
-
-    protected abstract List<Dir> matchAndReplace(List<Dir> srcFiles);
-
-    protected abstract List<Dir> getScrFilesFrom(List<Dir> path);
 }
