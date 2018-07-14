@@ -26,7 +26,7 @@ public class DefaultDirChecker implements IDirChecker {
 
     @Override
     public String getName() {
-        return "default-file-checker";
+        return "default-file-check";
     }
 
     @Override

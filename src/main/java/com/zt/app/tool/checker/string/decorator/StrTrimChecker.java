@@ -8,11 +8,11 @@ public class StrTrimChecker extends ADecStrChecker {
 
     @Override
     public String getName() {
-        return "str-trim-checker";
+        return "str-trim-check";
     }
 
     @Override
-    public boolean StrCheck() {
-        return super.getStrChecker().checker() && this.getStr().trim().isEmpty();
+    public boolean strCheck() {
+        return super.getStrChecker().check() && this.getStr().trim().isEmpty();
     }
 }

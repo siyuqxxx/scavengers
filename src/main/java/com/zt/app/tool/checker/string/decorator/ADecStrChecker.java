@@ -31,16 +31,16 @@ public abstract class ADecStrChecker implements IStrChecker, IDecorator<IStrChec
     }
 
     @Override
-    public boolean checker() {
+    public boolean check() {
         if (Objects.nonNull(this.strChecker)) {
-            return StrCheck();
+            return strCheck();
         } else {
             LOGGER.debug("empty IStrChecker");
             return false;
         }
     }
 
-    public abstract boolean StrCheck();
+    public abstract boolean strCheck();
 
     @Override
     public void setComponent(IStrChecker checker) {

@@ -1,24 +1,25 @@
 package com.zt.app.tool.checker.dir.folder;
 
 import com.zt.app.tool.checker.dir.ADirChecker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Objects;
 
 public class FolderChecker extends ADirChecker {
-    @Override
-    public File getFinalDir() {
-        return super.getFile();
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(FolderChecker.class);
 
     @Override
     public String getName() {
-        return "folder-checker";
+        return "folder-check";
     }
 
     @Override
-    public boolean checker() {
+    public boolean check() {
         File f = getFinalDir();
-        return Objects.nonNull(f) && f.exists() && f.isDirectory();
+        boolean isValid = Objects.nonNull(f) && f.exists() && f.isDirectory();
+        LOGGER.debug(String.format("check is dir: %s - %s", isValid, f.toString()));
+        return isValid;
     }
 }

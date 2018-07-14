@@ -99,7 +99,7 @@ public class DefaultReplacer implements IReplacer {
             if (Objects.nonNull(srcDir) && !srcDir.trim().isEmpty()) {
                 ERROR_CODES errorCode = checker.setDir(srcDir).execute();
                 if (errorCode != ERROR_CODES.SUCCESS) {
-                    dir.setErrorCode(ERROR_CODES.SRC_DIR_INVALID);
+                    dir.setErrorCode(ERROR_CODES.INVALID_SRC_FILE);
                 }
             }
         }
@@ -108,7 +108,7 @@ public class DefaultReplacer implements IReplacer {
 
     @Override
     public String toReport() {
-        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SRC_DIR_INVALID).count();
+        Long srcDirInvalidCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.INVALID_SRC_FILE).count();
         Long successCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).count();
         Long srcDirNotMatchAnyPatternCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.NO_MATCHING_PATTERN).count();
         StringBuilder report = new StringBuilder();

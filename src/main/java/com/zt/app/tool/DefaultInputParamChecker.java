@@ -1,27 +1,30 @@
 package com.zt.app.tool;
 
+import com.zt.app.tool.checker.dir.file.FileChecker;
 import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.LogMsgFormat;
+import com.zt.app.tool.input.IInputChecker;
+import com.zt.app.tool.input.InputCheckerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class DefaultInputParamChecker implements IInputParamsChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultInputParamChecker.class);
 
-    private InputParams params = null;
+    private InputParams params = new InputParams();
 
-    private IDirChecker checker = new DefaultDirChecker();
+    Map<INPUT_PARAMS, String> paramsMap = new HashMap<>();
 
     @Override
-    public IInputParamsChecker setParams(InputParams params) {
-        if (Objects.nonNull(params)) {
-            this.params = params;
-        }
-        return this;
+    public IInputParamsChecker setParams(Map<INPUT_PARAMS, String> params) {
+        return null;
     }
 
     @Override
@@ -31,97 +34,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
 
     @Override
     public ERROR_CODES check() {
-        LOGGER.debug("checking src file list dir");
-        String srcFileList = this.params.getSrcFileList();
-        ERROR_CODES errorCode = this.checker.setDir(srcFileList).execute();
-        if (errorCode == ERROR_CODES.SUCCESS) {
-            this.params.setSrc(new File(srcFileList));
-        } else {
-            LOGGER.debug("the src file list: " + srcFileList);
-            LOGGER.error("src file list in invalid.");
-            return errorCode;
-        }
-
-        LOGGER.debug("checking project dir");
-        String projectDir = this.params.getProjectDir();
-        errorCode = this.checker.setDir(projectDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
-        if (errorCode == ERROR_CODES.SUCCESS) {
-            File project = new File(projectDir);
-            this.params.setProjectDir(project.toString());
-            this.params.setProject(project);
-        } else {
-            LOGGER.warn("project dir is invalid.");
-            LOGGER.warn("try to check if the project dir is the dir where the src file list is located.");
-
-            File parentFile = this.params.getSrc().getParentFile();
-            boolean isProjectDir = isProjectDir(parentFile);
-            if (isProjectDir) {
-                LOGGER.error("the project dir will be the dir where the src file list is located.");
-                this.params.setProjectDir(parentFile.toString());
-                this.params.setProject(parentFile);
-            } else {
-                LOGGER.debug("the target dir: " + parentFile);
-                LOGGER.warn("the project dir is not the dir where the src file list is located.");
-
-                LOGGER.warn("try to check if the project dir is the currently dir.");
-                isProjectDir = false;
-                parentFile = new File("").getAbsoluteFile();
-                LOGGER.debug("the currently dir: " + parentFile.toString());
-                isProjectDir = isProjectDir(parentFile);
-                if (isProjectDir) {
-                    LOGGER.error("the project dir will be the current dir.");
-                    this.params.setProjectDir(parentFile.toString());
-                    this.params.setProject(parentFile);
-                } else {
-                    LOGGER.error("the project dir not found.");
-                    return ERROR_CODES.INVALID_PROJECT_DIR;
-                }
-            }
-        }
-
-        String projectName = this.params.getProject().getName();
-
-        File target = new File(this.params.getProject(), "target" + File.separator + projectName);
-        if (target.exists() && target.isDirectory() && Objects.nonNull(target.listFiles())) {
-            this.params.setTarget(target);
-        } else {
-            LOGGER.debug("the target dir: " + target);
-            LOGGER.error("the target dir not found.");
-            return ERROR_CODES.INVALID_PROJECT_TARGET_FOLDER;
-        }
-
-        String exportDir = this.params.getExportDir();
-        errorCode = this.checker.setDir(exportDir).setType(IDirChecker.DIR_TYPE.FOLDER).execute();
-        if (errorCode == ERROR_CODES.SUCCESS) {
-            this.params.setExport(new File(exportDir));
-        } else {
-            LOGGER.warn("the export dir not found.");
-            LOGGER.error("the export dir will be under the project dir.");
-            this.params.setExport(new File(this.params.getProject(), "export"));
-            this.params.setExportDir(this.params.getExport().toString());
-        }
-
-        String serverProjectDir = this.params.getServerProjectDir();
-        if (Objects.isNull(serverProjectDir) || serverProjectDir.trim().isEmpty()) {
-            LOGGER.warn("input param server project dir is null or empty.");
-        }
-
         return ERROR_CODES.SUCCESS;
-    }
-
-    private boolean isProjectDir(File parentFile) {
-        File[] files = parentFile.listFiles();
-        if (Objects.nonNull(files)) {
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    String name = f.getName();
-                    if ("target".equals(name)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     @Override
@@ -141,13 +54,21 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
 
     @Override
     public String getName() {
-        return "default-input-param-checker";
+        return "default-input-param-check";
     }
 
     @Override
     public ERROR_CODES execute() {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
-        ERROR_CODES errorCodes = this.check();
+
+        for (Map.Entry<INPUT_PARAMS, String> e : this.paramsMap.entrySet()) {
+            IInputChecker iInputChecker = InputCheckerFactory.create(e.getKey());
+
+            if (Objects.nonNull(iInputChecker)) {
+                iInputChecker.setParams(this.params).setChecker(new FileChecker()).execute();
+            }
+
+        }
         LOGGER.info(this.toReport());
         return errorCodes;
     }

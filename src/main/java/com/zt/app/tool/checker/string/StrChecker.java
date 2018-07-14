@@ -7,7 +7,7 @@ public class StrChecker implements IStrChecker {
 
     @Override
     public String getName() {
-        return "default-string-checker";
+        return "default-string-check";
     }
 
     @Override
@@ -16,7 +16,7 @@ public class StrChecker implements IStrChecker {
     }
 
     @Override
-    public boolean checker() {
+    public boolean check() {
         return Objects.nonNull(this.s) && !s.isEmpty();
     }
 

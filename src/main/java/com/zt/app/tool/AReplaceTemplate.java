@@ -45,7 +45,7 @@ public class AReplaceTemplate {
 
     public ERROR_CODES pickTargetFromSrc() {
         try {
-            ERROR_CODES errorCodes = this.checker.setParams(this.params).execute();
+            ERROR_CODES errorCodes = this.checker.setParams(null).execute();
             if (errorCodes != ERROR_CODES.SUCCESS) {
                 return errorCodes;
             }
