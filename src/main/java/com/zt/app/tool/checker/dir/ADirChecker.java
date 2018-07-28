@@ -1,6 +1,5 @@
 package com.zt.app.tool.checker.dir;
 
-import com.zt.app.tool.checker.dir.file.FileChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +7,7 @@ import java.io.File;
 import java.util.Objects;
 
 public abstract class ADirChecker implements IDirChecker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileChecker.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ADirChecker.class);
 
     File f = null;
 

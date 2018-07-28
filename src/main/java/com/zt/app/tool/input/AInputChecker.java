@@ -1,7 +1,7 @@
 package com.zt.app.tool.input;
 
+import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.checker.dir.IDirChecker;
-import com.zt.app.tool.checker.dir.folder.FolderChecker;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import java.util.Objects;
 public abstract class AInputChecker implements IInputChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(AInputChecker.class);
 
-    private IDirChecker checker = new FolderChecker();
+    private IDirChecker checker = DirCheckerFactory.create();
 
     private InputParams params = null;
 
