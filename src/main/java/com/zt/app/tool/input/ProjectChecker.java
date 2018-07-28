@@ -23,10 +23,10 @@ public class ProjectChecker extends AInputChecker {
     @Override
     public ERROR_CODES check() {
         if (super.getChecker().check()) {
-            File project = super.getChecker().getFinalDir();
+            File project = super.getChecker().getDir();
             String child = projectFormat.replace("${projectName}", project.getName());
             if (super.getChecker().setDir(project, child).check()) {
-                File target = super.getChecker().getFinalDir();
+                File target = super.getChecker().getDir();
                 super.getParams().setProject(project);
                 super.getParams().setTarget(target);
                 return ERROR_CODES.SUCCESS;

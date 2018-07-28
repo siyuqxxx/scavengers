@@ -27,11 +27,11 @@ public class ExportChecker extends AInputChecker {
     public ERROR_CODES check() {
         if (super.getChecker().check()) {
             if (!this.serverProjectDir.isEmpty()) {
-                File f = new File(super.getChecker().getFinalDir(), this.serverProjectDir);
+                File f = new File(super.getChecker().getDir(), this.serverProjectDir);
                 if (f.mkdirs()) {
                     super.getParams().setExport(f);
                 } else {
-                    super.getParams().setExport(super.getChecker().getFinalDir());
+                    super.getParams().setExport(super.getChecker().getDir());
                     LOGGER.error("create server project dir failed.");
                 }
             }

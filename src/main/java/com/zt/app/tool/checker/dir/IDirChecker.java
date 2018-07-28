@@ -11,5 +11,5 @@ public interface IDirChecker extends IChecker {
 
     public IDirChecker setDir(File parent, String child);
 
-    public File getFinalDir();
+    public File getDir();
 }

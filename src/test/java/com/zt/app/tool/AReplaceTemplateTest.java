@@ -35,7 +35,8 @@ public class AReplaceTemplateTest {
         patterns.add(mapperPattern);
 
         DefaultInputParamChecker checker = new DefaultInputParamChecker();
-        checker.setParams(params);
+        // TODO
+        checker.setParams(null);
 
         DefaultFileParser reader = new DefaultFileParser();
 

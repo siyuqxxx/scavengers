@@ -70,6 +70,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
 
         }
         LOGGER.info(this.toReport());
-        return errorCodes;
+        // TODO
+        return null;
     }
 }

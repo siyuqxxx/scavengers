@@ -17,7 +17,8 @@ public class DefaultInputParamCheckerTest {
         p.setSrcFileList(testBaseDir + File.separator + "src.txt");
 
         DefaultInputParamChecker checker = new DefaultInputParamChecker();
-        ERROR_CODES errorCodes = checker.setParams(p).execute();
+        // TODO
+        ERROR_CODES errorCodes = checker.setParams(null).execute();
 
         assertEquals(ERROR_CODES.INVALID_PROJECT_TARGET_FOLDER, errorCodes);
     }
@@ -30,7 +31,8 @@ public class DefaultInputParamCheckerTest {
         p.setSrcFileList("src.txt");
 
         DefaultInputParamChecker checker = new DefaultInputParamChecker();
-        ERROR_CODES errorCodes = checker.setParams(p).execute();
+        // TODO
+        ERROR_CODES errorCodes = checker.setParams(null).execute();
 
         assertEquals(ERROR_CODES.INPUT_DIR_INVALID, errorCodes);
     }
@@ -43,7 +45,8 @@ public class DefaultInputParamCheckerTest {
         p.setSrcFileList("target/test-classes/reading/src.txt");
 
         DefaultInputParamChecker checker = new DefaultInputParamChecker();
-        ERROR_CODES errorCodes = checker.setParams(p).execute();
+        // TODO
+        ERROR_CODES errorCodes = checker.setParams(null).execute();
 
         assertEquals(ERROR_CODES.SUCCESS, errorCodes);
         assertEquals("D:\\code\\scavengers\\target\\test-classes\\reading\\src.txt", p.getSrc().toString());

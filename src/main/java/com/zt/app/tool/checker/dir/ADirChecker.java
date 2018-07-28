@@ -12,10 +12,6 @@ public abstract class ADirChecker implements IDirChecker {
 
     File f = null;
 
-    public File getFile() {
-        return f;
-    }
-
     @Override
     public IDirChecker setDir(String dir) {
         try {
@@ -47,8 +43,7 @@ public abstract class ADirChecker implements IDirChecker {
     }
 
     @Override
-    public File getFinalDir() {
-        File f = getFile();
-        return Objects.nonNull(f) ? f.getAbsoluteFile() : null;
+    public File getDir() {
+        return Objects.nonNull(this.f) && this.f.exists() ? this.f.getAbsoluteFile() : null;
     }
 }
