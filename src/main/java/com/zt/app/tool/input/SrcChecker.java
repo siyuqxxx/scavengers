@@ -1,11 +1,16 @@
 package com.zt.app.tool.input;
 
+import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.common.ERROR_CODES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SrcChecker extends AInputChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(SrcChecker.class);
+
+    public SrcChecker() {
+        super.setChecker(DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.FILE));
+    }
 
     @Override
     public String getName() {

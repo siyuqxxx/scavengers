@@ -29,9 +29,9 @@ public class ExportChecker extends AInputChecker {
             if (!this.serverProjectDir.isEmpty()) {
                 File f = new File(super.getChecker().getDir(), this.serverProjectDir);
                 if (f.mkdirs()) {
-                    super.getParams().setExport(f);
+                    super.getResultHolder().setExport(f);
                 } else {
-                    super.getParams().setExport(super.getChecker().getDir());
+                    super.getResultHolder().setExport(super.getChecker().getDir());
                     LOGGER.error("create server project dir failed.");
                 }
             }

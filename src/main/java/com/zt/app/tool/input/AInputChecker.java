@@ -7,6 +7,7 @@ import com.zt.app.tool.common.InputParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Objects;
 
 public abstract class AInputChecker implements IInputChecker {
@@ -14,37 +15,57 @@ public abstract class AInputChecker implements IInputChecker {
 
     private IDirChecker checker = DirCheckerFactory.create();
 
-    private InputParams params = null;
+    private InputParams resultHolder = null;
 
-    public IInputChecker setChecker(IDirChecker checker) {
+    public final IInputChecker setChecker(IDirChecker checker) {
         if (Objects.nonNull(checker)) {
-            this.checker = checker;
+            this.checker = checker.setDir(this.checker.getDir());
         }
         return this;
     }
 
-    public IInputChecker setParams(InputParams params) {
-        if (Objects.nonNull(params)) {
-            this.params = params;
+    public final IInputChecker setResultHolder(InputParams holder) {
+        if (Objects.nonNull(holder)) {
+            this.resultHolder = holder;
         }
         return this;
     }
 
-    IDirChecker getChecker() {
-        return checker;
+    public final IInputChecker setDir(String dir) {
+        this.checker.setDir(dir);
+        return this;
     }
 
-    InputParams getParams() {
-        return params;
+    public final IInputChecker setDir(String parent, String child) {
+        this.checker.setDir(parent, child);
+        return this;
+    }
+
+    public final IInputChecker setDir(File parent, String child) {
+        this.checker.setDir(parent, child);
+        return this;
+    }
+
+    public final IInputChecker setDir(File f) {
+        this.checker.setDir(f);
+        return this;
+    }
+
+    public final IDirChecker getChecker() {
+        return this.checker;
+    }
+
+    public final InputParams getResultHolder() {
+        return this.resultHolder;
     }
 
     @Override
-    public ERROR_CODES execute() {
-        if (Objects.nonNull(params) && Objects.nonNull(this.checker)) {
+    public final ERROR_CODES execute() {
+        if (Objects.nonNull(resultHolder)) {
             return check();
         } else {
-            LOGGER.error(String.format("%s do not set input params or checker", this.getName()));
-            return ERROR_CODES.COMMON_ERROR;
+            LOGGER.error(String.format("%s do not set input resultHolder", this.getName()));
+            return ERROR_CODES.EMPTY_RESULT_HOLDER;
         }
     }
 

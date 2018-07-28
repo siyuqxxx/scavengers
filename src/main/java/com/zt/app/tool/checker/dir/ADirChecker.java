@@ -42,6 +42,14 @@ public abstract class ADirChecker implements IDirChecker {
     }
 
     @Override
+    public IDirChecker setDir(File f) {
+        if (Objects.nonNull(f) && f.exists()) {
+            this.f = f;
+        }
+        return this;
+    }
+
+    @Override
     public File getDir() {
         return Objects.nonNull(this.f) && this.f.exists() ? this.f.getAbsoluteFile() : null;
     }

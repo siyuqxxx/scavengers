@@ -65,7 +65,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
             IInputChecker iInputChecker = InputCheckerFactory.create(e.getKey());
 
             if (Objects.nonNull(iInputChecker)) {
-                iInputChecker.setParams(this.params).setChecker(new FileChecker()).execute();
+                iInputChecker.setResultHolder(this.params).setChecker(new FileChecker()).execute();
             }
 
         }

@@ -7,5 +7,5 @@ import com.zt.app.tool.common.InputParams;
 public interface IInputChecker extends IPlugin {
     public IInputChecker setChecker(IDirChecker checker);
 
-    public IInputChecker setParams(InputParams params);
+    public IInputChecker setResultHolder(InputParams holder);
 }
