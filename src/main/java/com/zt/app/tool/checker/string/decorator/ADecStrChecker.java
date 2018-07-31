@@ -43,9 +43,10 @@ public abstract class ADecStrChecker implements IStrChecker, IDecorator<IStrChec
     public abstract boolean strCheck();
 
     @Override
-    public void setComponent(IStrChecker checker) {
+    public IStrChecker setComponent(IStrChecker checker) {
         if (Objects.nonNull(checker)) {
             this.strChecker = checker;
         }
+        return this;
     }
 }

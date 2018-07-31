@@ -2,6 +2,7 @@ package com.zt.app.tool.checker.dir;
 
 import com.zt.app.tool.checker.dir.file.FileChecker;
 import com.zt.app.tool.checker.dir.folder.FolderChecker;
+import com.zt.app.tool.checker.dir.folder.decorater.MvnWebProjectTargetChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +15,14 @@ public class DirCheckerFactory {
     private static Map<DIR_CHECKER, Class<? extends IDirChecker>> checkers = new HashMap<>();
 
     public enum DIR_CHECKER {
-        FILE, FOLDER;
+        FILE, FOLDER, MVN_WEB_PROJECT;
     }
 
     private static Map<DIR_CHECKER, Class<? extends IDirChecker>> getCheckers() {
         if (checkers.isEmpty()) {
             checkers.put(DIR_CHECKER.FILE, FileChecker.class);
             checkers.put(DIR_CHECKER.FOLDER, FolderChecker.class);
+            checkers.put(DIR_CHECKER.MVN_WEB_PROJECT, MvnWebProjectTargetChecker.class);
         }
         return checkers;
     }
