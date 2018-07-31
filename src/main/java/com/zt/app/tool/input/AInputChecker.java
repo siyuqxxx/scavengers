@@ -19,6 +19,7 @@ public abstract class AInputChecker implements IInputChecker {
 
     public final IInputChecker setChecker(IDirChecker checker) {
         if (Objects.nonNull(checker)) {
+            LOGGER.debug("set input checker: " + checker.getName());
             this.checker = checker.setDir(this.checker.getDir());
         }
         return this;

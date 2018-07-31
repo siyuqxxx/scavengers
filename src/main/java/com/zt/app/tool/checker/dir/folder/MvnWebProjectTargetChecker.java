@@ -1,11 +1,11 @@
-package com.zt.app.tool.checker.dir.folder.decorater;
+package com.zt.app.tool.checker.dir.folder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class MvnWebProjectTargetChecker extends ADecFolderChecker {
+public class MvnWebProjectTargetChecker extends FolderChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(MvnWebProjectTargetChecker.class);
 
     @Override

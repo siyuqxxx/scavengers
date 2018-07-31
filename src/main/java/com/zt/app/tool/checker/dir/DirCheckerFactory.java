@@ -2,7 +2,7 @@ package com.zt.app.tool.checker.dir;
 
 import com.zt.app.tool.checker.dir.file.FileChecker;
 import com.zt.app.tool.checker.dir.folder.FolderChecker;
-import com.zt.app.tool.checker.dir.folder.decorater.MvnWebProjectTargetChecker;
+import com.zt.app.tool.checker.dir.folder.MvnWebProjectTargetChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package com.zt.app.tool.checker.dir.folder.decorater;
 
 import com.zt.app.tool.checker.dir.IDirChecker;
-import com.zt.app.tool.checker.dir.folder.FolderChecker;
+import com.zt.app.tool.checker.dir.folder.MvnWebProjectTargetChecker;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,9 @@ public class MvnWebProjectTargetCheckerTest {
 
         String testProject = path + "reading" + File.separator;
 
-        IDirChecker c = new MvnWebProjectTargetChecker().setComponent(new FolderChecker());
         LOGGER.debug(path);
 
+        IDirChecker c = new MvnWebProjectTargetChecker();
         c.setDir(testProject);
         boolean isValid = c.check();
         assertTrue(isValid);
