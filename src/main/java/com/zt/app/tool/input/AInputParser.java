@@ -10,14 +10,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Objects;
 
-public abstract class AInputChecker implements IInputChecker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AInputChecker.class);
+public abstract class AInputParser implements IInputParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AInputParser.class);
 
     private IDirChecker checker = DirCheckerFactory.create();
 
     private InputParams resultHolder = null;
 
-    public final IInputChecker setChecker(IDirChecker checker) {
+    public final IInputParser setChecker(IDirChecker checker) {
         if (Objects.nonNull(checker)) {
             LOGGER.debug("set input checker: " + checker.getName());
             this.checker = checker.setDir(this.checker.getDir());
@@ -25,29 +25,29 @@ public abstract class AInputChecker implements IInputChecker {
         return this;
     }
 
-    public final IInputChecker setResultHolder(InputParams holder) {
+    public final IInputParser setResultHolder(InputParams holder) {
         if (Objects.nonNull(holder)) {
             this.resultHolder = holder;
         }
         return this;
     }
 
-    public final IInputChecker setDir(String dir) {
+    public final IInputParser setDir(String dir) {
         this.checker.setDir(dir);
         return this;
     }
 
-    public final IInputChecker setDir(String parent, String child) {
+    public final IInputParser setDir(String parent, String child) {
         this.checker.setDir(parent, child);
         return this;
     }
 
-    public final IInputChecker setDir(File parent, String child) {
+    public final IInputParser setDir(File parent, String child) {
         this.checker.setDir(parent, child);
         return this;
     }
 
-    public final IInputChecker setDir(File f) {
+    public final IInputParser setDir(File f) {
         this.checker.setDir(f);
         return this;
     }

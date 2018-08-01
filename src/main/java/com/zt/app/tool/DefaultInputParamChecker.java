@@ -5,8 +5,8 @@ import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.LogMsgFormat;
-import com.zt.app.tool.input.IInputChecker;
-import com.zt.app.tool.input.InputCheckerFactory;
+import com.zt.app.tool.input.IInputParser;
+import com.zt.app.tool.input.InputParserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,10 +62,10 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
 
         for (Map.Entry<INPUT_PARAMS, String> e : this.paramsMap.entrySet()) {
-            IInputChecker iInputChecker = InputCheckerFactory.create(e.getKey());
+            IInputParser iInputParser = InputParserFactory.create(e.getKey());
 
-            if (Objects.nonNull(iInputChecker)) {
-                iInputChecker.setResultHolder(this.params).setChecker(new FileChecker()).execute();
+            if (Objects.nonNull(iInputParser)) {
+                iInputParser.setResultHolder(this.params).setChecker(new FileChecker()).execute();
             }
 
         }

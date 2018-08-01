@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Objects;
 
-public class ExportChecker extends AInputChecker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExportChecker.class);
+public class ExportParser extends AInputParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExportParser.class);
 
     private String serverProjectDir = "";
 

@@ -5,16 +5,16 @@ import com.zt.app.tool.common.ERROR_CODES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SrcChecker extends AInputChecker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SrcChecker.class);
+public class SrcParser extends AInputParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SrcParser.class);
 
-    public SrcChecker() {
+    public SrcParser() {
         super.setChecker(DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.FILE));
     }
 
     @Override
     public String getName() {
-        return "src-check";
+        return "src-parser";
     }
 
     @Override

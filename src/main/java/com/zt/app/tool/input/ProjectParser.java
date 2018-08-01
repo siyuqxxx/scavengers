@@ -5,16 +5,16 @@ import com.zt.app.tool.common.ERROR_CODES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProjectChecker extends AInputChecker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectChecker.class);
+public class ProjectParser extends AInputParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectParser.class);
 
-    public ProjectChecker() {
+    public ProjectParser() {
         super.setChecker(DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.MVN_WEB_PROJECT));
     }
 
     @Override
     public String getName() {
-        return "project-check";
+        return "project-parser";
     }
 
     @Override
