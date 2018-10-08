@@ -14,9 +14,8 @@ public class MvnWebProjectTargetChecker extends FolderChecker {
     }
 
     @Override
-    public boolean check() {
-        if (super.check()) {
-            File project = super.getDir();
+    public boolean check(File project) {
+        if (super.check(project)) {
             File target = new File(project, "target" + File.separator + project.getName());
             boolean isExists = target.exists();
             LOGGER.debug(String.format("%s: %s - %s", getName(), isExists, target));
