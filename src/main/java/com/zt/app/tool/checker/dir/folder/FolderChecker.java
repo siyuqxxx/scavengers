@@ -17,9 +17,9 @@ public class FolderChecker extends ADirChecker {
 
     @Override
     public boolean check() {
-        File f = getDir();
-        boolean isValid = Objects.nonNull(f) && f.isDirectory();
-        LOGGER.debug(String.format("%s: %s - %s", getName(), isValid, f));
-        return isValid;
+        File f = super.getDir();
+        boolean isFolderValid = Objects.nonNull(f) && f.isDirectory();
+        LOGGER.debug(String.format("%s: %s - %s", getName(), isFolderValid, f));
+        return isFolderValid;
     }
 }
