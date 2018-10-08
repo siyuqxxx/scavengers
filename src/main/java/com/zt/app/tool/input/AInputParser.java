@@ -2,12 +2,12 @@ package com.zt.app.tool.input;
 
 import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.checker.dir.IDirChecker;
+import com.zt.app.tool.checker.string.StrCheckerFactory;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.Objects;
 
 public abstract class AInputParser implements IInputParser {
@@ -17,43 +17,36 @@ public abstract class AInputParser implements IInputParser {
 
     private InputParams resultHolder = null;
 
-    public final IInputParser setChecker(IDirChecker checker) {
+    private String inputString = "";
+
+    public String getInputString() {
+        return inputString;
+    }
+
+    public void setInputString(String inputString) {
+        if (StrCheckerFactory.createStrTrimChecker().check(inputString)) {
+            this.inputString = inputString;
+        }
+    }
+
+    @Override
+    public IInputParser setChecker(IDirChecker checker) {
         if (Objects.nonNull(checker)) {
-            LOGGER.debug("set input checker: " + checker.getName());
-            this.checker = checker.setDir(this.checker.getDir());
+            this.checker = checker;
         }
         return this;
     }
 
+    public IDirChecker getChecker() {
+        return checker;
+    }
+
+    @Override
     public final IInputParser setResultHolder(InputParams holder) {
         if (Objects.nonNull(holder)) {
             this.resultHolder = holder;
         }
         return this;
-    }
-
-    public final IInputParser setDir(String dir) {
-        this.checker.setDir(dir);
-        return this;
-    }
-
-    public final IInputParser setDir(String parent, String child) {
-        this.checker.setDir(parent, child);
-        return this;
-    }
-
-    public final IInputParser setDir(File parent, String child) {
-        this.checker.setDir(parent, child);
-        return this;
-    }
-
-    public final IInputParser setDir(File f) {
-        this.checker.setDir(f);
-        return this;
-    }
-
-    public final IDirChecker getChecker() {
-        return this.checker;
     }
 
     public final InputParams getResultHolder() {
