@@ -1,6 +1,5 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.checker.dir.file.FileChecker;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;
@@ -65,7 +64,7 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
             IInputParser iInputParser = InputParserFactory.create(e.getKey());
 
             if (Objects.nonNull(iInputParser)) {
-                iInputParser.setResultHolder(this.params).setChecker(new FileChecker()).execute();
+                iInputParser.setInputString(e.getValue()).setResultHolder(this.params).execute();
             }
 
         }

@@ -9,6 +9,7 @@ import java.util.Objects;
 public abstract class ADirChecker implements IDirChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(ADirChecker.class);
 
+    @Override
     public boolean check(String dir) {
         try {
             return check(new File(dir));
@@ -18,6 +19,7 @@ public abstract class ADirChecker implements IDirChecker {
         }
     }
 
+    @Override
     public boolean check(String parent, String child) {
         try {
             return check(new File(parent, child));
@@ -27,6 +29,7 @@ public abstract class ADirChecker implements IDirChecker {
         }
     }
 
+    @Override
     public boolean check(File parent, String child) {
         try {
             return check(new File(parent, child));

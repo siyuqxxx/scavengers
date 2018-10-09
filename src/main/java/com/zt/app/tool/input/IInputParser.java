@@ -8,4 +8,6 @@ public interface IInputParser extends IPlugin {
     public IInputParser setChecker(IDirChecker checker);
 
     public IInputParser setResultHolder(InputParams holder);
+
+    public IInputParser setInputString(String inputString);
 }

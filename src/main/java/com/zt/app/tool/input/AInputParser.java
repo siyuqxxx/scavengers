@@ -23,10 +23,12 @@ public abstract class AInputParser implements IInputParser {
         return inputString;
     }
 
-    public void setInputString(String inputString) {
+    @Override
+    public IInputParser setInputString(String inputString) {
         if (StrCheckerFactory.createStrTrimChecker().check(inputString)) {
             this.inputString = inputString;
         }
+        return this;
     }
 
     @Override
