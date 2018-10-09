@@ -23,7 +23,7 @@
   + 解析 srcListFile
     + 判断是否设置了 srcListFile
       + 如果设置了，判断 srcListFile 文件是否合法
-      + 如果未设置，或者设置的文件非法，查找工程路径下是否存在默认命名
+      + 如果未设置，或者设置的文件非法，查找工程路径下是否存在默认命名，默认名称为SrcLists.txt
   + 解析 projectDir
     + 判断是否设置了 projectDir
       + 如果设置了，判断 projectDir 是否合法
