@@ -5,6 +5,8 @@ import com.zt.app.tool.common.ERROR_CODES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 public class ProjectParser extends AInputParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectParser.class);
 
@@ -19,12 +21,28 @@ public class ProjectParser extends AInputParser {
 
     @Override
     public ERROR_CODES check() {
-        if (super.getChecker().check()) {
+
+        File mvnProjectFolder = new File(super.getInputString());
+        if (super.getChecker().check(mvnProjectFolder)) {
+            super.getResultHolder().setSrc(mvnProjectFolder);
             return ERROR_CODES.SUCCESS;
-        } else {
-            LOGGER.debug(String.format("execute %s failed", this.getName()));
-            return ERROR_CODES.INVALID_PROJECT_DIR;
         }
+        LOGGER.debug(String.format("invalid project folder input dir。 %s", super.getInputString()));
+
+        mvnProjectFolder = super.getResultHolder().getSrc().getParentFile();
+        if (super.getChecker().check(mvnProjectFolder)) {
+            super.getResultHolder().setSrc(mvnProjectFolder);
+            return ERROR_CODES.SUCCESS;
+        }
+
+        mvnProjectFolder = new File("");
+        if (super.getChecker().check(mvnProjectFolder)) {
+            super.getResultHolder().setSrc(mvnProjectFolder);
+            return ERROR_CODES.SUCCESS;
+        }
+
+        LOGGER.debug(String.format("execute %s failed", this.getName()));
+        return ERROR_CODES.INVALID_PROJECT_DIR;
     }
 
 }
