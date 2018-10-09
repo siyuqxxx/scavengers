@@ -36,8 +36,6 @@
         + 如果合法，判断路径下是否已经存在导出的内容，
           + 如果存在，先清除
       + 如果未设置，或者设置的文件夹非法，在工程路径下创建默认的导出文件夹
-  + 解析 serverProjectDir
-    + 判断是否设置了 serverProjectDir
 + 读取文件 srcListFile 中的源码列表
   + 逐行读取 srcList
   + 过滤 srcList 中不合法的路径

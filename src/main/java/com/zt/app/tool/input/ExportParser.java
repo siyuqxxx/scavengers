@@ -1,45 +1,50 @@
 package com.zt.app.tool.input;
 
+import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.common.ERROR_CODES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Objects;
 
 public class ExportParser extends AInputParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExportParser.class);
 
-    private String serverProjectDir = "";
-
-    public void setServerProjectDir(String serverProjectDir) {
-        if (Objects.nonNull(serverProjectDir)) {
-            this.serverProjectDir = serverProjectDir;
-        }
+    public ExportParser() {
+        super.setChecker(DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.FOLDER));
     }
 
     @Override
     public String getName() {
-        return "export-check";
+        return "export-parser";
     }
 
     @Override
     public ERROR_CODES check() {
-        if (super.getChecker().check()) {
-            if (!this.serverProjectDir.isEmpty()) {
-                File f = new File(super.getChecker().getDir(), this.serverProjectDir);
-                if (f.mkdirs()) {
-                    super.getResultHolder().setExport(f);
-                } else {
-                    super.getResultHolder().setExport(super.getChecker().getDir());
-                    LOGGER.error("create server project dir failed.");
-                }
-            }
+        File exportFolder = new File(super.getInputString());
+        // 判断路径是否存在，是否是文件夹
+        if (super.getChecker().check(exportFolder)) {
+            super.getResultHolder().setExport(exportFolder);
             return ERROR_CODES.SUCCESS;
-        } else {
-            LOGGER.debug(String.format("execute %s failed", this.getName()));
-            return ERROR_CODES.INVALID_EXPORT_FOLDER;
         }
 
+        // 尝试创建文件夹
+        if (exportFolder.mkdirs()) {
+            super.getResultHolder().setExport(exportFolder);
+        } else {
+            LOGGER.error("create export dir failed. " + exportFolder);
+        }
+
+        // 在当前项目下创建导出文件夹
+        // todo 导出文件夹名称应该可以配置，方便后续维护和调整
+        exportFolder = new File("", "export");
+        if (exportFolder.mkdirs()) {
+            super.getResultHolder().setExport(exportFolder);
+        } else {
+            LOGGER.error("create export dir failed. " + exportFolder);
+        }
+
+        LOGGER.debug(String.format("execute %s failed", this.getName()));
+        return ERROR_CODES.INVALID_EXPORT_FOLDER;
     }
 }
