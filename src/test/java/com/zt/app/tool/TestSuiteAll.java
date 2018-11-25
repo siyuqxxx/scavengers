@@ -6,7 +6,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({TestSuiteChecker.class,
+@Suite.SuiteClasses({
+        DefaultInputParamCheckerTest.class,
+        DefaultScavengerTest.class,
+        DefaultFileParserTest.class,
+        TestSuiteChecker.class,
         TestSuiteInput.class})
 public class TestSuiteAll {
     /*

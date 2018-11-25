@@ -22,8 +22,7 @@ public class MvnWebProjectTargetCheckerTest {
         LOGGER.debug(path);
 
         IDirChecker c = new MvnWebProjectTargetChecker();
-        c.setDir(testProject);
-        boolean isValid = c.check();
+        boolean isValid = c.check(testProject);
         assertTrue(isValid);
     }
 

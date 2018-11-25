@@ -10,7 +10,7 @@ public class FileCheckerTest {
     public void checker() {
         String srcDir = "target\\test-classes\\src.txt";
         FileChecker checker = new FileChecker();
-        boolean isValid = checker.setDir(srcDir).check();
+        boolean isValid = checker.check(srcDir);
         assertTrue(isValid);
     }
 
@@ -18,7 +18,7 @@ public class FileCheckerTest {
     public void checker_true() {
         String srcDir = "D:\\code\\scavengers\\target\\test-classes\\src.txt";
         FileChecker checker = new FileChecker();
-        boolean isValid = checker.setDir(srcDir).check();
+        boolean isValid = checker.check(srcDir);
         assertTrue(isValid);
     }
 }
