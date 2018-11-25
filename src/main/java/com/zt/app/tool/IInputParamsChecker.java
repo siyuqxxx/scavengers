@@ -1,12 +1,12 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;
+import com.zt.app.tool.common.StrInputParams;
 
-import java.util.Map;
+import java.util.List;
 
 public interface IInputParamsChecker extends ILifeCycle {
-    IInputParamsChecker setParams(Map<INPUT_PARAMS, String> params);
+    IInputParamsChecker setParams(List<StrInputParams> strParams);
 
     InputParams getParams();
 }

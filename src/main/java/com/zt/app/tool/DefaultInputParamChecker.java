@@ -1,17 +1,17 @@
 package com.zt.app.tool;
 
 import com.zt.app.tool.common.ERROR_CODES;
-import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.LogMsgFormat;
+import com.zt.app.tool.common.StrInputParams;
 import com.zt.app.tool.input.IInputParser;
 import com.zt.app.tool.input.InputParserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class DefaultInputParamChecker implements IInputParamsChecker {
@@ -19,11 +19,15 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
 
     private InputParams params = new InputParams();
 
-    Map<INPUT_PARAMS, String> paramsMap = new HashMap<>();
+    private List<StrInputParams> strParams = new LinkedList<>();
 
     @Override
-    public IInputParamsChecker setParams(Map<INPUT_PARAMS, String> params) {
-        return null;
+    public IInputParamsChecker setParams(List<StrInputParams> strParams) {
+        if (Objects.nonNull(strParams) && !strParams.isEmpty()) {
+            this.strParams.clear();
+            this.strParams.addAll(strParams);
+        }
+        return this;
     }
 
     @Override
@@ -59,17 +63,14 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
     @Override
     public ERROR_CODES execute() {
         LOGGER.info(String.format(LogMsgFormat.PLUGIN_START, getName()));
-
-        for (Map.Entry<INPUT_PARAMS, String> e : this.paramsMap.entrySet()) {
-            IInputParser iInputParser = InputParserFactory.create(e.getKey());
+        for (StrInputParams p : this.strParams) {
+            IInputParser iInputParser = InputParserFactory.create(p.getKey());
 
             if (Objects.nonNull(iInputParser)) {
-                iInputParser.setInputString(e.getValue()).setResultHolder(this.params).execute();
+                iInputParser.setInputString(p.getValue()).setResultHolder(this.params).execute();
             }
-
         }
         LOGGER.info(this.toReport());
-        // TODO
         return null;
     }
 }
