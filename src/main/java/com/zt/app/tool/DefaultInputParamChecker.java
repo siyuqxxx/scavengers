@@ -67,10 +67,13 @@ public class DefaultInputParamChecker implements IInputParamsChecker {
             IInputParser iInputParser = InputParserFactory.create(p.getKey());
 
             if (Objects.nonNull(iInputParser)) {
-                iInputParser.setInputString(p.getValue()).setResultHolder(this.params).execute();
+                ERROR_CODES error_codes = iInputParser.setInputString(p.getValue()).setResultHolder(this.params).execute();
+                if (error_codes != ERROR_CODES.SUCCESS) {
+                    return error_codes;
+                }
             }
         }
         LOGGER.info(this.toReport());
-        return null;
+        return ERROR_CODES.SUCCESS;
     }
 }

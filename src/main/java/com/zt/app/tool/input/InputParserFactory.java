@@ -12,11 +12,10 @@ public class InputParserFactory {
 
     private static Map<INPUT_PARAMS, Class<? extends IInputParser>> instance = new HashMap<>();
 
-
-    public InputParserFactory() {
-        this.instance.put(INPUT_PARAMS.SRC, SrcParser.class);
-        this.instance.put(INPUT_PARAMS.PROJECT, ProjectParser.class);
-        this.instance.put(INPUT_PARAMS.EXPORT, ExportParser.class);
+    static {
+        instance.put(INPUT_PARAMS.SRC, SrcParser.class);
+        instance.put(INPUT_PARAMS.PROJECT, ProjectParser.class);
+        instance.put(INPUT_PARAMS.EXPORT, ExportParser.class);
     }
 
     public static IInputParser create(INPUT_PARAMS e) {
