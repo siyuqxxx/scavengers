@@ -4,9 +4,10 @@ import java.io.File;
 import java.util.Objects;
 
 public class InputParams {
-    private String projectDir = "";
     private String srcFileList = "";
+    private String projectDir = "";
     private String exportDir = "";
+    @Deprecated
     private String serverProjectDir = "";
     private File src = null;
     private File project = null;
@@ -77,10 +78,12 @@ public class InputParams {
         this.exportDir = exportDir;
     }
 
+    @Deprecated
     public String getServerProjectDir() {
         return serverProjectDir;
     }
 
+    @Deprecated
     public void setServerProjectDir(String serverProjectDir) {
         this.serverProjectDir = serverProjectDir;
     }
