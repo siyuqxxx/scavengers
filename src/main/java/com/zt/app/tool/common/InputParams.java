@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.Objects;
 
 public class InputParams {
+    @Deprecated
     private String srcFileList = "";
+    @Deprecated
     private String projectDir = "";
+    @Deprecated
     private String exportDir = "";
     @Deprecated
     private String serverProjectDir = "";
@@ -54,26 +57,32 @@ public class InputParams {
         }
     }
 
+    @Deprecated
     public String getProjectDir() {
         return projectDir;
     }
 
+    @Deprecated
     public void setProjectDir(String projectDir) {
         this.projectDir = projectDir;
     }
 
+    @Deprecated
     public String getSrcFileList() {
         return srcFileList;
     }
 
+    @Deprecated
     public void setSrcFileList(String srcFileList) {
         this.srcFileList = srcFileList;
     }
 
+    @Deprecated
     public String getExportDir() {
         return exportDir;
     }
 
+    @Deprecated
     public void setExportDir(String exportDir) {
         this.exportDir = exportDir;
     }
