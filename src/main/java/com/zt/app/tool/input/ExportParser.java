@@ -21,7 +21,26 @@ public class ExportParser extends AInputParser {
 
     @Override
     public ERROR_CODES check() {
-        File exportFolder = new File(super.getInputString());
+        String strExportFile = super.getInputString();
+        File exportFolder = null;
+        if ("".equals(strExportFile)) {
+            // 在当前项目下创建导出文件夹
+            // todo 导出文件夹名称应该可以配置，方便后续维护和调整
+            exportFolder = new File(super.getResultHolder().getProject(), "export");
+            if (super.getChecker().check(exportFolder)) {
+                super.getResultHolder().setExport(exportFolder);
+                return ERROR_CODES.SUCCESS;
+            }
+
+            if (exportFolder.mkdirs()) {
+                super.getResultHolder().setExport(exportFolder);
+                return ERROR_CODES.SUCCESS;
+            } else {
+                LOGGER.error("create export dir failed. " + exportFolder);
+            }
+        }
+
+        exportFolder = new File(strExportFile);
         // 判断路径是否存在，是否是文件夹
         if (super.getChecker().check(exportFolder)) {
             super.getResultHolder().setExport(exportFolder);
@@ -31,15 +50,7 @@ public class ExportParser extends AInputParser {
         // 尝试创建文件夹
         if (exportFolder.mkdirs()) {
             super.getResultHolder().setExport(exportFolder);
-        } else {
-            LOGGER.error("create export dir failed. " + exportFolder);
-        }
-
-        // 在当前项目下创建导出文件夹
-        // todo 导出文件夹名称应该可以配置，方便后续维护和调整
-        exportFolder = new File("", "export");
-        if (exportFolder.mkdirs()) {
-            super.getResultHolder().setExport(exportFolder);
+            return ERROR_CODES.SUCCESS;
         } else {
             LOGGER.error("create export dir failed. " + exportFolder);
         }

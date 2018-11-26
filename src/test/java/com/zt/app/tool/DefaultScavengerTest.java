@@ -25,7 +25,7 @@ public class DefaultScavengerTest {
         inputParams.setProject(new File(testBaseDir + File.separator + "reading"));
         inputParams.setTarget(new File(testBaseDir + File.separator + "reading" + File.separator + "target" + File.separator + "reading"));
         inputParams.setServerProjectDir("/opt/reading/");
-        inputParams.setSrcFileList(testBaseDir + "src.txt");
+        inputParams.setSrcFileList(testBaseDir + "reading/src.txt");
 
         List<Dir> dirs = new LinkedList<>();
         dirs.add(new Dir().setTargetDir("WEB-INF/classes/com/reading/controller/admin/AdminRobotController.class"));

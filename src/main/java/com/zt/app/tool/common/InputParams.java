@@ -47,6 +47,13 @@ public class InputParams {
         }
     }
 
+    public void setProjectAndTarget(File mvnProject) {
+        if (Objects.nonNull(mvnProject)) {
+            this.project = mvnProject.getAbsoluteFile();
+            this.target = new File(mvnProject, "target" + File.separator + mvnProject.getName());
+        }
+    }
+
     public File getExport() {
         return export;
     }

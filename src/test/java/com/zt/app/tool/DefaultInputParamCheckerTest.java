@@ -18,7 +18,7 @@ public class DefaultInputParamCheckerTest {
         String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
 
         List<StrInputParams> ps = new LinkedList<>();
-        ps.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(testBaseDir + File.separator + "src.txt"));
+        ps.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(testBaseDir + File.separator + "reading/src.txt"));
 
         ERROR_CODES errorCodes = new DefaultInputParamChecker().setParams(ps).execute();
 
@@ -30,7 +30,7 @@ public class DefaultInputParamCheckerTest {
         String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
 
         List<StrInputParams> ps = new LinkedList<>();
-        ps.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("src.txt"));
+        ps.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("reading/src.txt"));
 
         ERROR_CODES errorCodes = new DefaultInputParamChecker().setParams(ps).execute();
 
@@ -43,6 +43,8 @@ public class DefaultInputParamCheckerTest {
 
         List<StrInputParams> ps = new LinkedList<>();
         ps.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("target/test-classes/reading/src.txt"));
+        ps.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(""));
+        ps.add(new StrInputParams().setKey(INPUT_PARAMS.EXPORT).setValue(""));
 
         DefaultInputParamChecker checker = new DefaultInputParamChecker();
         ERROR_CODES errorCodes = checker.setParams(ps).execute();

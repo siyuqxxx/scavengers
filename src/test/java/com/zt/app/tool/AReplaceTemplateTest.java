@@ -16,7 +16,7 @@ public class AReplaceTemplateTest {
         String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
         InputParams params = new InputParams();
         params.setExportDir("");
-        params.setSrcFileList(testBaseDir + File.separator + "src.txt");
+        params.setSrcFileList(testBaseDir + File.separator + "reading/src.txt");
         params.setServerProjectDir("/opt/tomcat/webapps/");
         params.setProjectDir(testBaseDir + File.separator + "reading");
 

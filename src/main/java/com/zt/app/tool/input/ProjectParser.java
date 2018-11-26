@@ -22,24 +22,32 @@ public class ProjectParser extends AInputParser {
     @Override
     public ERROR_CODES check() {
 
-        File mvnProjectFolder = new File(super.getInputString());
-        if (super.getChecker().check(mvnProjectFolder)) {
-            super.getResultHolder().setSrc(mvnProjectFolder);
-            return ERROR_CODES.SUCCESS;
-        }
-        LOGGER.debug(String.format("invalid project folder input dir。 %s", super.getInputString()));
+        String strSrcFileList = super.getInputString();
+        File mvnProjectFolder = null;
+        if ("".equals(strSrcFileList)) {
+            // 检查当前执行路径下是否为 mvn 工程
+            mvnProjectFolder = new File(this.getClass().getClassLoader().getResource("").getPath());
+            if (super.getChecker().check(mvnProjectFolder)) {
+                super.getResultHolder().setProjectAndTarget(mvnProjectFolder);
+                return ERROR_CODES.SUCCESS;
+            }
 
-        mvnProjectFolder = super.getResultHolder().getSrc().getParentFile();
-        if (super.getChecker().check(mvnProjectFolder)) {
-            super.getResultHolder().setSrc(mvnProjectFolder);
-            return ERROR_CODES.SUCCESS;
+            // 检查 srcListFile 所在目录是否为 mvn 工程
+            mvnProjectFolder = super.getResultHolder().getSrc().getParentFile();
+            if (super.getChecker().check(mvnProjectFolder)) {
+                super.getResultHolder().setProjectAndTarget(mvnProjectFolder);
+                return ERROR_CODES.SUCCESS;
+            }
         }
 
-        mvnProjectFolder = new File("");
+        mvnProjectFolder = new File(strSrcFileList);
         if (super.getChecker().check(mvnProjectFolder)) {
             super.getResultHolder().setSrc(mvnProjectFolder);
+            super.getResultHolder().setTarget(new File(mvnProjectFolder, "target"));
             return ERROR_CODES.SUCCESS;
         }
+        LOGGER.debug(String.format("invalid project folder input dir. %s", strSrcFileList));
+
 
         LOGGER.debug(String.format("execute %s failed", this.getName()));
         return ERROR_CODES.INVALID_PROJECT_DIR;

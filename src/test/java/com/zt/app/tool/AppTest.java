@@ -1,21 +1,18 @@
 package com.zt.app.tool;
 
-import static org.junit.Assert.*;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest 
 {
-    private static final String FILE_NAME = "src.txt";
+    private static final String FILE_NAME = "reading/src.txt";
 
     /**
      * Rigorous Test :-)
