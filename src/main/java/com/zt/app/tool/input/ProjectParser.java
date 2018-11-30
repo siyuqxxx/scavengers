@@ -42,8 +42,7 @@ public class ProjectParser extends AInputParser {
 
         mvnProjectFolder = new File(strSrcFileList);
         if (super.getChecker().check(mvnProjectFolder)) {
-            super.getResultHolder().setSrc(mvnProjectFolder);
-            super.getResultHolder().setTarget(new File(mvnProjectFolder, "target"));
+            super.getResultHolder().setProjectAndTarget(mvnProjectFolder);
             return ERROR_CODES.SUCCESS;
         }
         LOGGER.debug(String.format("invalid project folder input dir. %s", strSrcFileList));

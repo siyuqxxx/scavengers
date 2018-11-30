@@ -13,12 +13,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class DefaultFileParser implements IFileParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileParser.class);
-    private String dir = "";
+    private File srcFileList = null;
     private List<Dir> dirs = new LinkedList<>();
-    private IDirChecker checker = new DefaultDirChecker();
 
     @Override
     public List<Dir> getDirs() {
@@ -26,14 +26,25 @@ public class DefaultFileParser implements IFileParser {
     }
 
     @Override
+    public IFileParser setFile(File srcFileList) {
+        this.srcFileList = srcFileList;
+        return this;
+    }
+
+    @Override
     public IFileParser setFile(String dir) {
-        this.dir = dir;
+        this.srcFileList = new File(dir);
         return this;
     }
 
     @Override
     public ERROR_CODES check() {
-        return checker.setDir(this.dir).execute();
+        if (Objects.nonNull(this.srcFileList)) {
+            if (this.srcFileList.exists() && this.srcFileList.isFile()) {
+                return ERROR_CODES.SUCCESS;
+            }
+        }
+        return ERROR_CODES.INPUT_DIR_INVALID;
     }
 
     @Override
@@ -50,8 +61,8 @@ public class DefaultFileParser implements IFileParser {
         }
 
 
-        LOGGER.info("read from file: " + this.dir);
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(this.dir)))) {
+        LOGGER.info("read from file: " + this.srcFileList.toString());
+        try (BufferedReader reader = new BufferedReader(new FileReader(srcFileList))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) {

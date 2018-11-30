@@ -1,23 +1,18 @@
 package com.zt.app.tool;
 
 import com.zt.app.tool.common.ERROR_CODES;
-import com.zt.app.tool.common.InputParams;
+import com.zt.app.tool.common.StrInputParams;
+import com.zt.app.tool.replace.DefaultReplacer;
 import com.zt.app.tool.replace.IReplacer;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AReplaceTemplate {
-    private InputParams params = null;
-    private IInputParamsChecker checker = null;
-    private IFileParser reader = null;
-    private IReplacer replacer = null;
-    private IScavenger scavenger = null;
-
-    public void setParams(InputParams params) {
-        if (Objects.nonNull(params)) {
-            this.params = params;
-        }
-    }
+    private IInputParamsChecker checker = new DefaultInputParamChecker();
+    private IFileParser reader = new DefaultFileParser();
+    private IReplacer replacer = new DefaultReplacer();
+    private IScavenger scavenger = new DefaultScavenger();
 
     public void setChecker(IInputParamsChecker checker) {
         if (Objects.nonNull(checker)) {
@@ -43,14 +38,14 @@ public class AReplaceTemplate {
         }
     }
 
-    public ERROR_CODES pickTargetFromSrc() {
+    public ERROR_CODES pickTargetFromSrc(List<StrInputParams> inputParams) {
         try {
-            ERROR_CODES errorCodes = this.checker.setParams(null).execute();
+            ERROR_CODES errorCodes = this.checker.setParams(inputParams).execute();
             if (errorCodes != ERROR_CODES.SUCCESS) {
                 return errorCodes;
             }
 
-            errorCodes = this.reader.setFile(this.params.getSrc().toString()).execute();
+            errorCodes = this.reader.setFile(this.checker.getParams().getSrc()).execute();
             if (errorCodes != ERROR_CODES.SUCCESS) {
                 return errorCodes;
             }
@@ -60,7 +55,7 @@ public class AReplaceTemplate {
                 return errorCodes;
             }
 
-            errorCodes = this.scavenger.setDirs(this.replacer.getDirs()).setParams(this.params).execute();
+            errorCodes = this.scavenger.setDirs(this.replacer.getDirs()).setParams(this.checker.getParams()).execute();
             if (errorCodes != ERROR_CODES.SUCCESS) {
                 return errorCodes;
             }

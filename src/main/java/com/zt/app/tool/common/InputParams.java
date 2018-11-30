@@ -18,7 +18,7 @@ public class InputParams {
     private File export = null;
 
     public File getSrc() {
-        return src;
+        return this.src;
     }
 
     public void setSrc(File src) {

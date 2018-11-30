@@ -1,7 +1,8 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.common.InputParams;
+import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.ReplacePattern;
+import com.zt.app.tool.common.StrInputParams;
 import com.zt.app.tool.replace.DefaultReplacer;
 import org.junit.Test;
 
@@ -14,11 +15,11 @@ public class AReplaceTemplateTest {
     @Test
     public void pickTargetFromSrc() {
         String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
-        InputParams params = new InputParams();
-        params.setExportDir("");
-        params.setSrcFileList(testBaseDir + File.separator + "reading/src.txt");
-        params.setServerProjectDir("/opt/tomcat/webapps/");
-        params.setProjectDir(testBaseDir + File.separator + "reading");
+        List<StrInputParams> inputParams = new LinkedList<>();
+        inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(testBaseDir + File.separator + "reading/src.txt"));
+        inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(testBaseDir + File.separator + "reading"));
+
+//        List<>
 
         ReplacePattern javaPattern = new ReplacePattern();
         javaPattern.setName("java-pattern");
@@ -34,24 +35,12 @@ public class AReplaceTemplateTest {
         patterns.add(javaPattern);
         patterns.add(mapperPattern);
 
-        DefaultInputParamChecker checker = new DefaultInputParamChecker();
-        // TODO
-        checker.setParams(null);
-
-        DefaultFileParser reader = new DefaultFileParser();
-
         DefaultReplacer replacer = new DefaultReplacer();
         replacer.setPatterns(patterns);
 
-        DefaultScavenger scavenger = new DefaultScavenger();
 
         AReplaceTemplate template = new AReplaceTemplate();
-        template.setChecker(checker);
-        template.setReader(reader);
         template.setReplacer(replacer);
-        template.setScavenger(scavenger);
-        template.setParams(params);
-
-        template.pickTargetFromSrc();
+        template.pickTargetFromSrc(inputParams);
     }
 }
