@@ -32,7 +32,7 @@ public class DefaultFileParserTest {
         DefaultFileParser parser = new DefaultFileParser();
 
         String path = this.getClass().getClassLoader().getResource("").getPath();
-        parser.setFile(path + UTUtil.PATH.FILE_NAME);
+        parser.setFile(path + UTUtil.PATH.SRC_FILE_LIST_NAME);
         ERROR_CODES result = parser.execute();
         assertEquals(102, parser.getDirs().size());
         assertEquals(ERROR_CODES.SUCCESS, result);

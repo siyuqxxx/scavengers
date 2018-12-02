@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
         DefaultScavengerTest.class,
         DefaultFileParserTest.class,
         TestSuiteChecker.class,
-        TestSuiteInput.class})
+        TestSuiteInput.class,
+        AReplaceTemplateTest.class})
 public class TestSuiteAll {
     /*
      * 1.测试套件就是组织测试类一起运行的

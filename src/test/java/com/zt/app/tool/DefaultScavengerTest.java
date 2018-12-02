@@ -18,14 +18,12 @@ public class DefaultScavengerTest {
 
     @Test
     public void execute() {
-        String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
-
+        File testBasePath = new File(UTUtil.PATH.TEST_BASE_DIR);
         InputParams inputParams = new InputParams();
-        inputParams.setExportDir(testBaseDir + "\\export\\");
-        inputParams.setProject(new File(testBaseDir + File.separator + "reading"));
-        inputParams.setTarget(new File(testBaseDir + File.separator + "reading" + File.separator + "target" + File.separator + "reading"));
-        inputParams.setServerProjectDir("/opt/reading/");
-        inputParams.setSrcFileList(testBaseDir + "reading/src.txt");
+        inputParams.setProject(new File(testBasePath, "reading"));
+        inputParams.setTarget(new File(inputParams.getProject(), "target" + File.separator + "reading"));
+        inputParams.setSrc(new File(testBasePath, UTUtil.PATH.SRC_FILE_LIST_NAME));
+        inputParams.setExport(new File(inputParams.getProject(), "export"));
 
         List<Dir> dirs = new LinkedList<>();
         dirs.add(new Dir().setTargetDir("WEB-INF/classes/com/reading/controller/admin/AdminRobotController.class"));
@@ -42,8 +40,8 @@ public class DefaultScavengerTest {
         long successCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).count();
         assertEquals(3L, successCount);
 
-        LOGGER.debug(String.format("junit delete export folder: %s", inputParams.getExportDir()));
-        deleteFolder(new File(inputParams.getExportDir()));
+        LOGGER.debug(String.format("junit delete export folder: %s", inputParams.getExport().toString()));
+        deleteFolder(inputParams.getExport());
     }
 
     private static void deleteFolder(File srcFolder) {

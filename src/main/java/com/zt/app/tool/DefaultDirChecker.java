@@ -9,14 +9,13 @@ import java.util.Objects;
 
 public class DefaultDirChecker implements IDirChecker {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileParser.class);
+    private DIR_TYPE type = DIR_TYPE.FILE;
     private String dir = "";
 
     public DefaultDirChecker setType(DIR_TYPE type) {
         this.type = type;
         return this;
     }
-
-    private DIR_TYPE type = DIR_TYPE.FILE;
 
     @Override
     public IDirChecker setDir(String dir) {

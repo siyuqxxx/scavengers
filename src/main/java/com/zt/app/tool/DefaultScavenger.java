@@ -1,5 +1,7 @@
 package com.zt.app.tool;
 
+import com.zt.app.tool.checker.dir.DirCheckerFactory;
+import com.zt.app.tool.checker.dir.IDirChecker;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
@@ -23,7 +25,7 @@ public class DefaultScavenger implements IScavenger {
 
     private InputParams params = null;
 
-    private IDirChecker checker = new DefaultDirChecker();
+    private IDirChecker checker = DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.FILE);
 
     @Override
     public IScavenger setParams(InputParams params) {
@@ -55,8 +57,8 @@ public class DefaultScavenger implements IScavenger {
                     targetDir = targetDir.substring(1);
                 }
 
-                ERROR_CODES errorCode = checker.setDir(projectTargetDir + targetDir).execute();
-                if (errorCode != ERROR_CODES.SUCCESS) {
+                boolean isValid = checker.check(projectTargetDir + targetDir);
+                if (!isValid) {
                     dir.setErrorCode(ERROR_CODES.TARGET_DIR_INVALID);
                 }
             }
@@ -94,25 +96,19 @@ public class DefaultScavenger implements IScavenger {
         }
 
         String projectTargetDir = this.params.getTarget().toString();
-        String serverProjectDir = this.params.getExportDir() + File.separator + this.params.getServerProjectDir();
-
-        File file = new File(serverProjectDir);
-        if (!file.exists() && !file.mkdirs()) {
-            return ERROR_CODES.CREATE_SERVER_PROJECT_DIR_FAILED;
-        }
 
         List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
         for (Dir dir : validDirs) {
             try {
-                File exportFile = new File(serverProjectDir + File.separator + dir.getTargetDir());
+                File exportFile = this.params.getExport();
                 File exportParentPath = exportFile.getParentFile();
                 LOGGER.debug("parent path: " + exportParentPath.toString());
                 if (!exportParentPath.exists() && !exportParentPath.mkdirs()) {
                     LOGGER.error("create parent path failed. " + exportParentPath.toString());
                     dir.setErrorCode(ERROR_CODES.CREATE_PARENT_PATH_FAILED);
                 }
-                Files.copy(new File(projectTargetDir + File.separator + dir.getTargetDir()).toPath(), exportFile.toPath());
+                Files.copy(this.params.getTarget().toPath(), exportFile.toPath());
             } catch (NoSuchFileException e) {
                 LOGGER.error("no such file: " + e.getMessage());
             } catch (FileAlreadyExistsException e) {
