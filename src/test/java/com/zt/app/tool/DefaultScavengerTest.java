@@ -4,8 +4,6 @@ import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -14,8 +12,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DefaultScavengerTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultScavengerTest.class);
-
     @Test
     public void execute() {
         File testBasePath = new File(UTUtil.PATH.TEST_BASE_DIR);

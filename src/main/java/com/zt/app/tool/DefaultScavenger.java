@@ -95,8 +95,6 @@ public class DefaultScavenger implements IScavenger {
             return errorCodes;
         }
 
-        String projectTargetDir = this.params.getTarget().toString();
-
         List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
         for (Dir dir : validDirs) {
