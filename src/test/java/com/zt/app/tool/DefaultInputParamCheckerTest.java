@@ -52,9 +52,9 @@ public class DefaultInputParamCheckerTest {
         assertEquals(ERROR_CODES.SUCCESS, errorCodes);
 
         InputParams p = checker.getParams();
-        assertEquals("D:\\code\\scavengers\\target\\test-classes\\reading\\src.txt", p.getSrc().toString());
-        assertEquals("D:\\code\\scavengers\\target\\test-classes\\reading", p.getProject().toString());
-        assertEquals("D:\\code\\scavengers\\target\\test-classes\\reading\\target\\reading", p.getTarget().toString());
-        assertEquals("D:\\code\\scavengers\\target\\test-classes\\reading\\export", p.getExport().toString());
+        assertEquals(UTUtil.PATH.BASE_DIR + "scavengers\\target\\test-classes\\reading\\src.txt", p.getSrc().toString());
+        assertEquals(UTUtil.PATH.BASE_DIR + "scavengers\\target\\test-classes\\reading", p.getProject().toString());
+        assertEquals(UTUtil.PATH.BASE_DIR + "scavengers\\target\\test-classes\\reading\\target\\reading", p.getTarget().toString());
+        assertEquals(UTUtil.PATH.BASE_DIR + "scavengers\\target\\test-classes\\reading\\export", p.getExport().toString());
     }
 }

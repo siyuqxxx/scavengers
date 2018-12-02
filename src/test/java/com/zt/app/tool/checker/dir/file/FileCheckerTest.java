@@ -1,5 +1,6 @@
 package com.zt.app.tool.checker.dir.file;
 
+import com.zt.app.tool.UTUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -16,7 +17,7 @@ public class FileCheckerTest {
 
     @Test
     public void checker_true() {
-        String srcDir = "D:\\code\\scavengers\\target\\test-classes\\reading\\src.txt";
+        String srcDir = UTUtil.PATH.BASE_DIR + "scavengers\\target\\test-classes\\reading\\src.txt";
         FileChecker checker = new FileChecker();
         boolean isValid = checker.check(srcDir);
         assertTrue(isValid);

@@ -14,7 +14,7 @@ public class AReplaceTemplateTest {
 
     @Test
     public void pickTargetFromSrc() {
-        String testBaseDir = this.getClass().getClassLoader().getResource("").getPath();
+        String testBaseDir = UTUtil.PATH.TEST_BASE_DIR;
         List<StrInputParams> inputParams = new LinkedList<>();
         inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(testBaseDir + File.separator + "reading/src.txt"));
         inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(testBaseDir + File.separator + "reading"));
