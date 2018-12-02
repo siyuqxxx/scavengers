@@ -5,12 +5,15 @@ import com.zt.app.tool.common.ReplacePattern;
 import com.zt.app.tool.common.StrInputParams;
 import com.zt.app.tool.replace.DefaultReplacer;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AReplaceTemplateTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UTUtil.class);
 
     @Test
     public void pickTargetFromSrc() {
@@ -41,5 +44,9 @@ public class AReplaceTemplateTest {
         AReplaceTemplate template = new AReplaceTemplate();
         template.setReplacer(replacer);
         template.pickTargetFromSrc(inputParams);
+
+        File exportFolder = new File(testBaseDir, "reading" + File.separator + "export");
+        LOGGER.debug(String.format("junit delete export folder: %s", exportFolder.toString()));
+        UTUtil.deleteFolder(exportFolder);
     }
 }

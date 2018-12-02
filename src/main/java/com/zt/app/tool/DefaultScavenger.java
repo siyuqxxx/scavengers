@@ -101,14 +101,17 @@ public class DefaultScavenger implements IScavenger {
 
         for (Dir dir : validDirs) {
             try {
-                File exportFile = this.params.getExport();
+                File targetFile = new File(this.params.getTarget(), dir.getTargetDir());
+                File exportFile = new File(this.params.getExport(), dir.getTargetDir());
                 File exportParentPath = exportFile.getParentFile();
                 LOGGER.debug("parent path: " + exportParentPath.toString());
-                if (!exportParentPath.exists() && !exportParentPath.mkdirs()) {
-                    LOGGER.error("create parent path failed. " + exportParentPath.toString());
-                    dir.setErrorCode(ERROR_CODES.CREATE_PARENT_PATH_FAILED);
+                if (!exportParentPath.exists()) {
+                    if (!exportParentPath.mkdirs()) {
+                        LOGGER.error("create parent path failed. " + exportParentPath.toString());
+                        dir.setErrorCode(ERROR_CODES.CREATE_PARENT_PATH_FAILED);
+                    }
                 }
-                Files.copy(this.params.getTarget().toPath(), exportFile.toPath());
+                Files.copy(targetFile.toPath(), exportFile.toPath());
             } catch (NoSuchFileException e) {
                 LOGGER.error("no such file: " + e.getMessage());
             } catch (FileAlreadyExistsException e) {

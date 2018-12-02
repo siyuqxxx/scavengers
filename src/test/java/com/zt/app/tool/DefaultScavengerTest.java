@@ -41,23 +41,6 @@ public class DefaultScavengerTest {
         assertEquals(3L, successCount);
 
         LOGGER.debug(String.format("junit delete export folder: %s", inputParams.getExport().toString()));
-        deleteFolder(inputParams.getExport());
-    }
-
-    private static void deleteFolder(File srcFolder) {
-        //获取该目录下的所有文件或者文件夹的File数组
-        File[] fileArray = srcFolder.listFiles();
-        if (fileArray != null) {
-            //遍历该File数组，得到每一个File对象
-            for (File file : fileArray) {
-                //判断该对象是否是文件夹
-                if (file.isDirectory()) {
-                    deleteFolder(file);
-                } else {
-                    LOGGER.debug(file.getName() + "..." + file.delete());//先删除问价再删除文件夹
-                }
-            }
-            LOGGER.debug((srcFolder.getName() + "..." + srcFolder.delete()));
-        }
+        UTUtil.deleteFolder(inputParams.getExport());
     }
 }
