@@ -2,7 +2,7 @@
 .idea
 *.iml
 # ----- ignore maven files -----
-target
+/target
 # ----- ignore runtime files -----
 logs
 # ----- other files -----
