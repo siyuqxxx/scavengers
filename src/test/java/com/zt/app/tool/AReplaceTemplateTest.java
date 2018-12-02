@@ -46,7 +46,6 @@ public class AReplaceTemplateTest {
         template.pickTargetFromSrc(inputParams);
 
         File exportFolder = new File(testBaseDir, "reading" + File.separator + "export");
-        LOGGER.debug(String.format("junit delete export folder: %s", exportFolder.toString()));
         UTUtil.deleteFolder(exportFolder);
     }
 }

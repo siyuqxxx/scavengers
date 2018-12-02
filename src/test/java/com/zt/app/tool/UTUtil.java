@@ -15,6 +15,7 @@ public class UTUtil {
     }
 
     public static void deleteFolder(File srcFolder) {
+        LOGGER.info(String.format("junit delete folder: %s", srcFolder.toString()));
         //获取该目录下的所有文件或者文件夹的File数组
         File[] fileArray = srcFolder.listFiles();
         if (fileArray != null) {

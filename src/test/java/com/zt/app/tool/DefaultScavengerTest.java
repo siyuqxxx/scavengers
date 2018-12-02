@@ -40,7 +40,6 @@ public class DefaultScavengerTest {
         long successCount = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).count();
         assertEquals(3L, successCount);
 
-        LOGGER.debug(String.format("junit delete export folder: %s", inputParams.getExport().toString()));
         UTUtil.deleteFolder(inputParams.getExport());
     }
 }
