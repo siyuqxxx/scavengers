@@ -4,14 +4,6 @@ import java.io.File;
 import java.util.Objects;
 
 public class InputParams {
-    @Deprecated
-    private String srcFileList = "";
-    @Deprecated
-    private String projectDir = "";
-    @Deprecated
-    private String exportDir = "";
-    @Deprecated
-    private String serverProjectDir = "";
     private File src = null;
     private File project = null;
     private File target = null;
@@ -64,54 +56,10 @@ public class InputParams {
         }
     }
 
-    @Deprecated
-    public String getProjectDir() {
-        return projectDir;
-    }
-
-    @Deprecated
-    public void setProjectDir(String projectDir) {
-        this.projectDir = projectDir;
-    }
-
-    @Deprecated
-    public String getSrcFileList() {
-        return srcFileList;
-    }
-
-    @Deprecated
-    public void setSrcFileList(String srcFileList) {
-        this.srcFileList = srcFileList;
-    }
-
-    @Deprecated
-    public String getExportDir() {
-        return exportDir;
-    }
-
-    @Deprecated
-    public void setExportDir(String exportDir) {
-        this.exportDir = exportDir;
-    }
-
-    @Deprecated
-    public String getServerProjectDir() {
-        return serverProjectDir;
-    }
-
-    @Deprecated
-    public void setServerProjectDir(String serverProjectDir) {
-        this.serverProjectDir = serverProjectDir;
-    }
-
     @Override
     public String toString() {
         return "InputParams{" +
-                "projectDir='" + projectDir + '\'' +
-                ", srcFileList='" + srcFileList + '\'' +
-                ", exportDir='" + exportDir + '\'' +
-                ", serverProjectDir='" + serverProjectDir + '\'' +
-                ", src=" + src +
+                "src=" + src +
                 ", project=" + project +
                 ", target=" + target +
                 ", export=" + export +
