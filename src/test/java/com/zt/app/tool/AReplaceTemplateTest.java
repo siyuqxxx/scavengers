@@ -18,8 +18,7 @@ public class AReplaceTemplateTest {
         List<StrInputParams> inputParams = new LinkedList<>();
         inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(testBaseDir + File.separator + "reading/src.txt"));
         inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(testBaseDir + File.separator + "reading"));
-
-//        List<>
+        inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.EXPORT).setValue(""));
 
         ReplacePattern javaPattern = new ReplacePattern();
         javaPattern.setName("java-pattern");
