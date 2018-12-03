@@ -4,10 +4,11 @@ import java.io.File;
 import java.util.Objects;
 
 public class InputParams {
-    private File src = null;
-    private File project = null;
-    private File target = null;
-    private File export = null;
+    private static final File RUNTIME_PATH = new File("");
+    private File src = RUNTIME_PATH;
+    private File project = RUNTIME_PATH;
+    private File target = RUNTIME_PATH;
+    private File export = RUNTIME_PATH;
 
     public File getSrc() {
         return this.src;

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <#include "/admin/common_header.html"/>
+    <title></title>
+</head>
+<style>
+    #tab1 ul, ol, dl {
+        list-style-type: disc;
+    }
+
+    #tab1 tr td:nth-child(3) {
+        padding-left: 27px;
+    }
+</style>
+<body>
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe67f;</i> 首页
+    <span class="c-gray en">&gt;</span>机器人管理
+    <span class="c-gray en">&gt;</span> 微信公众号智能咨询
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="Hui-iconfont">&#xe68f;</i>
+    </a>
+</nav>
+
+
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray">
+		<span class="l">
+            <a href="javascript:;" onclick="showIframe('添加数据','add.html','600','350');" class="btn btn-primary radius">
+            <i class="Hui-iconfont">&#xe600;</i> 添加数据
+            </a>
+		</span>
+        <span class="r">共有数据<strong>${list?size}</strong>条</span>
+    </div>
+    <div class="mt-20">
+        <table id="tab1" class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr class="text-c">
+                <!--<th width="25"><input type="checkbox"></th>-->
+                <th width="25">ID</th>
+                <th width="200">图书馆</th>
+                <th width="">授权功能</th>
+                <th width="120">授权状态</th>
+                <th width="140">创建时间</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list list as item>
+            <tr>
+                <!--<td class="text-c"><input type="checkbox" value="${item.id}" class="item"></td>-->
+                <td class="text-c">${item.id}</td>
+                <td>${item.libraryName!''}</td>
+                <td>
+                    <ul>
+                        <#if item.funcations??>
+                        <#list item.funcations as temp>
+                        <li>${temp.content!''}</li>
+                    </
+                    #list>
+                </
+                #if>
+                </ul>
+                </td>
+
+                <td><#if item.authorizeStatus??>
+                    <#if item.authorizeStatus=1>授权
+                    <#elseif item.authorizeStatus=2>取消授权
+                    <#else/>修改授权
+                </
+                #if>
+            </
+            #if>
+            </td>
+            <td class="text-c"><#if item.createTime??>${item.createTime?string('yyyy-MM-dd HH:mm:ss')!''}</
+            #if></td>
+            <td class="text-c">
+                <a style="text-decoration:none" class="ml-5"
+                   onClick="stopOrOpen('updateWechatThreeDo.html?id=${item.id}')"
+                   href="javascript:;">
+                    <#if item.status=1><i class="Hui-iconfont">&#xe706;</i>停用<#else/><i
+                        class="Hui-iconfont">&#xe615;</i> 启用</#if>
+                </a>
+            </td>
+            </tr>
+            </
+            #list>
+            </tbody>
+        </table>
+        <#import "/common/page.ftl" as page>
+        <@page.page count size/>
+    </div>
+</div>
+<#include "/admin/common_footer.html"/>
+<script>
+    function stopOrOpen(url) {
+        layer.confirm('确认要执行此操作吗？', function (index) {
+            requestUrl(url);
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 package com.zt.app.tool.replace;
 
-import com.zt.app.tool.DefaultDirChecker;
-import com.zt.app.tool.IDirChecker;
+import com.zt.app.tool.checker.string.StrCheckerFactory;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.LogMsgFormat;
@@ -16,7 +15,6 @@ import java.util.Objects;
 public class DefaultReplacer implements IReplacer {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReplacer.class);
     private List<Dir> dirs = new LinkedList<>();
-    private IDirChecker checker = new DefaultDirChecker();
     private IReplaceUnit replaceUnit = new DefaultReplaceUtil();
     private List<ReplacePattern> patterns = new LinkedList<>();
 
@@ -25,14 +23,6 @@ public class DefaultReplacer implements IReplacer {
         if (Objects.nonNull(patterns) && !patterns.isEmpty()) {
             this.patterns.clear();
             this.patterns.addAll(patterns);
-        }
-        return this;
-    }
-
-    @Override
-    public DefaultReplacer setChecker(IDirChecker checker) {
-        if (Objects.nonNull(checker)) {
-            this.checker = checker;
         }
         return this;
     }
@@ -96,11 +86,9 @@ public class DefaultReplacer implements IReplacer {
     public ERROR_CODES check() {
         for (Dir dir : this.dirs) {
             String srcDir = dir.getSrcDir();
-            if (Objects.nonNull(srcDir) && !srcDir.trim().isEmpty()) {
-                ERROR_CODES errorCode = checker.setDir(srcDir).execute();
-                if (errorCode != ERROR_CODES.SUCCESS) {
-                    dir.setErrorCode(ERROR_CODES.INVALID_SRC_FILE);
-                }
+            // 此时，暂时不验证src路径下的源码以及target路径下的二进制文件合法性。
+            if (!StrCheckerFactory.createStrTrimChecker().check(srcDir)) {
+                dir.setErrorCode(ERROR_CODES.INVALID_SRC_FILE);
             }
         }
         return ERROR_CODES.SUCCESS;

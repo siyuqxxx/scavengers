@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reading.data.dao.YyTimeConfigMapper">
+    <resultMap id="BaseResultMap" type="com.reading.data.model.YyTimeConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="library_id" property="libraryId" jdbcType="BIGINT"/>
+        <result column="library_name" property="libraryName" jdbcType="VARCHAR"/>
+        <result column="lay_time" property="layTime" jdbcType="VARCHAR"/>
+        <result column="sys_tod_st_time" property="sysTodStTime" jdbcType="VARCHAR"/>
+        <result column="sys_tod_en_time" property="sysTodEnTime" jdbcType="VARCHAR"/>
+        <result column="sys_tom_st_time" property="sysTomStTime" jdbcType="VARCHAR"/>
+        <result column="sys_tom_en_time" property="sysTomEnTime" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, library_id, library_name, lay_time, sys_tod_st_time, sys_tod_en_time, sys_tom_st_time, 
+    sys_tom_en_time, time
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.reading.data.model.YyTimeConfigExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from yy_time_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from yy_time_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yy_time_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.reading.data.model.YyTimeConfigExample">
+        delete from yy_time_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.reading.data.model.YyTimeConfig">
+    insert into yy_time_config (id, library_id, library_name, 
+      lay_time, sys_tod_st_time, sys_tod_en_time, 
+      sys_tom_st_time, sys_tom_en_time, time
+      )
+    values (#{id,jdbcType=BIGINT}, #{libraryId,jdbcType=BIGINT}, #{libraryName,jdbcType=VARCHAR}, 
+      #{layTime,jdbcType=VARCHAR}, #{sysTodStTime,jdbcType=VARCHAR}, #{sysTodEnTime,jdbcType=VARCHAR}, 
+      #{sysTomStTime,jdbcType=VARCHAR}, #{sysTomEnTime,jdbcType=VARCHAR}, #{time,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.reading.data.model.YyTimeConfig" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into yy_time_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="libraryId != null">
+                library_id,
+            </if>
+            <if test="libraryName != null">
+                library_name,
+            </if>
+            <if test="layTime != null">
+                lay_time,
+            </if>
+            <if test="sysTodStTime != null">
+                sys_tod_st_time,
+            </if>
+            <if test="sysTodEnTime != null">
+                sys_tod_en_time,
+            </if>
+            <if test="sysTomStTime != null">
+                sys_tom_st_time,
+            </if>
+            <if test="sysTomEnTime != null">
+                sys_tom_en_time,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="libraryId != null">
+                #{libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="libraryName != null">
+                #{libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="layTime != null">
+                #{layTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTodStTime != null">
+                #{sysTodStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTodEnTime != null">
+                #{sysTodEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTomStTime != null">
+                #{sysTomStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTomEnTime != null">
+                #{sysTomEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.reading.data.model.YyTimeConfigExample"
+            resultType="java.lang.Integer">
+        select count(*) from yy_time_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update yy_time_config
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryId != null">
+                library_id = #{record.libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryName != null">
+                library_name = #{record.libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.layTime != null">
+                lay_time = #{record.layTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysTodStTime != null">
+                sys_tod_st_time = #{record.sysTodStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysTodEnTime != null">
+                sys_tod_en_time = #{record.sysTodEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysTomStTime != null">
+                sys_tom_st_time = #{record.sysTomStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysTomEnTime != null">
+                sys_tom_en_time = #{record.sysTomEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.time != null">
+                time = #{record.time,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update yy_time_config
+        set id = #{record.id,jdbcType=BIGINT},
+        library_id = #{record.libraryId,jdbcType=BIGINT},
+        library_name = #{record.libraryName,jdbcType=VARCHAR},
+        lay_time = #{record.layTime,jdbcType=VARCHAR},
+        sys_tod_st_time = #{record.sysTodStTime,jdbcType=VARCHAR},
+        sys_tod_en_time = #{record.sysTodEnTime,jdbcType=VARCHAR},
+        sys_tom_st_time = #{record.sysTomStTime,jdbcType=VARCHAR},
+        sys_tom_en_time = #{record.sysTomEnTime,jdbcType=VARCHAR},
+        time = #{record.time,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.reading.data.model.YyTimeConfig">
+        update yy_time_config
+        <set>
+            <if test="libraryId != null">
+                library_id = #{libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="libraryName != null">
+                library_name = #{libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="layTime != null">
+                lay_time = #{layTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTodStTime != null">
+                sys_tod_st_time = #{sysTodStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTodEnTime != null">
+                sys_tod_en_time = #{sysTodEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTomStTime != null">
+                sys_tom_st_time = #{sysTomStTime,jdbcType=VARCHAR},
+            </if>
+            <if test="sysTomEnTime != null">
+                sys_tom_en_time = #{sysTomEnTime,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.reading.data.model.YyTimeConfig">
+    update yy_time_config
+    set library_id = #{libraryId,jdbcType=BIGINT},
+      library_name = #{libraryName,jdbcType=VARCHAR},
+      lay_time = #{layTime,jdbcType=VARCHAR},
+      sys_tod_st_time = #{sysTodStTime,jdbcType=VARCHAR},
+      sys_tod_en_time = #{sysTodEnTime,jdbcType=VARCHAR},
+      sys_tom_st_time = #{sysTomStTime,jdbcType=VARCHAR},
+      sys_tom_en_time = #{sysTomEnTime,jdbcType=VARCHAR},
+      time = #{time,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

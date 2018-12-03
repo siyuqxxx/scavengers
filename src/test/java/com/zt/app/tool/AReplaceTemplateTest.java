@@ -27,11 +27,15 @@ public class AReplaceTemplateTest {
         ReplacePattern mapperPattern = new ReplacePattern();
         mapperPattern.setName("mapper-pattern");
         mapperPattern.setPattern("(?<=.*)/src/main/java/", "/WEB-INF/classes/");
-        mapperPattern.setPattern("\\.xml", "\\.xml");
+
+        ReplacePattern htmlPattern = new ReplacePattern();
+        htmlPattern.setName("html-pattern");
+        htmlPattern.setPattern("(?<=.*)/src/main/webapp/", "");
 
         List<ReplacePattern> patterns = new LinkedList<>();
         patterns.add(javaPattern);
         patterns.add(mapperPattern);
+        patterns.add(htmlPattern);
 
         DefaultReplacer replacer = new DefaultReplacer();
         replacer.setPatterns(patterns);
