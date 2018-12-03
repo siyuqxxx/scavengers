@@ -48,7 +48,7 @@ public class DefaultScavenger implements IScavenger {
     public ERROR_CODES check() {
         List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
-        String projectTargetDir = this.params.getTarget().toString() + File.separator;
+        File target = this.params.getTarget();
 
         for (Dir dir : validDirs) {
             String targetDir = dir.getTargetDir();
@@ -57,7 +57,7 @@ public class DefaultScavenger implements IScavenger {
                     targetDir = targetDir.substring(1);
                 }
 
-                boolean isValid = checker.check(projectTargetDir + targetDir);
+                boolean isValid = checker.check(new File(target, targetDir));
                 if (!isValid) {
                     dir.setErrorCode(ERROR_CODES.TARGET_DIR_INVALID);
                 }
