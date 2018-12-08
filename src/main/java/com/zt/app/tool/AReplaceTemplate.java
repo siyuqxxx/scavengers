@@ -50,7 +50,7 @@ public class AReplaceTemplate {
                 return errorCodes;
             }
 
-            errorCodes = this.replacer.setDirs(this.reader.getDirs()).execute();
+            errorCodes = this.replacer.setDirs(this.reader.getDirs()).setParams(this.checker.getParams()).execute();
             if (errorCodes != ERROR_CODES.SUCCESS) {
                 return errorCodes;
             }
