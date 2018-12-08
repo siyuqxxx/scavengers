@@ -65,7 +65,7 @@ public class DefaultReplacer implements IReplacer {
         boolean isMatch = false;
         for (ReplacePattern pattern : this.patterns) {
             if (replaceUnit.setDir(dir).setPattern(pattern).isMatch()) {
-                replaceUnit.execute();
+                replaceUnit.setParams(this.params).execute();
                 isMatch = true;
                 break;
             }

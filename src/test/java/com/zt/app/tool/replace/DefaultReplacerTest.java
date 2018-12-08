@@ -53,6 +53,54 @@ public class DefaultReplacerTest {
     }
 
     @Test
+    public void execute_has_inner_class() throws Exception {
+        String path = UTUtil.PATH.TEST_BASE_DIR;
+        InputParams p = new InputParams();
+        p.setProjectAndTarget(new File(path, "reading"));
+
+        List<Dir> dirs = new LinkedList<>();
+        dirs.add(new Dir().setSrcDir("src/main/java/com/reading/controller/admin/AdminRobotController.java"));
+
+        ReplacePattern javaPattern = new ReplacePattern();
+        javaPattern.setName("java-pattern");
+        javaPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
+        javaPattern.setPattern("\\.java", "\\.class");
+
+        List<ReplacePattern> patterns = new LinkedList<>();
+        patterns.add(javaPattern);
+
+        DefaultReplacer replacer = new DefaultReplacer();
+        replacer.setDirs(dirs).setParams(p).setPatterns(patterns).execute();
+
+        int size = replacer.getDirs().get(0).getTargets().size();
+        assertEquals(1, size);
+    }
+
+    @Test
+    public void execute_simple_class() throws Exception {
+        String path = UTUtil.PATH.TEST_BASE_DIR;
+        InputParams p = new InputParams();
+        p.setProjectAndTarget(new File(path, "reading"));
+
+        List<Dir> dirs = new LinkedList<>();
+        dirs.add(new Dir().setSrcDir("src/main/java/com/reading/utils/EnumUtil.java"));
+
+        ReplacePattern javaPattern = new ReplacePattern();
+        javaPattern.setName("java-pattern");
+        javaPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
+        javaPattern.setPattern("\\.java", "\\.class");
+
+        List<ReplacePattern> patterns = new LinkedList<>();
+        patterns.add(javaPattern);
+
+        DefaultReplacer replacer = new DefaultReplacer();
+        replacer.setDirs(dirs).setParams(p).setPatterns(patterns).execute();
+
+        int size = replacer.getDirs().get(0).getTargets().size();
+        assertEquals(15, size);
+    }
+
+    @Test
     public void RegexTest() {
         String s = "Windows2000";
         String regex = "(?<=Wind)[a-zA-z]+(?=\\d+)";

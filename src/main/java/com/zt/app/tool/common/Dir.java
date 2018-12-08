@@ -69,6 +69,12 @@ public class Dir {
         return this;
     }
 
+    public void addAllTargets(List<File> targets) {
+        if (!targets.isEmpty()) {
+            this.targets.addAll(targets);
+        }
+    }
+
     public ERROR_CODES getErrorCode() {
         return errorCode;
     }
