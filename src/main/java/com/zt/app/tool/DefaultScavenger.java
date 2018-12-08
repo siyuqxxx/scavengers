@@ -102,7 +102,6 @@ public class DefaultScavenger implements IScavenger {
                 File targetFile = new File(this.params.getTarget(), dir.getTargetDir());
                 File exportFile = new File(this.params.getExport(), dir.getTargetDir());
                 File exportParentPath = exportFile.getParentFile();
-                LOGGER.debug("parent path: " + exportParentPath.toString());
                 if (!exportParentPath.exists()) {
                     if (!exportParentPath.mkdirs()) {
                         LOGGER.error("create parent path failed. " + exportParentPath.toString());

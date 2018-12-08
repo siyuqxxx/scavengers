@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <#include "/admin/common_header.html"/>
+    <title></title>
+</head>
+<body>
+<article class="page-container">
+    <form class="form form-horizontal" action="addWechatThreeDo.html" method="post" enctype="multipart/form-data">
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red"></span>图书馆：</label>
+            <div class="formControls col-xs-6 col-sm-7">
+                <select name="libraryId" class="input-text" datatype="*">
+                    <option value="">请选择</option>
+                    <#list libraryList as item>
+                    <option value="${item.id}">${item.title}</option>
+                </#list>
+
+                </select>
+            </div>
+            <div class="formControls col-xs-2 col-sm-2"></div>
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button class="btn btn-primary radius" type="submit">保存</button>
+                <button onClick="removeIframe();" class="btn btn-default radius" type="button">取消</button>
+            </div>
+        </div>
+    </form>
+</article>
+<#include "/admin/common_footer.html"/>
+</body>
+</html>

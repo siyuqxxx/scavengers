@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reading.data.dao.YySeatAppointmentMapper">
+    <resultMap id="BaseResultMap" type="com.reading.data.model.YySeatAppointment">
+        <id column="KeyId" property="keyid" jdbcType="BIGINT"/>
+        <result column="LibraryId" property="libraryid" jdbcType="BIGINT"/>
+        <result column="LibraryName" property="libraryname" jdbcType="VARCHAR"/>
+        <result column="BuildingId" property="buildingid" jdbcType="BIGINT"/>
+        <result column="FloorId" property="floorid" jdbcType="BIGINT"/>
+        <result column="RoomId" property="roomid" jdbcType="BIGINT"/>
+        <result column="UserId" property="userid" jdbcType="BIGINT"/>
+        <result column="CardNumber" property="cardnumber" jdbcType="VARCHAR"/>
+        <result column="SeatId" property="seatid" jdbcType="BIGINT"/>
+        <result column="SeatPoint" property="seatpoint" jdbcType="VARCHAR"/>
+        <result column="SignTime" property="signtime" jdbcType="TIMESTAMP"/>
+        <result column="sign_in_device_id" property="signInDeviceId" jdbcType="VARCHAR"/>
+        <result column="ignore_status" property="ignoreStatus" jdbcType="CHAR"/>
+        <result column="LeaveTime" property="leavetime" jdbcType="TIMESTAMP"/>
+        <result column="ReturnTime" property="returntime" jdbcType="TIMESTAMP"/>
+        <result column="ReleaseTime" property="releasetime" jdbcType="TIMESTAMP"/>
+        <result column="AppointmentStatus" property="appointmentstatus" jdbcType="BIGINT"/>
+        <result column="Status" property="status" jdbcType="INTEGER"/>
+        <result column="TimeId" property="timeid" jdbcType="BIGINT"/>
+        <result column="AppointmentDay" property="appointmentday" jdbcType="DATE"/>
+        <result column="appointment_start_time" property="appointmentStartTime" jdbcType="VARCHAR"/>
+        <result column="appointment_end_time" property="appointmentEndTime" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="should_be_time" property="shouldBeTime" jdbcType="TIMESTAMP"/>
+        <result column="build_name" property="buildName" jdbcType="VARCHAR"/>
+        <result column="floor_name" property="floorName" jdbcType="VARCHAR"/>
+        <result column="room_name" property="roomName" jdbcType="VARCHAR"/>
+        <result column="seat_remind_time" property="seatRemindTime" jdbcType="TIMESTAMP"/>
+        <result column="data_source" property="dataSource" jdbcType="CHAR"/>
+        <result column="joint_strip_time" property="jointStripTime" jdbcType="TIMESTAMP"/>
+        <result column="step_out_time" property="stepOutTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    KeyId, LibraryId, LibraryName, BuildingId, FloorId, RoomId, UserId, CardNumber, SeatId, 
+    SeatPoint, SignTime, sign_in_device_id, ignore_status, LeaveTime, ReturnTime, ReleaseTime, 
+    AppointmentStatus, Status, TimeId, AppointmentDay, appointment_start_time, appointment_end_time, 
+    num, create_time, should_be_time, build_name, floor_name, room_name, seat_remind_time, 
+    data_source, joint_strip_time, step_out_time
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.reading.data.model.YySeatAppointmentExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from yy_seat_appointment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from yy_seat_appointment
+        where KeyId = #{keyid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yy_seat_appointment
+    where KeyId = #{keyid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.reading.data.model.YySeatAppointmentExample">
+        delete from yy_seat_appointment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.reading.data.model.YySeatAppointment">
+    insert into yy_seat_appointment (KeyId, LibraryId, LibraryName, 
+      BuildingId, FloorId, RoomId, 
+      UserId, CardNumber, SeatId, 
+      SeatPoint, SignTime, sign_in_device_id, 
+      ignore_status, LeaveTime, ReturnTime, 
+      ReleaseTime, AppointmentStatus, Status, 
+      TimeId, AppointmentDay, appointment_start_time, 
+      appointment_end_time, num, create_time, 
+      should_be_time, build_name, floor_name, 
+      room_name, seat_remind_time, data_source, 
+      joint_strip_time, step_out_time)
+    values (#{keyid,jdbcType=BIGINT}, #{libraryid,jdbcType=BIGINT}, #{libraryname,jdbcType=VARCHAR}, 
+      #{buildingid,jdbcType=BIGINT}, #{floorid,jdbcType=BIGINT}, #{roomid,jdbcType=BIGINT}, 
+      #{userid,jdbcType=BIGINT}, #{cardnumber,jdbcType=VARCHAR}, #{seatid,jdbcType=BIGINT}, 
+      #{seatpoint,jdbcType=VARCHAR}, #{signtime,jdbcType=TIMESTAMP}, #{signInDeviceId,jdbcType=VARCHAR}, 
+      #{ignoreStatus,jdbcType=CHAR}, #{leavetime,jdbcType=TIMESTAMP}, #{returntime,jdbcType=TIMESTAMP}, 
+      #{releasetime,jdbcType=TIMESTAMP}, #{appointmentstatus,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{timeid,jdbcType=BIGINT}, #{appointmentday,jdbcType=DATE}, #{appointmentStartTime,jdbcType=VARCHAR}, 
+      #{appointmentEndTime,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{shouldBeTime,jdbcType=TIMESTAMP}, #{buildName,jdbcType=VARCHAR}, #{floorName,jdbcType=VARCHAR}, 
+      #{roomName,jdbcType=VARCHAR}, #{seatRemindTime,jdbcType=TIMESTAMP}, #{dataSource,jdbcType=CHAR}, 
+      #{jointStripTime,jdbcType=TIMESTAMP}, #{stepOutTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.reading.data.model.YySeatAppointment" useGeneratedKeys="true"
+            keyProperty="keyid">
+        insert into yy_seat_appointment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="keyid != null">
+                KeyId,
+            </if>
+            <if test="libraryid != null">
+                LibraryId,
+            </if>
+            <if test="libraryname != null">
+                LibraryName,
+            </if>
+            <if test="buildingid != null">
+                BuildingId,
+            </if>
+            <if test="floorid != null">
+                FloorId,
+            </if>
+            <if test="roomid != null">
+                RoomId,
+            </if>
+            <if test="userid != null">
+                UserId,
+            </if>
+            <if test="cardnumber != null">
+                CardNumber,
+            </if>
+            <if test="seatid != null">
+                SeatId,
+            </if>
+            <if test="seatpoint != null">
+                SeatPoint,
+            </if>
+            <if test="signtime != null">
+                SignTime,
+            </if>
+            <if test="signInDeviceId != null">
+                sign_in_device_id,
+            </if>
+            <if test="ignoreStatus != null">
+                ignore_status,
+            </if>
+            <if test="leavetime != null">
+                LeaveTime,
+            </if>
+            <if test="returntime != null">
+                ReturnTime,
+            </if>
+            <if test="releasetime != null">
+                ReleaseTime,
+            </if>
+            <if test="appointmentstatus != null">
+                AppointmentStatus,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="timeid != null">
+                TimeId,
+            </if>
+            <if test="appointmentday != null">
+                AppointmentDay,
+            </if>
+            <if test="appointmentStartTime != null">
+                appointment_start_time,
+            </if>
+            <if test="appointmentEndTime != null">
+                appointment_end_time,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="shouldBeTime != null">
+                should_be_time,
+            </if>
+            <if test="buildName != null">
+                build_name,
+            </if>
+            <if test="floorName != null">
+                floor_name,
+            </if>
+            <if test="roomName != null">
+                room_name,
+            </if>
+            <if test="seatRemindTime != null">
+                seat_remind_time,
+            </if>
+            <if test="dataSource != null">
+                data_source,
+            </if>
+            <if test="jointStripTime != null">
+                joint_strip_time,
+            </if>
+            <if test="stepOutTime != null">
+                step_out_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="keyid != null">
+                #{keyid,jdbcType=BIGINT},
+            </if>
+            <if test="libraryid != null">
+                #{libraryid,jdbcType=BIGINT},
+            </if>
+            <if test="libraryname != null">
+                #{libraryname,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingid != null">
+                #{buildingid,jdbcType=BIGINT},
+            </if>
+            <if test="floorid != null">
+                #{floorid,jdbcType=BIGINT},
+            </if>
+            <if test="roomid != null">
+                #{roomid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="cardnumber != null">
+                #{cardnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="seatid != null">
+                #{seatid,jdbcType=BIGINT},
+            </if>
+            <if test="seatpoint != null">
+                #{seatpoint,jdbcType=VARCHAR},
+            </if>
+            <if test="signtime != null">
+                #{signtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="signInDeviceId != null">
+                #{signInDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="ignoreStatus != null">
+                #{ignoreStatus,jdbcType=CHAR},
+            </if>
+            <if test="leavetime != null">
+                #{leavetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returntime != null">
+                #{returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="releasetime != null">
+                #{releasetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appointmentstatus != null">
+                #{appointmentstatus,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="timeid != null">
+                #{timeid,jdbcType=BIGINT},
+            </if>
+            <if test="appointmentday != null">
+                #{appointmentday,jdbcType=DATE},
+            </if>
+            <if test="appointmentStartTime != null">
+                #{appointmentStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="appointmentEndTime != null">
+                #{appointmentEndTime,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shouldBeTime != null">
+                #{shouldBeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="buildName != null">
+                #{buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="floorName != null">
+                #{floorName,jdbcType=VARCHAR},
+            </if>
+            <if test="roomName != null">
+                #{roomName,jdbcType=VARCHAR},
+            </if>
+            <if test="seatRemindTime != null">
+                #{seatRemindTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dataSource != null">
+                #{dataSource,jdbcType=CHAR},
+            </if>
+            <if test="jointStripTime != null">
+                #{jointStripTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="stepOutTime != null">
+                #{stepOutTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.reading.data.model.YySeatAppointmentExample"
+            resultType="java.lang.Integer">
+        select count(*) from yy_seat_appointment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update yy_seat_appointment
+        <set>
+            <if test="record.keyid != null">
+                KeyId = #{record.keyid,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryid != null">
+                LibraryId = #{record.libraryid,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryname != null">
+                LibraryName = #{record.libraryname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.buildingid != null">
+                BuildingId = #{record.buildingid,jdbcType=BIGINT},
+            </if>
+            <if test="record.floorid != null">
+                FloorId = #{record.floorid,jdbcType=BIGINT},
+            </if>
+            <if test="record.roomid != null">
+                RoomId = #{record.roomid,jdbcType=BIGINT},
+            </if>
+            <if test="record.userid != null">
+                UserId = #{record.userid,jdbcType=BIGINT},
+            </if>
+            <if test="record.cardnumber != null">
+                CardNumber = #{record.cardnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.seatid != null">
+                SeatId = #{record.seatid,jdbcType=BIGINT},
+            </if>
+            <if test="record.seatpoint != null">
+                SeatPoint = #{record.seatpoint,jdbcType=VARCHAR},
+            </if>
+            <if test="record.signtime != null">
+                SignTime = #{record.signtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.signInDeviceId != null">
+                sign_in_device_id = #{record.signInDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ignoreStatus != null">
+                ignore_status = #{record.ignoreStatus,jdbcType=CHAR},
+            </if>
+            <if test="record.leavetime != null">
+                LeaveTime = #{record.leavetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.returntime != null">
+                ReturnTime = #{record.returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.releasetime != null">
+                ReleaseTime = #{record.releasetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.appointmentstatus != null">
+                AppointmentStatus = #{record.appointmentstatus,jdbcType=BIGINT},
+            </if>
+            <if test="record.status != null">
+                Status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.timeid != null">
+                TimeId = #{record.timeid,jdbcType=BIGINT},
+            </if>
+            <if test="record.appointmentday != null">
+                AppointmentDay = #{record.appointmentday,jdbcType=DATE},
+            </if>
+            <if test="record.appointmentStartTime != null">
+                appointment_start_time = #{record.appointmentStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appointmentEndTime != null">
+                appointment_end_time = #{record.appointmentEndTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.shouldBeTime != null">
+                should_be_time = #{record.shouldBeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.buildName != null">
+                build_name = #{record.buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.floorName != null">
+                floor_name = #{record.floorName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.roomName != null">
+                room_name = #{record.roomName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.seatRemindTime != null">
+                seat_remind_time = #{record.seatRemindTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.dataSource != null">
+                data_source = #{record.dataSource,jdbcType=CHAR},
+            </if>
+            <if test="record.jointStripTime != null">
+                joint_strip_time = #{record.jointStripTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.stepOutTime != null">
+                step_out_time = #{record.stepOutTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update yy_seat_appointment
+        set KeyId = #{record.keyid,jdbcType=BIGINT},
+        LibraryId = #{record.libraryid,jdbcType=BIGINT},
+        LibraryName = #{record.libraryname,jdbcType=VARCHAR},
+        BuildingId = #{record.buildingid,jdbcType=BIGINT},
+        FloorId = #{record.floorid,jdbcType=BIGINT},
+        RoomId = #{record.roomid,jdbcType=BIGINT},
+        UserId = #{record.userid,jdbcType=BIGINT},
+        CardNumber = #{record.cardnumber,jdbcType=VARCHAR},
+        SeatId = #{record.seatid,jdbcType=BIGINT},
+        SeatPoint = #{record.seatpoint,jdbcType=VARCHAR},
+        SignTime = #{record.signtime,jdbcType=TIMESTAMP},
+        sign_in_device_id = #{record.signInDeviceId,jdbcType=VARCHAR},
+        ignore_status = #{record.ignoreStatus,jdbcType=CHAR},
+        LeaveTime = #{record.leavetime,jdbcType=TIMESTAMP},
+        ReturnTime = #{record.returntime,jdbcType=TIMESTAMP},
+        ReleaseTime = #{record.releasetime,jdbcType=TIMESTAMP},
+        AppointmentStatus = #{record.appointmentstatus,jdbcType=BIGINT},
+        Status = #{record.status,jdbcType=INTEGER},
+        TimeId = #{record.timeid,jdbcType=BIGINT},
+        AppointmentDay = #{record.appointmentday,jdbcType=DATE},
+        appointment_start_time = #{record.appointmentStartTime,jdbcType=VARCHAR},
+        appointment_end_time = #{record.appointmentEndTime,jdbcType=VARCHAR},
+        num = #{record.num,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        should_be_time = #{record.shouldBeTime,jdbcType=TIMESTAMP},
+        build_name = #{record.buildName,jdbcType=VARCHAR},
+        floor_name = #{record.floorName,jdbcType=VARCHAR},
+        room_name = #{record.roomName,jdbcType=VARCHAR},
+        seat_remind_time = #{record.seatRemindTime,jdbcType=TIMESTAMP},
+        data_source = #{record.dataSource,jdbcType=CHAR},
+        joint_strip_time = #{record.jointStripTime,jdbcType=TIMESTAMP},
+        step_out_time = #{record.stepOutTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.reading.data.model.YySeatAppointment">
+        update yy_seat_appointment
+        <set>
+            <if test="libraryid != null">
+                LibraryId = #{libraryid,jdbcType=BIGINT},
+            </if>
+            <if test="libraryname != null">
+                LibraryName = #{libraryname,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingid != null">
+                BuildingId = #{buildingid,jdbcType=BIGINT},
+            </if>
+            <if test="floorid != null">
+                FloorId = #{floorid,jdbcType=BIGINT},
+            </if>
+            <if test="roomid != null">
+                RoomId = #{roomid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                UserId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="cardnumber != null">
+                CardNumber = #{cardnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="seatid != null">
+                SeatId = #{seatid,jdbcType=BIGINT},
+            </if>
+            <if test="seatpoint != null">
+                SeatPoint = #{seatpoint,jdbcType=VARCHAR},
+            </if>
+            <if test="signtime != null">
+                SignTime = #{signtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="signInDeviceId != null">
+                sign_in_device_id = #{signInDeviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="ignoreStatus != null">
+                ignore_status = #{ignoreStatus,jdbcType=CHAR},
+            </if>
+            <if test="leavetime != null">
+                LeaveTime = #{leavetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returntime != null">
+                ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="releasetime != null">
+                ReleaseTime = #{releasetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appointmentstatus != null">
+                AppointmentStatus = #{appointmentstatus,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="timeid != null">
+                TimeId = #{timeid,jdbcType=BIGINT},
+            </if>
+            <if test="appointmentday != null">
+                AppointmentDay = #{appointmentday,jdbcType=DATE},
+            </if>
+            <if test="appointmentStartTime != null">
+                appointment_start_time = #{appointmentStartTime,jdbcType=VARCHAR},
+            </if>
+            <if test="appointmentEndTime != null">
+                appointment_end_time = #{appointmentEndTime,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shouldBeTime != null">
+                should_be_time = #{shouldBeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="buildName != null">
+                build_name = #{buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="floorName != null">
+                floor_name = #{floorName,jdbcType=VARCHAR},
+            </if>
+            <if test="roomName != null">
+                room_name = #{roomName,jdbcType=VARCHAR},
+            </if>
+            <if test="seatRemindTime != null">
+                seat_remind_time = #{seatRemindTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dataSource != null">
+                data_source = #{dataSource,jdbcType=CHAR},
+            </if>
+            <if test="jointStripTime != null">
+                joint_strip_time = #{jointStripTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="stepOutTime != null">
+                step_out_time = #{stepOutTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where KeyId = #{keyid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.reading.data.model.YySeatAppointment">
+    update yy_seat_appointment
+    set LibraryId = #{libraryid,jdbcType=BIGINT},
+      LibraryName = #{libraryname,jdbcType=VARCHAR},
+      BuildingId = #{buildingid,jdbcType=BIGINT},
+      FloorId = #{floorid,jdbcType=BIGINT},
+      RoomId = #{roomid,jdbcType=BIGINT},
+      UserId = #{userid,jdbcType=BIGINT},
+      CardNumber = #{cardnumber,jdbcType=VARCHAR},
+      SeatId = #{seatid,jdbcType=BIGINT},
+      SeatPoint = #{seatpoint,jdbcType=VARCHAR},
+      SignTime = #{signtime,jdbcType=TIMESTAMP},
+      sign_in_device_id = #{signInDeviceId,jdbcType=VARCHAR},
+      ignore_status = #{ignoreStatus,jdbcType=CHAR},
+      LeaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+      ReleaseTime = #{releasetime,jdbcType=TIMESTAMP},
+      AppointmentStatus = #{appointmentstatus,jdbcType=BIGINT},
+      Status = #{status,jdbcType=INTEGER},
+      TimeId = #{timeid,jdbcType=BIGINT},
+      AppointmentDay = #{appointmentday,jdbcType=DATE},
+      appointment_start_time = #{appointmentStartTime,jdbcType=VARCHAR},
+      appointment_end_time = #{appointmentEndTime,jdbcType=VARCHAR},
+      num = #{num,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      should_be_time = #{shouldBeTime,jdbcType=TIMESTAMP},
+      build_name = #{buildName,jdbcType=VARCHAR},
+      floor_name = #{floorName,jdbcType=VARCHAR},
+      room_name = #{roomName,jdbcType=VARCHAR},
+      seat_remind_time = #{seatRemindTime,jdbcType=TIMESTAMP},
+      data_source = #{dataSource,jdbcType=CHAR},
+      joint_strip_time = #{jointStripTime,jdbcType=TIMESTAMP},
+      step_out_time = #{stepOutTime,jdbcType=TIMESTAMP}
+    where KeyId = #{keyid,jdbcType=BIGINT}
+  </update>
+
+    <select id="getAppointmentSeatCount" resultType="Integer">
+    ${sql}
+  </select>
+
+    <select id="getOKAppointmentSeatCount" resultType="Integer">
+    ${sql}
+  </select>
+
+</mapper>

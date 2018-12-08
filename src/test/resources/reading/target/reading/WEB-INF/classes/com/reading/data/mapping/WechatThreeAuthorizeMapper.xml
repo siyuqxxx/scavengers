@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reading.data.dao.WechatThreeAuthorizeMapper">
+    <resultMap id="BaseResultMap" type="com.reading.data.model.WechatThreeAuthorize">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="library_id" property="libraryId" jdbcType="BIGINT"/>
+        <result column="library_name" property="libraryName" jdbcType="VARCHAR"/>
+        <result column="authorizer_appid" property="authorizerAppid" jdbcType="VARCHAR"/>
+        <result column="authorizer_access_token" property="authorizerAccessToken" jdbcType="VARCHAR"/>
+        <result column="expires_in" property="expiresIn" jdbcType="VARCHAR"/>
+        <result column="authorizer_refresh_token" property="authorizerRefreshToken" jdbcType="VARCHAR"/>
+        <result column="wechat_three_funcation_ids" property="wechatThreeFuncationIds" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="authorize_status" property="authorizeStatus" jdbcType="INTEGER"/>
+        <result column="authorize_status_time" property="authorizeStatusTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="auth_code" property="authCode" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, library_id, library_name, authorizer_appid, authorizer_access_token, expires_in, 
+    authorizer_refresh_token, wechat_three_funcation_ids, create_time, update_time, authorize_status, 
+    authorize_status_time, status, auth_code
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.reading.data.model.WechatThreeAuthorizeExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from wechat_three_authorize
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from wechat_three_authorize
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wechat_three_authorize
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.reading.data.model.WechatThreeAuthorizeExample">
+        delete from wechat_three_authorize
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.reading.data.model.WechatThreeAuthorize">
+    insert into wechat_three_authorize (id, library_id, library_name, 
+      authorizer_appid, authorizer_access_token, 
+      expires_in, authorizer_refresh_token, wechat_three_funcation_ids, 
+      create_time, update_time, authorize_status, 
+      authorize_status_time, status, auth_code
+      )
+    values (#{id,jdbcType=BIGINT}, #{libraryId,jdbcType=BIGINT}, #{libraryName,jdbcType=VARCHAR}, 
+      #{authorizerAppid,jdbcType=VARCHAR}, #{authorizerAccessToken,jdbcType=VARCHAR}, 
+      #{expiresIn,jdbcType=VARCHAR}, #{authorizerRefreshToken,jdbcType=VARCHAR}, #{wechatThreeFuncationIds,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{authorizeStatus,jdbcType=INTEGER}, 
+      #{authorizeStatusTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{authCode,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.reading.data.model.WechatThreeAuthorize" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into wechat_three_authorize
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="libraryId != null">
+                library_id,
+            </if>
+            <if test="libraryName != null">
+                library_name,
+            </if>
+            <if test="authorizerAppid != null">
+                authorizer_appid,
+            </if>
+            <if test="authorizerAccessToken != null">
+                authorizer_access_token,
+            </if>
+            <if test="expiresIn != null">
+                expires_in,
+            </if>
+            <if test="authorizerRefreshToken != null">
+                authorizer_refresh_token,
+            </if>
+            <if test="wechatThreeFuncationIds != null">
+                wechat_three_funcation_ids,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="authorizeStatus != null">
+                authorize_status,
+            </if>
+            <if test="authorizeStatusTime != null">
+                authorize_status_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="authCode != null">
+                auth_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="libraryId != null">
+                #{libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="libraryName != null">
+                #{libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerAppid != null">
+                #{authorizerAppid,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerAccessToken != null">
+                #{authorizerAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="expiresIn != null">
+                #{expiresIn,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerRefreshToken != null">
+                #{authorizerRefreshToken,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatThreeFuncationIds != null">
+                #{wechatThreeFuncationIds,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="authorizeStatus != null">
+                #{authorizeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="authorizeStatusTime != null">
+                #{authorizeStatusTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="authCode != null">
+                #{authCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.reading.data.model.WechatThreeAuthorizeExample"
+            resultType="java.lang.Integer">
+        select count(*) from wechat_three_authorize
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update wechat_three_authorize
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryId != null">
+                library_id = #{record.libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="record.libraryName != null">
+                library_name = #{record.libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.authorizerAppid != null">
+                authorizer_appid = #{record.authorizerAppid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.authorizerAccessToken != null">
+                authorizer_access_token = #{record.authorizerAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expiresIn != null">
+                expires_in = #{record.expiresIn,jdbcType=VARCHAR},
+            </if>
+            <if test="record.authorizerRefreshToken != null">
+                authorizer_refresh_token = #{record.authorizerRefreshToken,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wechatThreeFuncationIds != null">
+                wechat_three_funcation_ids = #{record.wechatThreeFuncationIds,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.authorizeStatus != null">
+                authorize_status = #{record.authorizeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.authorizeStatusTime != null">
+                authorize_status_time = #{record.authorizeStatusTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.authCode != null">
+                auth_code = #{record.authCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update wechat_three_authorize
+        set id = #{record.id,jdbcType=BIGINT},
+        library_id = #{record.libraryId,jdbcType=BIGINT},
+        library_name = #{record.libraryName,jdbcType=VARCHAR},
+        authorizer_appid = #{record.authorizerAppid,jdbcType=VARCHAR},
+        authorizer_access_token = #{record.authorizerAccessToken,jdbcType=VARCHAR},
+        expires_in = #{record.expiresIn,jdbcType=VARCHAR},
+        authorizer_refresh_token = #{record.authorizerRefreshToken,jdbcType=VARCHAR},
+        wechat_three_funcation_ids = #{record.wechatThreeFuncationIds,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        authorize_status = #{record.authorizeStatus,jdbcType=INTEGER},
+        authorize_status_time = #{record.authorizeStatusTime,jdbcType=TIMESTAMP},
+        status = #{record.status,jdbcType=INTEGER},
+        auth_code = #{record.authCode,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.reading.data.model.WechatThreeAuthorize">
+        update wechat_three_authorize
+        <set>
+            <if test="libraryId != null">
+                library_id = #{libraryId,jdbcType=BIGINT},
+            </if>
+            <if test="libraryName != null">
+                library_name = #{libraryName,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerAppid != null">
+                authorizer_appid = #{authorizerAppid,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerAccessToken != null">
+                authorizer_access_token = #{authorizerAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="expiresIn != null">
+                expires_in = #{expiresIn,jdbcType=VARCHAR},
+            </if>
+            <if test="authorizerRefreshToken != null">
+                authorizer_refresh_token = #{authorizerRefreshToken,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatThreeFuncationIds != null">
+                wechat_three_funcation_ids = #{wechatThreeFuncationIds,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="authorizeStatus != null">
+                authorize_status = #{authorizeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="authorizeStatusTime != null">
+                authorize_status_time = #{authorizeStatusTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="authCode != null">
+                auth_code = #{authCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.reading.data.model.WechatThreeAuthorize">
+    update wechat_three_authorize
+    set library_id = #{libraryId,jdbcType=BIGINT},
+      library_name = #{libraryName,jdbcType=VARCHAR},
+      authorizer_appid = #{authorizerAppid,jdbcType=VARCHAR},
+      authorizer_access_token = #{authorizerAccessToken,jdbcType=VARCHAR},
+      expires_in = #{expiresIn,jdbcType=VARCHAR},
+      authorizer_refresh_token = #{authorizerRefreshToken,jdbcType=VARCHAR},
+      wechat_three_funcation_ids = #{wechatThreeFuncationIds,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      authorize_status = #{authorizeStatus,jdbcType=INTEGER},
+      authorize_status_time = #{authorizeStatusTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      auth_code = #{authCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
