@@ -1,9 +1,17 @@
 package com.zt.app.tool.common;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
 public class Dir {
     String srcDir = "";
+    @Deprecated
     String targetDir = "";
-    ERROR_CODES errorCode = ERROR_CODES.SUCCESS;
+    private File src = null;
+    private List<File> targets = new LinkedList<>();
+    private ERROR_CODES errorCode = ERROR_CODES.SUCCESS;
 
     public String getSrcDir() {
         return srcDir;
@@ -14,12 +22,50 @@ public class Dir {
         return this;
     }
 
+    @Deprecated
     public String getTargetDir() {
         return targetDir;
     }
 
+    @Deprecated
     public Dir setTargetDir(String targetDir) {
         this.targetDir = targetDir;
+        return this;
+    }
+
+    public File getSrc() {
+        return src;
+    }
+
+    public Dir setSrc(File src) {
+        if (Objects.nonNull(src)) {
+            this.src = src;
+        }
+        return this;
+    }
+
+    public Dir setSrc(String srcDir) {
+        if (Objects.nonNull(srcDir)) {
+            this.src = new File(srcDir);
+        }
+        return this;
+    }
+
+    public List<File> getTargets() {
+        return targets;
+    }
+
+    public Dir addTarget(File target) {
+        if (Objects.nonNull(target)) {
+            this.targets.add(target);
+        }
+        return this;
+    }
+
+    public Dir addTarget(String targetDir) {
+        if (Objects.nonNull(targetDir)) {
+            this.targets.add(new File(targetDir));
+        }
         return this;
     }
 
@@ -37,6 +83,8 @@ public class Dir {
         return "Dir{" +
                 "srcDir='" + srcDir + '\'' +
                 ", targetDir='" + targetDir + '\'' +
+                ", src=" + src +
+                ", targets=" + targets +
                 ", errorCode=" + errorCode +
                 '}';
     }
