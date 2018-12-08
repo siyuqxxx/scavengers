@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Dir {
-    String srcDir = "";
-    @Deprecated
-    String targetDir = "";
+    private String srcDir = "";
+    private String targetDir = "";
     private File src = null;
     private List<File> targets = new LinkedList<>();
     private ERROR_CODES errorCode = ERROR_CODES.SUCCESS;
@@ -22,12 +21,10 @@ public class Dir {
         return this;
     }
 
-    @Deprecated
     public String getTargetDir() {
         return targetDir;
     }
 
-    @Deprecated
     public Dir setTargetDir(String targetDir) {
         this.targetDir = targetDir;
         return this;
