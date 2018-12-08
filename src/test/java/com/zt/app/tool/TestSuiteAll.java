@@ -2,12 +2,14 @@ package com.zt.app.tool;
 
 import com.zt.app.tool.checker.TestSuiteChecker;
 import com.zt.app.tool.input.TestSuiteInput;
+import com.zt.app.tool.replace.DefaultReplacerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         DefaultInputParamCheckerTest.class,
+        DefaultReplacerTest.class,
         DefaultScavengerTest.class,
         DefaultFileParserTest.class,
         TestSuiteChecker.class,
