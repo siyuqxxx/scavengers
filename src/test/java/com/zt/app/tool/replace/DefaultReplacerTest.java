@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 public class DefaultReplacerTest {
     @Test
-    public void execute() throws Exception {
+    public void execute() {
         String path = UTUtil.PATH.TEST_BASE_DIR;
         InputParams p = new InputParams();
         p.setProjectAndTarget(new File(path, "reading"));
@@ -53,7 +53,7 @@ public class DefaultReplacerTest {
     }
 
     @Test
-    public void execute_has_inner_class() throws Exception {
+    public void execute_has_inner_class() {
         String path = UTUtil.PATH.TEST_BASE_DIR;
         InputParams p = new InputParams();
         p.setProjectAndTarget(new File(path, "reading"));
@@ -77,7 +77,7 @@ public class DefaultReplacerTest {
     }
 
     @Test
-    public void execute_simple_class() throws Exception {
+    public void execute_simple_class() {
         String path = UTUtil.PATH.TEST_BASE_DIR;
         InputParams p = new InputParams();
         p.setProjectAndTarget(new File(path, "reading"));

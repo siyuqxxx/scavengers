@@ -21,11 +21,27 @@ public class DefaultScavengerTest {
         inputParams.setSrc(new File(testBasePath, UTUtil.PATH.SRC_FILE_LIST_NAME));
         inputParams.setExport(new File(inputParams.getProject(), "export"));
 
+        String adminRobotDir = "WEB-INF/classes/com/reading/controller/admin/AdminRobotController.class";
+        Dir adminRobot = new Dir().setTargetDir(adminRobotDir);
+        adminRobot.addTarget(new File(inputParams.getTarget(), adminRobotDir));
+
+        String robotConsultRecordDir = "WEB-INF/classes/com/reading/data/mapping/RobotConsultRecordMapper.xml";
+        Dir RobotConsultRecord = new Dir().setTargetDir(robotConsultRecordDir);
+        RobotConsultRecord.addTarget(new File(inputParams.getTarget(), robotConsultRecordDir));
+
+        String robotConfigDir = "WEB-INF/html/admin/robotConfig_add.html";
+        Dir robotConfig = new Dir().setTargetDir(robotConfigDir);
+        robotConfig.addTarget(new File(inputParams.getTarget(), robotConfigDir));
+
+        String libraryDir = "WEB-INF/classes/com/reading/data/dao/LibraryMapper.java";
+        Dir library = new Dir().setTargetDir(libraryDir);
+        library.addTarget(new File(inputParams.getTarget(), libraryDir));
+
         List<Dir> dirs = new LinkedList<>();
-        dirs.add(new Dir().setTargetDir("WEB-INF/classes/com/reading/controller/admin/AdminRobotController.class"));
-        dirs.add(new Dir().setTargetDir("WEB-INF/classes/com/reading/data/mapping/RobotConsultRecordMapper.xml"));
-        dirs.add(new Dir().setTargetDir("WEB-INF/html/admin/robotConfig_add.html"));
-        dirs.add(new Dir().setTargetDir("WEB-INF/classes/com/reading/data/dao/LibraryMapper.java"));
+        dirs.add(adminRobot);
+        dirs.add(RobotConsultRecord);
+        dirs.add(robotConfig);
+        dirs.add(library);
 
         DefaultScavenger scavenger = new DefaultScavenger();
         scavenger.setParams(inputParams);

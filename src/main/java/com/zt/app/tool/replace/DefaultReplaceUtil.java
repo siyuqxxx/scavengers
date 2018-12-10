@@ -1,5 +1,6 @@
 package com.zt.app.tool.replace;
 
+import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
@@ -9,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -71,21 +71,31 @@ public class DefaultReplaceUtil implements IReplaceUnit {
         }
         dir.setTargetDir(temp);
         File baseTarget = new File(this.params.getTarget(), temp);
-        this.dir.addTarget(baseTarget);
-        String[] filePattern = baseTarget.getName().split("\\.");
-        if (filePattern.length == 2) {
-            String fileName = filePattern[0];
-            String fileSuffix = filePattern[1];
-            File[] files = baseTarget.getParentFile().listFiles();
-            if (Objects.nonNull(files)) {
-                List<File> targets = Arrays.stream(files).filter(e -> e.getName().startsWith(fileName + "$")).filter(e -> e.getName().endsWith("." + fileSuffix)).collect(Collectors.toList());
-                this.dir.addAllTargets(targets);
-                LOGGER.debug("find multiple matching class files" + targets);
+        String filename = baseTarget.getName();
+        if (DirCheckerFactory.create(DirCheckerFactory.DIR_CHECKER.FILE).check(baseTarget)) {
+            if (processClassFile(baseTarget)) {
+                return ERROR_CODES.SUCCESS;
             }
+            this.dir.addTarget(baseTarget);
         } else {
-            LOGGER.error("invalid target name: " + baseTarget.getName());
+            LOGGER.error("target file not existed, or not a file: " + filename);
             return ERROR_CODES.TARGET_DIR_INVALID;
         }
         return ERROR_CODES.SUCCESS;
+    }
+
+    private boolean processClassFile(File baseTarget) {
+        if (baseTarget.getName().endsWith(".class")) {
+            File[] targets = baseTarget.getParentFile().listFiles(new JavaClassFilter().setFileFilterPattern(baseTarget));
+            if (Objects.nonNull(targets)) {
+                this.dir.addAllTargets(Arrays.stream(targets).collect(Collectors.toList()));
+                return true;
+            } else {
+                this.dir.setErrorCode(ERROR_CODES.SRC_NOT_MATCH_ANY_TARGET);
+                LOGGER.error("src not match any target." + baseTarget.toString());
+                return false;
+            }
+        }
+        return false;
     }
 }

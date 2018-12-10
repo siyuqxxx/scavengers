@@ -3,6 +3,7 @@ package com.zt.app.tool;
 import com.zt.app.tool.checker.TestSuiteChecker;
 import com.zt.app.tool.input.TestSuiteInput;
 import com.zt.app.tool.replace.DefaultReplacerTest;
+import com.zt.app.tool.replace.JavaClassFilterTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -14,6 +15,7 @@ import org.junit.runners.Suite;
         DefaultFileParserTest.class,
         TestSuiteChecker.class,
         TestSuiteInput.class,
+        JavaClassFilterTest.class,
         AReplaceTemplateTest.class})
 public class TestSuiteAll {
     /*

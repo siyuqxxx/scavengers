@@ -44,16 +44,21 @@ public class DefaultScavenger implements IScavenger {
 
     @Override
     public ERROR_CODES check() {
-        List<Dir> validDirs = dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
+        List<Dir> validDirs = this.dirs.stream().filter(d -> d.getErrorCode() == ERROR_CODES.SUCCESS).collect(Collectors.toList());
 
-        for (Dir d : dirs) {
+        for (Dir d : validDirs) {
             List<File> targets = d.getTargets();
-            for (File f : targets) {
-                if (!this.checker.check(f)) {
-                    d.setErrorCode(ERROR_CODES.HAS_INVALID_TARGET);
-                    LOGGER.error(String.format("src %s has invalid target %s", d.getSrc().toString(), f));
-                    break;
+            if (!targets.isEmpty()) {
+                for (File f : targets) {
+                    if (!this.checker.check(f)) {
+                        d.setErrorCode(ERROR_CODES.HAS_INVALID_TARGET);
+                        LOGGER.error(String.format("src %s has invalid target %s", d.getTargetDir(), f));
+                        break;
+                    }
                 }
+            } else {
+                d.setErrorCode(ERROR_CODES.HAS_INVALID_TARGET);
+                LOGGER.error(String.format("src %s do not match any target", d.getTargetDir()));
             }
         }
 
