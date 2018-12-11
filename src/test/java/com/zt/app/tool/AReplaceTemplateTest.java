@@ -21,16 +21,16 @@ public class AReplaceTemplateTest {
 
         ReplacePattern javaPattern = new ReplacePattern();
         javaPattern.setName("java-pattern");
-        javaPattern.setPattern("(?<=.*)/src/main/java/", "/WEB-INF/classes/");
+        javaPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
         javaPattern.setPattern("\\.java", "\\.class");
 
         ReplacePattern mapperPattern = new ReplacePattern();
         mapperPattern.setName("mapper-pattern");
-        mapperPattern.setPattern("(?<=.*)/src/main/java/", "/WEB-INF/classes/");
+        mapperPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
 
         ReplacePattern htmlPattern = new ReplacePattern();
         htmlPattern.setName("html-pattern");
-        htmlPattern.setPattern("(?<=.*)/src/main/webapp/", "");
+        htmlPattern.setPattern("^/?src/main/webapp/", "");
 
         List<ReplacePattern> patterns = new LinkedList<>();
         patterns.add(javaPattern);

@@ -26,10 +26,11 @@ public class AReplaceTemplate {
         }
     }
 
-    public void setReplacer(IReplacer replacer) {
+    public AReplaceTemplate setReplacer(IReplacer replacer) {
         if (Objects.nonNull(replacer)) {
             this.replacer = replacer;
         }
+        return this;
     }
 
     public void setScavenger(IScavenger scavenger) {

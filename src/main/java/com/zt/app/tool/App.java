@@ -1,89 +1,75 @@
 package com.zt.app.tool;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import com.zt.app.tool.common.ERROR_CODES;
+import com.zt.app.tool.common.INPUT_PARAMS;
+import com.zt.app.tool.common.ReplacePattern;
+import com.zt.app.tool.common.StrInputParams;
+import com.zt.app.tool.replace.DefaultReplacer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Hello world!
- */
 public class App {
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
-    private File str2File(String path) throws IOException {
-        if (Objects.isNull(path) || path.trim().isEmpty()) {
-            throw new NullPointerException();
-        }
-
-        File file = new File(path);
-        System.out.println(file.getCanonicalPath());
-//        if (!file.exists() || !file.isFile()) {
-//            throw new IllegalArgumentException("file scheme is not a file");
-//        }
-
-        return file;
-    }
-
-    public List<String> getSrcFiles(String path) {
-        File file = null;
-        try {
-            file = str2File(path);
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
-            return new LinkedList<>();
-        }
-
-        List<String> paths = new LinkedList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                paths.add(line);
+        List<StrInputParams> inputParams = new LinkedList<>();
+        if (Objects.nonNull(args)) {
+            int argsLength = args.length;
+            if (argsLength >= 1) {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue(args[0]));
+            } else {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("src.txt"));
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return paths;
-    }
-
-    public List<String> transJava2Class(List<String> paths, String srcDir, String targetDir) {
-        if (paths.isEmpty()) {
-            return new LinkedList<>();
-        }
-
-        List<String> targetFiles = new LinkedList<>();
-        for (String path : paths) {
-            if (path.startsWith(srcDir)) {
-                String targetFile = path.replace(srcDir, targetDir).replace(".java", ".class");
-                targetFiles.add(targetFile);
+            if (argsLength >= 2) {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(args[1]));
+            } else {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.PROJECT).setValue(""));
             }
-        }
-        return targetFiles;
-    }
 
-    public List<File> srcPath2TargetFile(List<String> paths, String srcDir, String targetDir) {
-        if (paths.isEmpty()) {
-            return new LinkedList<>();
-        }
-
-        List<File> targetFiles = new LinkedList<>();
-        for (String path : paths) {
-            if (path.startsWith(srcDir)) {
-                String targetFile = path.replace(srcDir, targetDir).replace(".java", ".class");
-                System.out.println(String.format("src file: %s, target file: %s", path, targetFile));
-                try {
-                    targetFiles.add(str2File(targetFile));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (argsLength >= 3) {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.EXPORT).setValue(args[2]));
+            } else {
+                inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.EXPORT).setValue(""));
             }
+        } else {
+            inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("src.txt"));
         }
-        return targetFiles;
+
+        LOGGER.info("get input params: " + inputParams);
+
+        ReplacePattern javaPattern = new ReplacePattern();
+        javaPattern.setName("java-pattern");
+        javaPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
+        javaPattern.setPattern("\\.java", "\\.class");
+
+        ReplacePattern mapperPattern = new ReplacePattern();
+        mapperPattern.setName("mapper-pattern");
+        mapperPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
+
+        ReplacePattern configPattern = new ReplacePattern();
+        configPattern.setName("config-pattern");
+        configPattern.setPattern("^/?src/main/resources/", "/WEB-INF/classes/");
+
+        ReplacePattern htmlPattern = new ReplacePattern();
+        htmlPattern.setName("html-pattern");
+        htmlPattern.setPattern("^/?src/main/webapp/", "");
+
+        List<ReplacePattern> patterns = new LinkedList<>();
+        patterns.add(javaPattern);
+        patterns.add(mapperPattern);
+        patterns.add(configPattern);
+        patterns.add(htmlPattern);
+
+        DefaultReplacer replacer = new DefaultReplacer();
+        replacer.setPatterns(patterns);
+
+        LOGGER.info("start");
+        ERROR_CODES error_codes = new AReplaceTemplate().setReplacer(replacer).pickTargetFromSrc(inputParams);
+        LOGGER.info("end");
     }
 }
