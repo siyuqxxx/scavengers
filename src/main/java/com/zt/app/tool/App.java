@@ -40,8 +40,6 @@ public class App {
             inputParams.add(new StrInputParams().setKey(INPUT_PARAMS.SRC).setValue("src.txt"));
         }
 
-        LOGGER.info("get input params: " + inputParams);
-
         ReplacePattern javaPattern = new ReplacePattern();
         javaPattern.setName("java-pattern");
         javaPattern.setPattern("^/?src/main/java/", "/WEB-INF/classes/");
@@ -68,8 +66,7 @@ public class App {
         DefaultReplacer replacer = new DefaultReplacer();
         replacer.setPatterns(patterns);
 
-        LOGGER.info("start");
         ERROR_CODES error_codes = new AReplaceTemplate().setReplacer(replacer).pickTargetFromSrc(inputParams);
-        LOGGER.info("end");
+        LOGGER.info("SCAVENGERS " + error_codes.toString());
     }
 }

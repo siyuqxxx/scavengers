@@ -29,8 +29,8 @@ public class SrcParser extends AInputParser {
         }
         LOGGER.debug(String.format("invalid src list file input dir. %s", super.getInputString()));
 
-        // todo 默认源码清单 （"SrcList.txt"） 最好写入到配置中去，方便调整，不要写死
-        srcFile = new File("", "SrcList.txt");
+        // todo 默认源码清单 （"src.txt"） 最好写入到配置中去，方便调整，不要写死
+        srcFile = new File("", "src.txt");
         if (super.getChecker().check(srcFile)) {
             super.getResultHolder().setSrc(srcFile);
             return ERROR_CODES.SUCCESS;
