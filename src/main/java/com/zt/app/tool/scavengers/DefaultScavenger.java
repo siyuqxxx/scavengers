@@ -1,4 +1,4 @@
-package com.zt.app.tool;
+package com.zt.app.tool.scavengers;
 
 import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.checker.dir.IDirChecker;

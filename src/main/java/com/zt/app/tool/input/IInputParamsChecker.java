@@ -1,5 +1,6 @@
-package com.zt.app.tool;
+package com.zt.app.tool.input;
 
+import com.zt.app.tool.ILifeCycle;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.StrInputParams;
 

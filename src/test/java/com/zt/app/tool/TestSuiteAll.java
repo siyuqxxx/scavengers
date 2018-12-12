@@ -1,9 +1,12 @@
 package com.zt.app.tool;
 
 import com.zt.app.tool.checker.TestSuiteChecker;
-import com.zt.app.tool.input.TestSuiteInput;
+import com.zt.app.tool.input.DefaultInputParamCheckerTest;
+import com.zt.app.tool.input.parser.TestSuiteInput;
+import com.zt.app.tool.read.DefaultSrcListReaderTest;
 import com.zt.app.tool.replace.DefaultReplacerTest;
 import com.zt.app.tool.replace.JavaClassFilterTest;
+import com.zt.app.tool.scavengers.DefaultScavengerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

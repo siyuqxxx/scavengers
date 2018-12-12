@@ -1,5 +1,6 @@
-package com.zt.app.tool;
+package com.zt.app.tool.input;
 
+import com.zt.app.tool.UTUtil;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.INPUT_PARAMS;
 import com.zt.app.tool.common.InputParams;

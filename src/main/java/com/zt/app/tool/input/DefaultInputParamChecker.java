@@ -1,11 +1,11 @@
-package com.zt.app.tool;
+package com.zt.app.tool.input;
 
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
 import com.zt.app.tool.common.LogMsgFormat;
 import com.zt.app.tool.common.StrInputParams;
-import com.zt.app.tool.input.IInputParser;
-import com.zt.app.tool.input.InputParserFactory;
+import com.zt.app.tool.input.parser.IInputParser;
+import com.zt.app.tool.input.parser.InputParserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

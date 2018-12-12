@@ -1,4 +1,4 @@
-package com.zt.app.tool.input;
+package com.zt.app.tool.input.parser;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

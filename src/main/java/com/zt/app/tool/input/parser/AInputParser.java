@@ -1,4 +1,4 @@
-package com.zt.app.tool.input;
+package com.zt.app.tool.input.parser;
 
 import com.zt.app.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.checker.dir.IDirChecker;

@@ -1,4 +1,4 @@
-package com.zt.app.tool.input;
+package com.zt.app.tool.input.parser;
 
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;

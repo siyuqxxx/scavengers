@@ -1,5 +1,6 @@
-package com.zt.app.tool;
+package com.zt.app.tool.scavengers;
 
+import com.zt.app.tool.ILifeCycle;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.InputParams;
 
