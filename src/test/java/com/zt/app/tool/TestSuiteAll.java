@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
         DefaultInputParamCheckerTest.class,
         DefaultReplacerTest.class,
         DefaultScavengerTest.class,
-        DefaultFileParserTest.class,
+        DefaultSrcListReaderTest.class,
         TestSuiteChecker.class,
         TestSuiteInput.class,
         JavaClassFilterTest.class,

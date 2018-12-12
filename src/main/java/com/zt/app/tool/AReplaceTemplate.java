@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class AReplaceTemplate {
     private IInputParamsChecker checker = new DefaultInputParamChecker();
-    private IFileParser reader = new DefaultFileParser();
+    private ISrcListReader reader = new DefaultSrcListReader();
     private IReplacer replacer = new DefaultReplacer();
     private IScavenger scavenger = new DefaultScavenger();
 
@@ -20,7 +20,7 @@ public class AReplaceTemplate {
         }
     }
 
-    public void setReader(IFileParser reader) {
+    public void setReader(ISrcListReader reader) {
         if (Objects.nonNull(reader)) {
             this.reader = reader;
         }

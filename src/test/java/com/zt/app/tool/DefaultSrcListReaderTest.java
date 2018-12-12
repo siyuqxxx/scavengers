@@ -5,10 +5,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class DefaultFileParserTest {
+public class DefaultSrcListReaderTest {
     @Test
     public void execute_null_input() {
-        DefaultFileParser parser = new DefaultFileParser();
+        DefaultSrcListReader parser = new DefaultSrcListReader();
         ERROR_CODES result = parser.execute();
         assertEquals(ERROR_CODES.INPUT_DIR_INVALID, result);
 
@@ -20,7 +20,7 @@ public class DefaultFileParserTest {
 
     @Test
     public void execute_invalid_input() {
-        DefaultFileParser parser = new DefaultFileParser();
+        DefaultSrcListReader parser = new DefaultSrcListReader();
 
         parser.setFile("a.txt");
         ERROR_CODES result = parser.execute();
@@ -29,7 +29,7 @@ public class DefaultFileParserTest {
 
     @Test
     public void execute() {
-        DefaultFileParser parser = new DefaultFileParser();
+        DefaultSrcListReader parser = new DefaultSrcListReader();
 
         String path = this.getClass().getClassLoader().getResource("").getPath();
         parser.setFile(path + UTUtil.PATH.SRC_FILE_LIST_NAME);

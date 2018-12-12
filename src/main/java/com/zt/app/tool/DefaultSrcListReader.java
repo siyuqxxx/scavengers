@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class DefaultFileParser implements IFileParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFileParser.class);
+public class DefaultSrcListReader implements ISrcListReader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSrcListReader.class);
     private File srcFileList = null;
     private List<Dir> dirs = new LinkedList<>();
 
@@ -26,14 +26,14 @@ public class DefaultFileParser implements IFileParser {
     }
 
     @Override
-    public IFileParser setFile(File srcFileList) {
-        this.srcFileList = srcFileList;
+    public ISrcListReader setFile(File srcListFile) {
+        this.srcFileList = srcListFile;
         return this;
     }
 
     @Override
-    public IFileParser setFile(String dir) {
-        this.srcFileList = new File(dir);
+    public ISrcListReader setFile(String srcListDir) {
+        this.srcFileList = new File(srcListDir);
         return this;
     }
 
@@ -49,7 +49,7 @@ public class DefaultFileParser implements IFileParser {
 
     @Override
     public String getName() {
-        return "default-file-parse";
+        return "default-src-list-parse";
     }
 
     @Override
