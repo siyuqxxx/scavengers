@@ -1,7 +1,7 @@
 package com.zt.app.tool.replace;
 
-import com.zt.app.tool.checker.dir.DirCheckerFactory;
-import com.zt.app.tool.checker.string.StrCheckerFactory;
+import com.siyuqxxx.tool.checker.dir.DirCheckerFactory;
+import com.siyuqxxx.tool.checker.string.StrCheckerFactory;
 import com.zt.app.tool.common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.zt.app.tool.replace;
 
-import com.zt.app.tool.checker.dir.DirCheckerFactory;
+import com.siyuqxxx.tool.checker.dir.DirCheckerFactory;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;

@@ -1,6 +1,5 @@
 package com.zt.app.tool;
 
-import com.zt.app.tool.checker.TestSuiteChecker;
 import com.zt.app.tool.input.DefaultInputParamCheckerTest;
 import com.zt.app.tool.input.parser.TestSuiteInput;
 import com.zt.app.tool.read.DefaultSrcListReaderTest;
@@ -16,7 +15,6 @@ import org.junit.runners.Suite;
         DefaultReplacerTest.class,
         DefaultScavengerTest.class,
         DefaultSrcListReaderTest.class,
-        TestSuiteChecker.class,
         TestSuiteInput.class,
         JavaClassFilterTest.class,
         AReplaceTemplateTest.class})

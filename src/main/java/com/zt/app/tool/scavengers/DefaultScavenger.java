@@ -1,7 +1,7 @@
 package com.zt.app.tool.scavengers;
 
-import com.zt.app.tool.checker.dir.DirCheckerFactory;
-import com.zt.app.tool.checker.dir.IDirChecker;
+import com.siyuqxxx.tool.checker.dir.DirCheckerFactory;
+import com.siyuqxxx.tool.checker.dir.IDirChecker;
 import com.zt.app.tool.common.Dir;
 import com.zt.app.tool.common.ERROR_CODES;
 import com.zt.app.tool.common.InputParams;
